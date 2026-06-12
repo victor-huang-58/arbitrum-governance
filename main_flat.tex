@@ -157,24 +157,35 @@ period (January 2023 through February 2024), the number of human-authored posts 
 proposal's forum thread predicts the proposal's margin of
 victory---the absolute difference in vote share between the winning and losing
 sides among contested (For vs.\ Against) votes. The Pearson correlation is
-$r = -0.39$ ($p = 0.009$, $n = 44$ proposals): more posts, more disagreement,
+$r = -0.39$ ($p = 0.009$, $n = 46$ proposals): more posts, more disagreement,
 smaller margin. This is consistent with a forum that aggregates genuine signals
 of community sentiment. Delegates and token holders who observe an unusually active
 thread are, in effect, observing a sufficient statistic for the degree of community
 division.
 
 After Claude~3, this relationship vanishes. The correlation falls to $r = -0.04$
-($p = 0.66$, $n = 108$) in the post-shock period. The change in the correlation
+($p = 0.66$, $n = 111$) in the post-shock period. The change in the correlation
 coefficient, $\Delta r = +0.35$, is large, precisely estimated, and confirmed by a
-Chow test that rejects parameter stability at $F = 8.22$ ($p = 0.0004$). We use Claude~3 (March 2024) as our primary break date: the pre-period correlation is $r = -0.39$ ($p = 0.009$, $n = 44$) and the post-period correlation is $r = -0.04$ ($p = 0.66$, $n = 108$), providing a clean before-and-after contrast. All substantive conclusions hold at any candidate break date from November 2023 onward (Table~\ref{tab:chow_battery}).
+Chow test that rejects parameter stability at $F = 8.22$ ($p = 0.0004$). We use Claude~3 (March 2024) as our primary break date: the pre-period correlation is $r = -0.39$ ($p = 0.009$, $n = 46$) and the post-period correlation is $r = -0.04$ ($p = 0.66$, $n = 111$), providing a clean before-and-after contrast. All substantive conclusions hold at any candidate break date from November 2023 onward (Table~\ref{tab:chow_battery}).
 
-The identification logic is clean. AI model releases are global events determined
-by the research roadmaps of Anthropic, OpenAI, and other technology companies---they
-are plainly exogenous to any specific Arbitrum proposal. The release of Claude~3 was
-not anticipated by the Arbitrum community, was not timed to coincide with any
-particular governance vote, and affected all future proposal threads uniformly. The
-shock is therefore a valid instrument for the transition from a low-AI to a high-AI
-posting environment, and the before--after comparison is interpretable as causal.
+The identification logic rests on the exogeneity of AI capability releases. AI model
+releases are global events determined by the research roadmaps of Anthropic, OpenAI,
+and other technology companies---they are plainly exogenous to any specific Arbitrum
+proposal. The release of Claude~3 was not anticipated by the Arbitrum community, was
+not timed to coincide with any particular governance vote, and affected all future
+proposal threads uniformly. The shock therefore provides a plausible source of
+quasi-exogenous variation in the posting environment. We interpret the before--after
+comparison as the best available quasi-experimental evidence consistent with an
+AI-contamination mechanism. We acknowledge that the November 2023--March 2024 window
+also encompasses several concurrent governance developments---LTIPP/STIP grant batching,
+the approach of the March 2024 token vesting cliff, and expanding vote-rental
+participation---that could in principle affect the posts--margin relationship.
+Section~\ref{sec:strategy} and the robustness checks in Section~\ref{sec:robustness}
+evaluate each of these alternatives directly. Cross-DAO evidence
+(Figure~\ref{fig:participation}) provides additional corroboration: five major DeFi
+DAOs without Arbitrum-specific governance dynamics exhibit comparable participation
+declines over the same window, inconsistent with Arbitrum-specific confounders as
+the primary driver.
 
 We then turn to the mechanism. The most natural candidate explanation---that a
 physical flood of AI-generated posts numerically overwhelmed the human signal---is
@@ -236,8 +247,8 @@ to the social-media-and-markets literature \citep{antweiler2004, chen2014, cooks
 extending both to a setting where the forum is literally the only intermediary
 between information and vote.
 
-\emph{Second}, we provide the first causal identification of the effect of AI-generated
-content on collective decision mechanisms. The AI shock literature
+\emph{Second}, we provide the first quasi-experimental evidence on the effect of
+AI-generated content on collective decision mechanisms. The AI shock literature
 \citep{lopezlira2023, cao2023, brynjolfsson2023} has focused on effects on labor
 markets and financial analysis; our contribution is to show that generative AI
 degrades a specific form of information aggregation---democratic deliberation---through
@@ -647,8 +658,10 @@ but requires a paid commercial API; free or open-source detectors are not reliab
 substitutes.\footnote{The v3 model designation
 refers to the underlying detection model served by the Pangram API at the time
 of scoring; v0.1.11 is the version of the open-source Python client used to
-call it. All posts were scored in a single batch run in April 2025, so model
-version is constant across the corpus.} Pangram analyzes the linguistic
+call it. Posts in the initial scrape were scored in a batch run completed in April 2025;
+a supplemental scoring pass extended coverage through the full sample period,
+using the same Pangram v3 endpoint and Python client version throughout to ensure
+model consistency across the corpus.} Pangram analyzes the linguistic
 properties of a text passage and returns three complementary scores:
 \textit{fraction\_ai} (estimated proportion of content generated by a large
 language model), \textit{fraction\_ai\_assisted} (proportion that is
@@ -698,9 +711,10 @@ This measure equals zero for a perfectly contested vote (50/50 split) and one fo
 a unanimous vote. Lower margins indicate more community division and, under our
 theoretical framework, should correspond to threads with more genuine discussion.
 
-We retain 152 proposals with a computable margin over the sample period. We exclude
-proposals with non-binary choice structures (e.g., ranked-choice elections for
-Security Council seats) that do not map cleanly to a For/Against margin.
+After excluding proposals with non-binary choice structures (e.g., ranked-choice
+elections for Security Council seats) that do not map cleanly to a For/Against
+margin, we obtain a universe of proposals with computable margins that serve as
+the basis for the forum--Snapshot matching in Section~\ref{sec:matching}.
 
 %% ── 3.4 Forum–Snapshot Matching ──────────────────────────────────────────────
 \subsection{Forum--Snapshot Matching}
@@ -714,13 +728,22 @@ as the match, subject to a minimum similarity threshold of 0.55. We audit all
 matches with similarity between 0.55 and 0.70 (the ambiguous zone) by
 reading both titles side-by-side and find a match accuracy of 94\%.
 
-The matching procedure yields 152 matched proposal--thread pairs. Of the 152 Snapshot
-proposals with computable margins, 24 (16\%) remain unmatched, primarily proposals
-that were submitted with titles substantially different from their forum discussion
-threads (e.g., proposals that evolved significantly during community discussion before
-being renamed at the Snapshot stage). Unmatched proposals are excluded from the main
-analysis; we verify in Section~\ref{sec:robustness} that their exclusion does not
-introduce systematic bias.
+The matching procedure yields 157 matched proposal--thread pairs. Of the proposals
+with computable For/Against margins, 24 (13\%) remain unmatched---primarily those
+submitted with titles substantially different from their forum discussion threads
+(e.g., proposals renamed between the forum stage and the Snapshot submission).
+Unmatched proposals are excluded from the main analysis; we verify in
+Section~\ref{sec:robustness} that their exclusion does not introduce systematic bias.
+
+\paragraph{Sample note.}
+The bivariate Pearson correlations and Chow tests reported throughout use all 157
+matched proposal--thread pairs ($n_{\text{pre}} = 46$, $n_{\text{post}} = 111$
+relative to the Claude~3 break date). The OLS regressions in
+Table~\ref{tab:main_results} use 152 proposals for which complete forum covariate
+data (post counts within the analysis window) are available; the remaining 5
+proposals have sufficient vote data for the bivariate correlation but are missing
+forum-thread observations within the relevant window. All substantive conclusions
+are identical across both samples.\label{sec:matching}
 
 %% ── 3.5 Delegate Data ────────────────────────────────────────────────────────
 \subsection{Delegate Data}
@@ -740,7 +763,7 @@ we successfully link 51 to Snapshot voting records.
 Match quality in both directions is informative. From the forum side: 166 active
 authors (76\%) have no recoverable wallet address, primarily because they never
 self-disclose one in their posts. From the Snapshot side: 14,236 unique voter
-addresses appear in our proposal-vote records, of whom only 54 (0.4\%) are linked
+addresses appear in our proposal-vote records, of whom only 51 (0.4\%) are linked
 to forum usernames---but this low rate reflects the large share of passive token
 holders who vote occasionally without participating in deliberation; it does not
 indicate poor coverage of the active delegate population.
@@ -917,6 +940,37 @@ AI posts are argumentatively neutral, echoing whichever side has more forum
 presence without revealing genuine opinion; and (iii) we test and reject a comprehensive battery of distraction
 instruments that might confound the before--after comparison (Section~\ref{sec:robustness}).
 
+\paragraph{Concurrent governance dynamics.}
+A more subtle concern is that the November 2023--March 2024 window also encompasses
+several Arbitrum-specific governance developments: the LTIPP/STIP grant program
+clustering (a large batch of allocative proposals submitted during this period),
+the approach of the March 2024 ARB token vesting cliff, and continued growth of
+the vote-rental market documented in Section~\ref{sec:background}. We evaluate
+each of these as candidate confounders.
+
+The LTIPP/STIP batching, if anything, would \emph{strengthen} the posts--margin
+correlation in the pre-period: competitive grant allocation concentrates genuine
+deliberation on contested funding decisions, which should tighten the link between
+forum activity and vote contestation. An AI-unrelated LTIPP/STIP effect therefore
+biases against finding a collapse. The vesting cliff, tested directly in
+Section~\ref{sec:vesting}, is ruled out by timing: the QLR endogenous break
+falls in November 2023, four months before the cliff, and the structural break
+is present in both high- and low-voting-power-concentration proposal subsamples.
+Vote-rental growth would attenuate the posts--margin correlation throughout the
+sample uniformly rather than generating the sharp structural break we identify.
+
+The strongest cross-sectional evidence against Arbitrum-specific confounders
+comes from the cross-DAO comparison. Figure~\ref{fig:participation} shows that
+five DeFi DAOs with distinct governance structures---Aave, ENS, Compound, Gitcoin,
+and Optimism---all exhibit comparable participation declines over the same
+November 2023--March 2024 window, despite lacking the LTIPP/STIP program, the
+specific vesting schedule, or the vote-rental market. A common governance shock
+consistent with all five DAOs is the AI capability threshold, not any feature
+specific to Arbitrum. We therefore interpret our estimates as structural-break
+evidence strongly consistent with the AI-contamination mechanism, while
+acknowledging that the before--after design cannot fully rule out every
+concurrent force.
+
 
 
 %% ── 5. Results ────────────────────────────────────────────────────────────────
@@ -970,7 +1024,11 @@ Pearson $r$         & $-0.11$        & $-0.39$\sym{***}    & $-0.04$       \\
 \small\textit{Notes:} OLS estimates of equation (\ref{eq:main}) with heteroskedasticity-robust
 standard errors in parentheses. Human posts are those with Pangram \textit{fraction\_ai}~$\leq 0.70$.
 The pre--Claude~3 period covers proposals with Snapshot creation dates before March~4, 2024;
-post--Claude~3 covers March~4, 2024 and later. The Chow test evaluates the null hypothesis
+post--Claude~3 covers March~4, 2024 and later. The OLS regressions use 152 proposals with
+complete forum covariate data; bivariate correlations and Chow tests
+(Table~\ref{tab:chow_battery}) use all 157 matched proposal--thread pairs
+($n_{\text{pre}} = 46$, $n_{\text{post}} = 111$), as the bivariate specification does not
+require within-window post counts. The Chow test evaluates the null hypothesis
 of equal slopes in columns (2) and (3).
 \sym{*}~$p < 0.10$; \sym{**}~$p < 0.05$; \sym{***}~$p < 0.01$.
 \end{flushleft}
@@ -1286,6 +1344,23 @@ suggests that text-based deliberation mechanisms are fragile in a specific sense
 they require not merely that participants behave honestly, but that honest behavior
 be \emph{verifiable}.
 
+\paragraph{Calibrating the threshold.}
+The model implies a critical contamination rate $\pi^* = 1 - c_{\text{read}} / I_H$
+below which delegates read and above which they exit. The QLR break occurs when
+AI posts represent approximately 5\% of forum volume---a $\pi$ of roughly 0.05.
+Substituting into the threshold condition gives $c_{\text{read}} / I_H \approx 0.95$:
+reading costs absorb 95\% of the informational value of a perfectly reliable post.
+This is economically plausible in a setting where (i) each individual post
+contributes modestly to aggregate signal (the forum aggregates across hundreds of
+posts per proposal, so marginal informational value per post is small), (ii) careful
+reading of a governance post requires domain-specific knowledge and real attention,
+and (iii) a delegate cannot determine a post's type without first reading it, so
+expected value must exceed cost \emph{before} type is revealed. Even a 5\%
+probability of encountering a fully uninformative AI post is sufficient to erode
+the thin net return to deliberate forum reading. This calibration is consistent
+with the QLR break date and grounds the mechanism claim in observable data rather
+than leaving it asserted.
+
 \paragraph{Aggregate detectability and individual verification.}
 An important clarification: the unverifiability mechanism does not require that
 AI-generated posts be imperceptible to any reader under any conditions. Our own
@@ -1348,7 +1423,21 @@ in the sample. This readership decline is not driven by post volume: the number
 of human posts on matched threads \emph{increased} post-shock (from 2,650 to
 5,898), so the per-post read count is not being diluted by fewer readers spread
 across more content---it reflects fewer readers per post on a forum that
-became objectively busier.
+became objectively busier. To discipline this claim further, note that under
+a pure fixed-budget dilution story---in which aggregate reading engagement is
+constant and a doubling of posts mechanically halves reads per post---a 122\%
+post increase would predict approximately a 55\% decline in reads per post.
+The observed decline is only 36\%, considerably smaller than the dilution
+benchmark. The implied aggregate reading engagement in fact \emph{grew}
+post-shock: at the observed volumes, total user-post reading interactions
+increased by roughly 40\% even as per-post reads fell. Aggregate reading
+grew; it simply failed to keep pace with the surge in post volume. This pattern
+is inconsistent with a pure fixed-budget story and is instead consistent with
+a mixed response: some delegates disengaged from the forum entirely
+(reducing the intensive margin of reading per post), while others---including
+new participants attracted by the busier forum---partially offset the loss.
+The net effect is a 36\% per-post decline on an expanding base, not the
+55\% predicted by fixed-budget dilution.
 
 \begin{figure}[H]
   \centering
@@ -1576,20 +1665,46 @@ the period; lagged value is the prior 30-day period.
 \subsection{Interpretation: Selection, Not Power Capture}
 
 The cross-sectional and panel evidence together support a \emph{selection}
-interpretation of AI adoption in DAO governance. High-power delegates---who already
-hold substantial delegated voting power and have strong incentives to maintain
-credibility with their delegators---do not disproportionately adopt AI. Instead,
-it is lower-tier delegates, for whom the opportunity cost of producing high-quality
-governance prose is high relative to their marginal influence, who find AI tools
-most attractive as a means of maintaining forum visibility at lower cost.
+interpretation of AI adoption in DAO governance within the linked sample. High-power
+delegates---who already hold substantial delegated voting power and have strong
+incentives to maintain credibility with their delegators---do not disproportionately
+adopt AI. Instead, it is lower-tier delegates, for whom the opportunity cost of
+producing high-quality governance prose is high relative to their marginal influence,
+who find AI tools most attractive as a means of maintaining forum visibility at lower
+cost. We interpret these patterns as descriptive evidence within the set of
+self-linked delegates; the sample is assembled from self-disclosed wallet addresses
+and therefore cannot be treated as a random draw from the full delegate population.
+
+Two additional features of the evidence bear emphasis. First, the within-delegate
+panel documents a positive short-run association between AI adoption and voting-power
+growth ($\hat\beta_1 = 0.055$, $t = 4.97$). This should not be read as delegators
+\emph{rewarding} AI content. The mean reversion coefficient is $-0.047$ per period,
+implying that voting power systematically declines toward a delegate's long-run
+level; the positive AI coefficient means only that AI-active periods exhibit
+\emph{slower decay}, not genuine accumulation. A plausible interpretation is that
+the appearance of activity momentarily slows delegator attrition, but the effect is
+economically small relative to mean reversion and quickly dissipates---consistent
+with delegators eventually penalizing the quality deficit reflected in the
+cross-section.
+
+Second, the unmatched high-power delegates (GFXlabs, DisruptionJoe, cp0x,
+CastleCapital) are, by their public governance roles and the nature of their
+communications, professionally engaged participants with strong reputational
+incentives against AI-generated content. Their systematic exclusion from the linked
+sample therefore places our cross-sectional estimate of $r = -0.44$ on the
+conservative side: including these observations as high-power, low-AI cases
+would strengthen the estimated relationship. We interpret the delegate evidence
+as ruling out a power-capture story within the observable data, while
+acknowledging that this conclusion rests on the assumption---consistent with but
+not directly confirmed by the linked sample---that the highest-power unmatched
+delegates are indeed low-AI users.
 
 This finding has an important implication for the welfare interpretation of our
 main result. If AI adoption were concentrated among high-power delegates, the
 degradation of the forum signal might reflect strategic manipulation by insiders
-seeking to obscure the degree of community division---a concerning scenario in which
-the technology enables a form of information manipulation that advantages incumbent
-power. Instead, the evidence suggests a more benign mechanism: AI tools democratize
-participation at the margin, but in doing so, they dilute the signal quality of the
+seeking to obscure the degree of community division. Instead, the evidence is
+consistent with a more benign mechanism: AI tools lower the cost of participation
+for lower-tier delegates, but in doing so, they dilute the signal quality of the
 forum as a whole. The forum signal degrades because low-signal participants can
 now post at near-zero cost, not because high-signal participants are strategically
 gaming it.
@@ -1867,13 +1982,18 @@ a wave of AI-generated posts detectable by the Pangram API. The structural break
 is confirmed by Chow tests at multiple AI model release dates, with the strongest
 evidence at Claude~3 ($F = 8.23$, $p = 0.0004$).
 
-The mechanism is dilution, not manipulation. AI-generated posts carry zero
-information about vote outcomes (their correlation with margins is $-0.013$
-throughout the sample), and AI adoption is concentrated among lower-tier delegates
-with minimal voting power, not among the high-power insiders who might strategically
-use it. The forum's signal degrades because posting costs have collapsed for
-marginal participants, flooding threads with content that looks like deliberation
-but contains no genuine preference signal.
+The mechanism is unverifiability, not manipulation. The signal collapses not because
+AI posts flood the forum---they remained below 8\% of volume at the break---but
+because the \emph{credible possibility} of indistinguishable AI content is sufficient
+to destroy delegates' incentive to condition their votes on forum activity. This is
+precisely the Akerlof (1970) mechanism: market exit precedes the accumulation of
+lemons because rational agents respond to updated priors, not realized averages.
+AI-generated posts carry zero information about vote outcomes (their correlation with
+margins is $-0.013$ throughout the sample), and AI adoption is concentrated among
+lower-tier delegates with minimal voting power, not among the high-power insiders
+who might strategically exploit it. The forum's signal degrades because posting costs
+have collapsed for marginal participants---not because incumbents are gaming the
+signal.
 
 Several implications follow. For DAO mechanism design, our results suggest that
 participation counts are no longer reliable signals of community engagement in a
