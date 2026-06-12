@@ -313,7 +313,7 @@ market capitalization of \$13 billion and a DAO treasury of approximately
 The vesting cliff in March 2024 unlocked 1.1 billion previously locked team and
 investor tokens simultaneously. We control for this event in our empirical specifications.
 
-\begin{figure}[htbp]
+\begin{figure}[htb]
   \centering
   \includegraphics[width=\textwidth]{fig01_forum_activity.png}
   \caption{\textbf{Forum Participation and Token-Market Co-movement.}
@@ -423,7 +423,7 @@ voting weight, and no single bloc can dominate unilaterally.
 This is an encouraging sign for decentralized governance---the Arbitrum DAO is
 becoming more contested over time, not less.
 
-\begin{figure}[htbp]
+\begin{figure}[htb]
   \centering
   \includegraphics[width=\textwidth]{fig03_power_concentration.png}
   \caption{\textbf{Evolution of Voting Power Concentration.}
@@ -518,13 +518,13 @@ cumulative disbursements: roughly 3\% of the initial DAO treasury (approximately
 \$100 million in ARB at prevailing prices) over the sample period.
 
 Figure~\ref{fig:proposals} shows the distribution of proposals by category and
-half-year period. A notable feature is the concentration of ecosystem program
+half-year period. Ecosystem program proposals are concentrated
 proposals in the first half of 2024, which coincides with both the ARB vesting cliff
 and the Claude~3 release. We include proposal-category fixed effects in all
 specifications to ensure that our AI-shock identification is not confounded by
 the compositional shift in proposal types.
 
-\begin{figure}[htbp]
+\begin{figure}[htb]
   \centering
   \includegraphics[width=\textwidth]{fig02_proposals.png}
   \caption{\textbf{Proposal Volume by Economic Purpose.}
@@ -940,9 +940,9 @@ of equal slopes in columns (2) and (3).
 \end{flushleft}
 \end{table}
 
-\begin{figure}[htbp]
+\begin{figure}[t]
   \centering
-  \includegraphics[width=\textwidth,height=0.70\textheight,keepaspectratio]{fig08_main_causal.png}
+  \includegraphics[width=\textwidth,height=0.62\textheight,keepaspectratio]{fig08_main_causal.png}
   \caption{\textbf{AI Posting Shocks and Forum Signal Degradation.}
     \textit{Panel A:} Monthly forum post volume decomposed into human-written
     (Pangram fraction\_ai $\leq 0.70$, blue) and AI-generated (fraction\_ai~$> 0.70$,
@@ -1044,7 +1044,7 @@ posts remain distinguishable in aggregate: the deliberative ecosystem itself
 narrowed, reducing both the expected return to reading any post and the
 informational content of the human posts that remain.
 
-\begin{figure}[htbp]
+\begin{figure}[htb]
   \centering
   \includegraphics[width=\textwidth]{fig_ai_post_content.png}
   \caption{\textbf{Content Analysis of AI-Generated vs.\ Human-Authored Forum Posts.}
@@ -1305,7 +1305,7 @@ of human posts on matched threads \emph{increased} post-shock (from 2,650 to
 across more content---it reflects fewer readers per post on a forum that
 became objectively busier.
 
-\begin{figure}[htbp]
+\begin{figure}[htb]
   \centering
   \includegraphics[width=\textwidth]{fig15_reads_decline.png}
   \caption{\textbf{Forum Readership Decline on Matched Governance Proposal Threads.}
@@ -1375,9 +1375,9 @@ consistent with all four patterns simultaneously.
 %% ── (old) 6.2 now 6.3 Delegate Cross-Section ────────────────────────────────────────────────
 \subsection{Delegate Cross-Section}
 
-\begin{figure}[htbp]
+\begin{figure}[t]
   \centering
-  \includegraphics[width=\textwidth,height=0.72\textheight,keepaspectratio]{fig11_delegates.png}
+  \includegraphics[width=\textwidth,height=0.62\textheight,keepaspectratio]{fig11_delegates.png}
   \caption{\textbf{Delegate AI Adoption and Voting Power: Cross-Section.}
     Each point represents one delegate ($n = 51$). The x-axis is the delegate's
     average Pangram AI fraction across all their forum posts (higher values indicate
@@ -1773,9 +1773,9 @@ pooled controlled regression is $\hat{\delta} = +0.0026$\sym{**}
 (HC3 robust SE $= 0.0011$, $p = 0.014$). The forum signal degradation is
 statistically detectable in the controlled specification at the 5\% level.
 
-\begin{figure}[htbp]
+\begin{figure}[t]
   \centering
-  \includegraphics[width=\textwidth,height=0.72\textheight,keepaspectratio]{output/figures/rob03_cooks_bootstrap.png}
+  \includegraphics[width=\textwidth,height=0.62\textheight,keepaspectratio]{output/figures/rob03_cooks_bootstrap.png}
   \caption{\textbf{Small-Sample Robustness Diagnostics.}
     \textit{Panel~A:} Pre-shock scatter plot of human post count against margin of
     victory ($n = 44$ proposals). Bubble size is proportional to Cook's distance $D_i$;
@@ -1885,11 +1885,11 @@ We thank Max Spero for generously providing access to Pangram AI detection API c
 \subsection*{A.1 Forum Scraping Procedure}
 
 The Arbitrum governance forum runs on Discourse, an open-source forum platform
-with a public JSON API. We retrieve topic lists by category using the endpoint
-\texttt{/c/\{category\_id\}/l/latest.json} with page-based pagination, then
-retrieve individual topic posts using \texttt{/t/\{topic\_id\}.json} plus chunked
-post-ID requests for topics with more than 20 posts. The scraper respects a
-one-second delay between requests to avoid server overload.
+with a public JSON API. Topic lists are retrieved by category via
+{\small\texttt{/c/\{category\_id\}/l/latest.json}} (page-based pagination);
+individual topic posts are retrieved via {\small\texttt{/t/\{topic\_id\}.json}},
+with chunked post-ID requests for topics with more than 20 posts.
+The scraper respects a one-second delay between requests to avoid server overload.
 
 Our scrape covers all posts created between January 1, 2023 and March 31, 2026
 in four target categories: Proposals (category ID 7), DAO Programs \& Initiatives
@@ -1949,7 +1949,6 @@ five scored posts are excluded from the cross-sectional analysis.
 
 
 
-\clearpage
 \section{Additional Figures}
 \label{app:figures}
 
@@ -2076,7 +2075,6 @@ five scored posts are excluded from the cross-sectional analysis.
 
 
 
-\clearpage
 \section{Additional Tables}
 \label{app:tables}
 
