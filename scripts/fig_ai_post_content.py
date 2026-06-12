@@ -140,7 +140,7 @@ human_mean = np.asarray(X[human_idx].mean(axis=0)).flatten()
 ai_distinctive    = ai_mean    - human_mean
 human_distinctive = human_mean - ai_mean
 
-top_n = 10
+top_n = 15
 top_ai_idx    = np.argsort(ai_distinctive)[-top_n:][::-1]
 top_human_idx = np.argsort(human_distinctive)[-top_n:][::-1]
 
@@ -271,60 +271,79 @@ print(f"  Table written to {OUT_TAB}")
 
 print("\nStep 6: Building figure...")
 
-fig = plt.figure(figsize=(13, 4.5))
-# Layout: Panel A takes left half (split into AI/human), B and C take right half
-gs = fig.add_gridspec(1, 4, wspace=0.45)
-ax_ai    = fig.add_subplot(gs[0, 0])   # Panel A left  — AI terms
-ax_human = fig.add_subplot(gs[0, 1])   # Panel A right — Human terms
-axes     = [None, fig.add_subplot(gs[0, 2]), fig.add_subplot(gs[0, 3])]
+fig = plt.figure(figsize=(15, 5.2))
+# 3-panel layout: butterfly n-grams | wider post-length histogram | agreement bars
+gs = fig.add_gridspec(1, 3, width_ratios=[2.4, 1.9, 0.95], wspace=0.38)
+ax_ngram = fig.add_subplot(gs[0, 0])
+ax_hist  = fig.add_subplot(gs[0, 1])
+ax_agree = fig.add_subplot(gs[0, 2])
 
-# Panel A left: AI-distinctive terms
+# ── Panel A: butterfly / back-to-back n-gram chart ────────────────────────────
+# Ranks 0..top_n-1 on y-axis (0 = lowest rank at bottom)
 y = np.arange(top_n)
-ax_ai.barh(y, top_ai_scores[::-1], color=C_AI, alpha=0.85)
-ax_ai.set_yticks(y)
-ax_ai.set_yticklabels(top_ai_terms[::-1], fontsize=7.5)
-ax_ai.set_xlabel("Mean TF-IDF diff.", fontsize=8)
-ax_ai.set_title("AI-distinctive\nn-grams", fontsize=8.5, fontweight="bold")
-ax_ai.tick_params(axis="y", length=0)
-despine(ax_ai)
 
-# Panel A right: Human-distinctive terms
-ax_human.barh(y, top_human_scores[::-1], color=C_HUMAN, alpha=0.85)
-ax_human.set_yticks(y)
-ax_human.set_yticklabels(top_human_terms[::-1], fontsize=7.5)
-ax_human.set_xlabel("Mean TF-IDF diff.", fontsize=8)
-ax_human.set_title("Human-distinctive\nn-grams", fontsize=8.5, fontweight="bold")
-ax_human.tick_params(axis="y", length=0)
-despine(ax_human)
+# AI bars extend LEFT (negative), human bars extend RIGHT (positive)
+# Sort: rank 1 (highest score) at top → index -1 after sort → display at y=top_n-1
+ai_scores_plot    = top_ai_scores[::-1]      # ascending (bottom=least distinctive)
+human_scores_plot = top_human_scores[::-1]
 
-# Panel B: word count distribution
-ax = axes[1]
-ax.set_title("Post length", fontsize=8.5, fontweight="bold")
-bins = np.linspace(0, 600, 31)
-ax.hist(human_df["words"].clip(upper=600), bins=bins, color=C_HUMAN, alpha=0.6,
-        density=True, label="Human")
-ax.hist(ai_df["words"].clip(upper=600), bins=bins, color=C_AI, alpha=0.6,
-        density=True, label="AI")
-ax.axvline(human_df["words"].median(), color=C_HUMAN, linewidth=1.5, linestyle="--")
-ax.axvline(ai_df["words"].median(),    color=C_AI,    linewidth=1.5, linestyle="--")
-ax.set_xlabel("Words per post", fontsize=8)
-ax.set_ylabel("Density", fontsize=8)
-ax.legend(fontsize=8)
-despine(ax)
+ax_ngram.barh(y, -ai_scores_plot,    color=C_AI,    alpha=0.85, label="AI")
+ax_ngram.barh(y,  human_scores_plot, color=C_HUMAN, alpha=0.85, label="Human")
+ax_ngram.axvline(0, color="black", linewidth=0.8)
 
-# Panel C: agreement-phrase rate
-ax = axes[2]
-categories = ["AI posts", "Human posts"]
-rates      = [ai_agree_rate * 100, human_agree_rate * 100]
-colors     = [C_AI, C_HUMAN]
-bars = ax.bar(categories, rates, color=colors, alpha=0.85, width=0.5)
+# Left y-axis: AI term labels
+ax_ngram.set_yticks(y)
+ax_ngram.set_yticklabels(top_ai_terms[::-1], fontsize=7)
+ax_ngram.tick_params(axis="y", left=False)
+
+# Right y-axis: human term labels (twin axis, same limits)
+ax_r = ax_ngram.twinx()
+ax_r.set_ylim(ax_ngram.get_ylim())
+ax_r.set_yticks(y)
+ax_r.set_yticklabels(top_human_terms[::-1], fontsize=7)
+ax_r.tick_params(axis="y", right=False)
+
+ax_ngram.set_xlabel("← AI distinctive          Human distinctive →", fontsize=7.5)
+ax_ngram.set_title("Distinctive n-grams", fontsize=9, fontweight="bold")
+ax_ngram.tick_params(axis="x", labelsize=7.5)
+
+# Remove x-axis tick labels; use symmetric limits
+lim = max(ai_scores_plot.max(), human_scores_plot.max()) * 1.12
+ax_ngram.set_xlim(-lim, lim)
+ax_ngram.spines["top"].set_visible(False)
+ax_ngram.spines["right"].set_visible(False)
+ax_r.spines["top"].set_visible(False)
+ax_r.spines["left"].set_visible(False)
+
+# ── Panel B: word-count distribution (wider, more breathing room) ─────────────
+bins = np.linspace(0, 600, 35)
+ax_hist.hist(human_df["words"].clip(upper=600), bins=bins, color=C_HUMAN, alpha=0.6,
+             density=True, label=f"Human (med. {int(human_df['words'].median())} w)")
+ax_hist.hist(ai_df["words"].clip(upper=600),    bins=bins, color=C_AI,    alpha=0.6,
+             density=True, label=f"AI (med. {int(ai_df['words'].median())} w)")
+ax_hist.axvline(human_df["words"].median(), color=C_HUMAN, linewidth=1.4, linestyle="--")
+ax_hist.axvline(ai_df["words"].median(),    color=C_AI,    linewidth=1.4, linestyle="--")
+ax_hist.set_xlabel("Words per post", fontsize=8.5)
+ax_hist.set_ylabel("Density", fontsize=8.5)
+ax_hist.set_title("Post length", fontsize=9, fontweight="bold")
+ax_hist.legend(fontsize=8, framealpha=0.9)
+ax_hist.spines["top"].set_visible(False)
+ax_hist.spines["right"].set_visible(False)
+
+# ── Panel C: agreement-phrase rate ───────────────────────────────────────────
+rates  = [ai_agree_rate * 100, human_agree_rate * 100]
+colors = [C_AI, C_HUMAN]
+bars   = ax_agree.bar(["AI\nposts", "Human\nposts"], rates, color=colors,
+                      alpha=0.85, width=0.5)
 for bar, rate in zip(bars, rates):
-    ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.5,
-            f"{rate:.1f}%", ha="center", va="bottom", fontsize=8.5, fontweight="bold")
-ax.set_ylabel("Posts with ≥1 agreement phrase (%)", fontsize=8)
-ax.set_title("Generic agreement", fontsize=8.5, fontweight="bold")
-ax.set_ylim(0, max(rates) * 1.3)
-despine(ax)
+    ax_agree.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.5,
+                  f"{rate:.1f}%", ha="center", va="bottom",
+                  fontsize=9, fontweight="bold")
+ax_agree.set_ylabel("Posts with ≥1\nagreement phrase (%)", fontsize=8)
+ax_agree.set_title("Generic agreement", fontsize=9, fontweight="bold")
+ax_agree.set_ylim(0, max(rates) * 1.32)
+ax_agree.spines["top"].set_visible(False)
+ax_agree.spines["right"].set_visible(False)
 
 fig.tight_layout()
 aer_savefig(fig, OUT_FIG)

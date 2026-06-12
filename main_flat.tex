@@ -152,11 +152,13 @@ posting environment, and the before--after comparison is interpretable as causal
 
 We then turn to the mechanism. The most natural candidate explanation---that a
 physical flood of AI-generated posts numerically overwhelmed the human signal---is
-falsified by timing. Panel~A of Figure~\ref{fig:main_causal} shows that the actual
-surge in AI-generated post volume did not arrive until late 2024, nine to twelve
-months after the structural break. At the date of the QLR break (November 2023),
-AI posts constituted less than 5\% of forum volume. A volume mechanism requires
-contamination to precede signal collapse; the data show the reverse.
+falsified by timing. To be precise: AI-generated posts are detectable on the forum
+well before the structural break---a small but measurable share appear as early as
+early 2023---but at negligible volume. At the date of the QLR break (November 2023),
+AI posts constituted less than 5\% of forum volume, and below 8\% at the Claude~3
+break (March 2024). The large-scale volume surge did not arrive until late 2024,
+nine to twelve months after the signal collapsed. A volume mechanism requires
+contamination to precede collapse; the data show the reverse.
 
 We propose instead an \emph{unverifiability shock} mechanism in the spirit of
 \citet{akerlof1970}. The releases of GPT-4 Turbo (November 2023) and Claude~3
@@ -311,7 +313,7 @@ market capitalization of \$13 billion and a DAO treasury of approximately
 The vesting cliff in March 2024 unlocked 1.1 billion previously locked team and
 investor tokens simultaneously. We control for this event in our empirical specifications.
 
-\begin{figure}[!t]
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth]{fig01_forum_activity.png}
   \caption{\textbf{Forum Participation and Token-Market Co-movement.}
@@ -409,15 +411,19 @@ By the end of our sample period (March 2026), the top 10 delegates by voting pow
 collectively controlled approximately 30\% of all votes cast in contested proposals,
 with the largest single delegate holding over 1\% of total circulating ARB supply in delegated power.
 The distribution of voting power is highly concentrated. The \emph{Nakamoto
-coefficient}---the minimum number of independent actors needed to collude and
-control a majority of votes---is as low as 4 at the 51\% threshold and 3 at the
-33\% blocking-minority threshold (Figure~\ref{fig:power_concentration}).
-A rising Nakamoto coefficient over time indicates power becoming more dispersed and
-governance more competitive; a falling one indicates consolidation. Ours is broadly
-stable across the sample period, consistent with prior evidence of
-plutocratic tendencies in DAO governance \citep{barbereau2023}.
+coefficient}---the minimum number of independent actors required to collude and
+control a majority of votes---stands as low as 4 delegates at the 51\% threshold
+and 3 at the 33\% blocking-minority threshold in early windows
+(Figure~\ref{fig:power_concentration}).
+Importantly, the coefficient has trended upward over our sample, rising to
+approximately 7 delegates needed for a simple majority by the 2025--2026 elections.
+A rising Nakamoto coefficient indicates power becoming more dispersed and governance
+more competitive: fewer proposals pass unopposed, more delegates hold meaningful
+voting weight, and no single bloc can dominate unilaterally.
+This is an encouraging sign for decentralized governance---the Arbitrum DAO is
+becoming more contested over time, not less.
 
-\begin{figure}[!t]
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth]{fig03_power_concentration.png}
   \caption{\textbf{Evolution of Voting Power Concentration.}
@@ -427,8 +433,10 @@ plutocratic tendencies in DAO governance \citep{barbereau2023}.
     (51\%) of total votes cast; the orange bars show the number required to form
     a blocking minority (33\%). Lower values indicate more concentrated power.
     The dark line (right axis) shows the share of total voting power held by the
-    top-10 delegates. Concentration is high and broadly stable: a majority can
-    be formed by as few as 4--7 delegates throughout the sample period.}
+    top-10 delegates. Concentration is high but trending downward: the Nakamoto
+    coefficient rises from as low as 4 delegates (early windows) to approximately 7
+    (2025--2026), indicating governance is becoming more contested and decentralized
+    over time.}
   \label{fig:power_concentration}
 \end{figure}
 
@@ -516,7 +524,7 @@ and the Claude~3 release. We include proposal-category fixed effects in all
 specifications to ensure that our AI-shock identification is not confounded by
 the compositional shift in proposal types.
 
-\begin{figure}[!t]
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth]{fig02_proposals.png}
   \caption{\textbf{Proposal Volume by Economic Purpose.}
@@ -559,7 +567,7 @@ in a DuckDB relational database along with metadata including post author, times
 reply structure, and raw HTML content. Summary statistics are reported in
 Table~\ref{tab:summary_forum}.
 
-\begin{table}[!t]
+\begin{table}[htbp]
 \centering
 \caption{Summary Statistics: Arbitrum Governance Forum}
 \label{tab:summary_forum}
@@ -900,7 +908,7 @@ proposals), the slope is $\hat{\beta} = -0.0009$ ($t = -0.45$), with
 $r = -0.04$. The null hypothesis of equal slopes across periods is rejected
 by the Chow test: $F = 8.23$, $p = 0.0004$.
 
-\begin{table}[!t]
+\begin{table}[htbp]
 \centering
 \caption{Main Results: Human Forum Posts and Vote Margins}
 \label{tab:main_results}
@@ -932,7 +940,7 @@ of equal slopes in columns (2) and (3).
 \end{flushleft}
 \end{table}
 
-\begin{figure}[!t]
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth,height=0.70\textheight,keepaspectratio]{fig08_main_causal.png}
   \caption{\textbf{AI Posting Shocks and Forum Signal Degradation.}
@@ -1036,7 +1044,7 @@ posts remain distinguishable in aggregate: the deliberative ecosystem itself
 narrowed, reducing both the expected return to reading any post and the
 informational content of the human posts that remain.
 
-\begin{figure}[!t]
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth]{fig_ai_post_content.png}
   \caption{\textbf{Content Analysis of AI-Generated vs.\ Human-Authored Forum Posts.}
@@ -1073,7 +1081,7 @@ near zero.
 
 We use Claude~3 as the primary break date because it provides a significant pre-period correlation ($r = -0.39$, $p = 0.009$, $n = 44$) and no post-period correlation ($r = -0.04$, $p = 0.66$). All results are robust to using GPT-4 Turbo or any other candidate date; see Table~\ref{tab:chow_battery}.
 
-\begin{table}[!t]
+\begin{table}[htbp]
 \centering
 \caption{Chow Test Battery: Structural Breaks at AI Model Release Dates}
 \label{tab:chow_battery}
@@ -1297,7 +1305,7 @@ of human posts on matched threads \emph{increased} post-shock (from 2,650 to
 across more content---it reflects fewer readers per post on a forum that
 became objectively busier.
 
-\begin{figure}[!t]
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth]{fig15_reads_decline.png}
   \caption{\textbf{Forum Readership Decline on Matched Governance Proposal Threads.}
@@ -1343,9 +1351,9 @@ nonetheless died.
 \emph{Voting power concentration.} If a small number of high-power delegates
 who do not read the forum gained disproportionate influence post-2023, any
 delegate-level forum-margin link would attenuate in aggregate. Against this:
-Figure~\ref{fig:power_concentration} shows Nakamoto coefficients were broadly stable through
-2023--2024; the structural break in power concentration does not coincide with
-the November 2023 forum-signal break.
+Figure~\ref{fig:power_concentration} shows Nakamoto coefficients were rising through
+2023--2024, indicating power was becoming \emph{more} dispersed; the structural break
+in power concentration does not coincide with the November 2023 forum-signal break.
 
 \emph{Proposal complexity.} If post-2023 proposals became more technical and
 required expert rather than forum-based input, the forum signal would attenuate
@@ -1367,7 +1375,7 @@ consistent with all four patterns simultaneously.
 %% ── (old) 6.2 now 6.3 Delegate Cross-Section ────────────────────────────────────────────────
 \subsection{Delegate Cross-Section}
 
-\begin{figure}[!t]
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth,height=0.72\textheight,keepaspectratio]{fig11_delegates.png}
   \caption{\textbf{Delegate AI Adoption and Voting Power: Cross-Section.}
@@ -1406,7 +1414,7 @@ AI fraction below 20\% average 1.9 million ARB---a 27$\times$ gap. This gap is n
 driven by outliers: the median high-AI delegate holds 40,000 ARB, while the median
 low-AI delegate holds 680,000 ARB---still a 17$\times$ difference.
 
-\begin{table}[!t]
+\begin{table}[htbp]
 \centering
 \caption{Delegate Cross-Section: AI Fraction and Voting Power}
 \label{tab:delegate_cross}
@@ -1475,7 +1483,7 @@ posts may create a \emph{short-run} appearance of active participation that attr
 marginal delegators, but this effect is economically small and quickly dominated
 by the tendency of voting power to revert toward the mean.
 
-\begin{table}[!t]
+\begin{table}[htbp]
 \centering
 \caption{Delegate Panel: AI Fraction and Voting Power Growth}
 \label{tab:delegate_panel}
@@ -1765,9 +1773,9 @@ pooled controlled regression is $\hat{\delta} = +0.0026$\sym{**}
 (HC3 robust SE $= 0.0011$, $p = 0.014$). The forum signal degradation is
 statistically detectable in the controlled specification at the 5\% level.
 
-\begin{figure}[!t]
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=\textwidth]{output/figures/rob03_cooks_bootstrap.png}
+  \includegraphics[width=\textwidth,height=0.72\textheight,keepaspectratio]{output/figures/rob03_cooks_bootstrap.png}
   \caption{\textbf{Small-Sample Robustness Diagnostics.}
     \textit{Panel~A:} Pre-shock scatter plot of human post count against margin of
     victory ($n = 44$ proposals). Bubble size is proportional to Cook's distance $D_i$;
@@ -1941,6 +1949,7 @@ five scored posts are excluded from the cross-sectional analysis.
 
 
 
+\clearpage
 \section{Additional Figures}
 \label{app:figures}
 
@@ -1949,7 +1958,7 @@ five scored posts are excluded from the cross-sectional analysis.
 %% Appendix B: Additional Figures
 
 
-\begin{figure}[H]
+\begin{figure}[p]
   \centering
   \includegraphics[width=\textwidth]{fig04_taxonomy.png}
   \caption{\textbf{Economic Taxonomy of Arbitrum DAO Proposals.}
@@ -1961,21 +1970,19 @@ five scored posts are excluded from the cross-sectional analysis.
   \label{fig:taxonomy}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[p]
   \centering
   \includegraphics[width=\textwidth]{fig05_dip_test.png}
   \caption{\textbf{Incentives and Participation: DIP Test.}
-    Scatter of proposal-level ARB value at stake (log scale, x-axis) against
-    participation rate (unique voters / circulating supply, y-axis). The
-    positive relationship is consistent with rational participation: higher
-    stakes proposals attract more voter attention. Fitted line from OLS
-    with 95\% confidence interval. The DIP (Decreasing Incentives to
-    Participate) test following \citet{gillan2010} evaluates whether
-    participation is increasing in proposal economic significance.}
+    Proposal-level ARB value at stake (log scale) vs.\ participation rate
+    (unique voters / circulating supply). Higher-stakes proposals attract
+    more voters, consistent with rational attention allocation. OLS fit with
+    95\% CI. The DIP test \citep{gillan2010} evaluates whether participation
+    rises with economic significance.}
   \label{fig:dip}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[p]
   \centering
   \includegraphics[width=\textwidth]{fig06_lobbyfi.png}
   \caption{\textbf{The Vote Rental Market: LobbyFi on Arbitrum DAO.}
@@ -1989,7 +1996,7 @@ five scored posts are excluded from the cross-sectional analysis.
   \label{fig:lobbyfi}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[p]
   \centering
   \includegraphics[width=\textwidth]{fig07_fiscal.png}
   \caption{\textbf{Fiscal Evolution and Treasury Dynamics.}
@@ -2002,7 +2009,7 @@ five scored posts are excluded from the cross-sectional analysis.
   \label{fig:fiscal}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[p]
   \centering
   \includegraphics[width=\textwidth]{fig09_amendments.png}
   \caption{\textbf{Constitutional Amendment Lifecycle.}
@@ -2015,7 +2022,7 @@ five scored posts are excluded from the cross-sectional analysis.
   \label{fig:amendments}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[p]
   \centering
   \includegraphics[width=\textwidth]{fig10_crossdao.png}
   \caption{\textbf{Cross-DAO Governance Benchmarking.}
@@ -2027,7 +2034,7 @@ five scored posts are excluded from the cross-sectional analysis.
   \label{fig:crossdao}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[p]
   \centering
   \includegraphics[width=\textwidth]{fig10b_participation.png}
   \caption{\textbf{Participation Breadth Over Time.}
@@ -2040,7 +2047,7 @@ five scored posts are excluded from the cross-sectional analysis.
   \label{fig:participation}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[p]
   \centering
   \includegraphics[width=\textwidth]{fig12_panel.png}
   \caption{\textbf{Delegate Within-FE Panel Results.}
@@ -2053,7 +2060,7 @@ five scored posts are excluded from the cross-sectional analysis.
   \label{fig:panel_app}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[p]
   \centering
   \includegraphics[width=\textwidth]{fig13_chow.png}
   \caption{\textbf{Chow Test Battery: Structural Breaks at AI Model Release Dates.}
@@ -2069,6 +2076,7 @@ five scored posts are excluded from the cross-sectional analysis.
 
 
 
+\clearpage
 \section{Additional Tables}
 \label{app:tables}
 
@@ -2076,7 +2084,7 @@ five scored posts are excluded from the cross-sectional analysis.
 % --- sections/appendix_tables ---
 %% Appendix C: Additional Tables
 
-\begin{table}[H]
+\begin{table}[p]
 \centering
 \caption{Robustness: Alternative Pangram AI Classification Thresholds}
 \label{tab:threshold_robustness}
@@ -2135,9 +2143,9 @@ proposal level.
 Figure~\ref{fig:distraction} presents the first-stage results for each instrument
 category. Table~\ref{tab:distraction} reports the corresponding regression estimates.
 
-\begin{figure}[H]
+\begin{figure}[p]
   \centering
-  \includegraphics[width=\textwidth]{fig14_distraction.png}
+  \includegraphics[width=\textwidth,height=0.72\textheight,keepaspectratio]{fig14_distraction.png}
   \caption{\textbf{Distraction Instrument Battery: First-Stage Effects on Forum Post Volume.}
     Each panel plots the point estimate and 95\% confidence interval for the
     effect of a candidate distraction instrument on forum post volume in the
@@ -2149,7 +2157,7 @@ category. Table~\ref{tab:distraction} reports the corresponding regression estim
   \label{fig:distraction}
 \end{figure}
 
-\begin{table}[H]
+\begin{table}[p]
 \centering
 \caption{Distraction Instrument Battery}
 \label{tab:distraction}
