@@ -29,8 +29,17 @@
   \fi
   \vskip\belowcaptionskip}
 \makeatother
+% \@currentlabel is set locally inside \caption's singlespace group; make it global
+% so that \label commands placed outside \begin{singlespace} still capture the figure number.
+\makeatletter
+\let\latex@refstepcounter\refstepcounter
+\renewcommand\refstepcounter[1]{%
+  \latex@refstepcounter{#1}%
+  \global\let\@currentlabel\@currentlabel
+}
+\makeatother
 % FloatBarrier: outputs pending floats at subsection boundaries without a hard page break
-\newcommand{\FloatBarrier}{\par\medskip}
+\newcommand{\FloatBarrier}{\par}
 \usepackage[hypertexnames=false]{hyperref}
 \usepackage{xcolor}
 \usepackage[T1]{fontenc}
@@ -330,19 +339,6 @@ market capitalization of \$13 billion and a DAO treasury of approximately
 The vesting cliff in March 2024 unlocked 1.1 billion previously locked team and
 investor tokens simultaneously. We control for this event in our empirical specifications.
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth,height=0.52\textheight,keepaspectratio]{fig01_forum_activity.png}
-  \caption{\textbf{Forum Participation and Token-Market Co-movement.}
-    Monthly Arbitrum governance forum post count (blue bars, left axis), ARB/USD
-    month-end closing price (dark line, right axis), and monthly ARB trading volume
-    in USD billions (pale blue shaded area, right axis). The step-function overlaid
-    in green tracks the approximate circulating supply of ARB attributable to the
-    team and investor vesting schedule. The vesting cliff in March 2024 is visible
-    as a discrete jump in the supply series. January 2023--March 2026.}
-  \label{fig:forum_activity}
-\end{figure}
-
 Figure~\ref{fig:forum_activity} characterizes the joint evolution of forum and
 market activity over the sample. Three features stand out. \emph{Sign}: forum post
 volume and ARB price move together---both rise through the 2023--2024 bull market
@@ -357,6 +353,21 @@ late 2023 and the ecosystem incentive cluster in early 2024. This leading patter
 motivates the question of whether forum activity aggregates forward-looking
 information---which our main analysis answers in the affirmative for the pre-AI
 period.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth,height=0.52\textheight,keepaspectratio]{fig01_forum_activity.png}
+  \begin{singlespace}
+  \caption{\textbf{Forum Participation and Token-Market Co-movement.}
+    Monthly Arbitrum governance forum post count (blue bars, left axis), ARB/USD
+    month-end closing price (dark line, right axis), and monthly ARB trading volume
+    in USD billions (pale blue shaded area, right axis). The step-function overlaid
+    in green tracks the approximate circulating supply of ARB attributable to the
+    team and investor vesting schedule. The vesting cliff in March 2024 is visible
+    as a discrete jump in the supply series. January 2023--March 2026.}
+  \end{singlespace}
+  \label{fig:forum_activity}
+\end{figure}
 
 \paragraph{Governance architecture.}
 Arbitrum operates under a ``Constitution'' (a binding governance document) that
@@ -547,6 +558,7 @@ the compositional shift in proposal types.
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth,height=0.52\textheight,keepaspectratio]{fig02_proposals.png}
+  \begin{singlespace}
   \caption{\textbf{Proposal Volume by Economic Purpose.}
     Each bar represents the number of Arbitrum DAO proposals submitted in a
     six-month window, classified into four economic categories: Treasury
@@ -556,6 +568,7 @@ the compositional shift in proposal types.
     Program proposals in H1 2024 reflects the LTIPP and STIP programs, which
     coincide with both the ARB vesting cliff and the Claude~3 release.
     January 2023--March 2026.}
+  \end{singlespace}
   \label{fig:proposals}
 \end{figure}
 
@@ -591,6 +604,7 @@ Table~\ref{tab:summary_forum}.
 \centering
 \caption{Summary Statistics: Arbitrum Governance Forum}
 \label{tab:summary_forum}
+\begin{singlespace}
 \begin{tabular}{lrrrrr}
 \toprule
  & Mean & Median & Std.\ Dev. & Min & Max \\
@@ -618,6 +632,7 @@ post--Claude~3 periods (before and after March 4, 2024). AI posts are those with
 \textit{fraction\_ai}~$> 0.70$ as classified by the Pangram API. Human posts are
 all other scored posts.
 \end{flushleft}
+\end{singlespace}
 \end{table}
 
 %% ── 3.2 Pangram AI Detection ──────────────────────────────────────────────────
@@ -932,6 +947,7 @@ by the Chow test: $F = 8.23$, $p = 0.0004$.
 \centering
 \caption{Main Results: Human Forum Posts and Vote Margins}
 \label{tab:main_results}
+\begin{singlespace}
 \begin{tabular}{lccc}
 \toprule
  & \multicolumn{3}{c}{Dependent variable: Margin of victory} \\
@@ -958,25 +974,8 @@ post--Claude~3 covers March~4, 2024 and later. The Chow test evaluates the null 
 of equal slopes in columns (2) and (3).
 \sym{*}~$p < 0.10$; \sym{**}~$p < 0.05$; \sym{***}~$p < 0.01$.
 \end{flushleft}
+\end{singlespace}
 \end{table}
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth,height=0.52\textheight,keepaspectratio]{fig08_main_causal.png}
-  \caption{\textbf{AI Posting Shocks and Forum Signal Degradation.}
-    \textit{Panel A:} Monthly forum post volume decomposed into human-written
-    (Pangram fraction\_ai $\leq 0.70$, blue) and AI-generated (fraction\_ai~$> 0.70$,
-    red) posts. Vertical dashed lines mark major AI model release dates.
-    \textit{Panel B:} Rolling 25-proposal Pearson correlation between human post
-    count and margin of victory, plotted at the date of the last proposal in each
-    window. The correlation is stably negative at approximately $-0.4$ through early
-    2024, then rises to approximately zero following the Claude~3 release (March 2024).
-    \textit{Panel C:} Same as Panel~B using total post count (human plus AI).
-    Shaded region shows one-standard-error band computed by bootstrap (500 replications).
-    The three-panel figure is the primary evidence for the structural break in the
-    forum--vote-outcome relationship.}
-  \label{fig:main_causal}
-\end{figure}
 
 Figure~\ref{fig:main_causal} presents the main causal figure. Panel~A shows the
 evolution of monthly forum post volume, decomposed into human-written (Pangram
@@ -989,6 +988,26 @@ Claude~3. Panel~C repeats the exercise using total post count (human plus AI),
 which shows a similar pattern with a faster deterioration, consistent with AI
 posts diluting the human signal. The three-panel figure is the primary evidence
 for our central result.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth,height=0.52\textheight,keepaspectratio]{fig08_main_causal.png}
+  \begin{singlespace}
+  \caption{\textbf{AI Posting Shocks and Forum Signal Degradation.}
+    \textit{Panel A:} Monthly forum post volume decomposed into human-written
+    (Pangram fraction\_ai $\leq 0.70$, blue) and AI-generated (fraction\_ai~$> 0.70$,
+    red) posts. Vertical dashed lines mark major AI model release dates.
+    \textit{Panel B:} Rolling 25-proposal Pearson correlation between human post
+    count and margin of victory, plotted at the date of the last proposal in each
+    window. The correlation is stably negative at approximately $-0.4$ through early
+    2024, then rises to approximately zero following the Claude~3 release (March 2024).
+    \textit{Panel C:} Same as Panel~B using total post count (human plus AI).
+    Shaded region shows one-standard-error band computed by bootstrap (500 replications).
+    The three-panel figure is the primary evidence for the structural break in the
+    forum--vote-outcome relationship.}
+  \end{singlespace}
+  \label{fig:main_causal}
+\end{figure}
 
 \FloatBarrier
 %% ── 5.2 The Signal in AI Posts ────────────────────────────────────────────────
@@ -1109,6 +1128,7 @@ We use Claude~3 as the primary break date because it provides a significant pre-
 \centering
 \caption{Chow Test Battery: Structural Breaks at AI Model Release Dates}
 \label{tab:chow_battery}
+\begin{singlespace}
 \begin{tabular}{lcccccc}
 \toprule
  & \multicolumn{2}{c}{Pre-break} & \multicolumn{2}{c}{Post-break} & \multicolumn{2}{c}{Chow test} \\
@@ -1133,6 +1153,7 @@ Chow $F$-statistic over all candidate dates in the central 70\% of the sample,
 with the associated date and 5\% critical value from \citet{andrews1993}.
 \sym{*}~$p < 0.10$; \sym{**}~$p < 0.05$; \sym{***}~$p < 0.01$.
 \end{flushleft}
+\end{singlespace}
 \end{table}
 
 \paragraph{Endogenous break: November 2023.}
@@ -1332,6 +1353,7 @@ became objectively busier.
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth,height=0.52\textheight,keepaspectratio]{fig15_reads_decline.png}
+  \begin{singlespace}
   \caption{\textbf{Forum Readership Decline on Matched Governance Proposal Threads.}
     Monthly median reads per human-authored post on the 292 matched proposal
     threads used in the main analysis. Blue bars indicate pre-shock months
@@ -1344,6 +1366,7 @@ became objectively busier.
     structural break identified by the QLR test. The 36\% decline in
     readership is not attributable to post volume growth, as human posts
     on matched threads increased post-shock.}
+  \end{singlespace}
   \label{fig:reads_decline}
 \end{figure}
 
@@ -1426,6 +1449,7 @@ low-AI delegate holds 680,000 ARB---still a 17$\times$ difference.
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth,height=0.48\textheight,keepaspectratio]{fig11_delegates.png}
+  \begin{singlespace}
   \caption{\textbf{Delegate AI Adoption and Voting Power: Cross-Section.}
     Each point represents one delegate ($n = 51$). The x-axis is the delegate's
     average Pangram AI fraction across all their forum posts (higher values indicate
@@ -1436,6 +1460,7 @@ low-AI delegate holds 680,000 ARB---still a 17$\times$ difference.
     confidence interval. Selected delegates are labeled. High-AI delegates
     hold systematically lower voting power: those with AI fraction above 20\%
     average 71,000 ARB versus 1.9 million ARB for low-AI delegates.}
+  \end{singlespace}
   \label{fig:delegates}
 \end{figure}
 
@@ -1443,6 +1468,7 @@ low-AI delegate holds 680,000 ARB---still a 17$\times$ difference.
 \centering
 \caption{Delegate Cross-Section: AI Fraction and Voting Power}
 \label{tab:delegate_cross}
+\begin{singlespace}
 \begin{tabular}{lcc}
 \toprule
  & \multicolumn{2}{c}{Dependent variable: Log average voting power} \\
@@ -1471,6 +1497,7 @@ across all of the delegate's forum posts. Institutional delegate is an indicator
 delegates that are organizations (DAOs, investment funds) rather than individuals.
 \sym{*}~$p < 0.10$; \sym{**}~$p < 0.05$; \sym{***}~$p < 0.01$.
 \end{flushleft}
+\end{singlespace}
 \end{table}
 
 \FloatBarrier
@@ -1513,6 +1540,7 @@ by the tendency of voting power to revert toward the mean.
 \centering
 \caption{Delegate Panel: AI Fraction and Voting Power Growth}
 \label{tab:delegate_panel}
+\begin{singlespace}
 \begin{tabular}{lcc}
 \toprule
  & \multicolumn{2}{c}{Dependent variable: $\Delta$ log voting power} \\
@@ -1541,6 +1569,7 @@ is defined as the delegate's average voting power across proposals voted on in
 the period; lagged value is the prior 30-day period.
 \sym{*}~$p < 0.10$; \sym{**}~$p < 0.05$; \sym{***}~$p < 0.01$.
 \end{flushleft}
+\end{singlespace}
 \end{table}
 
 %% ── 6.3 Interpretation: Selection, Not Power Capture ─────────────────────────
@@ -1802,6 +1831,7 @@ statistically detectable in the controlled specification at the 5\% level.
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth,height=0.52\textheight,keepaspectratio]{output/figures/rob03_cooks_bootstrap.png}
+  \begin{singlespace}
   \caption{\textbf{Small-Sample Robustness Diagnostics.}
     \textit{Panel~A:} Pre-shock scatter plot of human post count against margin of
     victory ($n = 44$ proposals). Bubble size is proportional to Cook's distance $D_i$;
@@ -1813,6 +1843,7 @@ statistically detectable in the controlled specification at the 5\% level.
     \textit{Panel~C:} Bootstrap permutation null distribution of the Chow $F$-statistic
     (10,000 draws). The observed $F = 8.23$ (red line) lies in the far right tail;
     permutation $p = 0.0006$.}
+  \end{singlespace}
   \label{fig:rob_cooks}
 \end{figure}
 
@@ -1987,30 +2018,35 @@ five scored posts are excluded from the cross-sectional analysis.
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{fig04_taxonomy.png}
+  \begin{singlespace}
   \caption{\textbf{Economic Taxonomy of Arbitrum DAO Proposals.}
     Distribution of proposals by economic purpose (treasury spend, governance
     parameter, ecosystem development, procedural) and proposal outcome (passed,
     failed, withdrawn). Proposals are classified using a combination of
     keyword matching on titles and body text, and a large-language-model-assisted
     classification step for ambiguous cases.}
+  \end{singlespace}
   \label{fig:taxonomy}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{fig05_dip_test.png}
+  \begin{singlespace}
   \caption{\textbf{Incentives and Participation: DIP Test.}
     Proposal-level ARB value at stake (log scale) vs.\ participation rate
     (unique voters / circulating supply). Higher-stakes proposals attract
     more voters, consistent with rational attention allocation. OLS fit with
     95\% CI. The DIP test \citep{gillan2010} evaluates whether participation
     rises with economic significance.}
+  \end{singlespace}
   \label{fig:dip}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{fig06_lobbyfi.png}
+  \begin{singlespace}
   \caption{\textbf{The Vote Rental Market: LobbyFi on Arbitrum DAO.}
     Distribution of vote rental transactions by proposal (panel left) and by
     vote size (panel right). Each point represents a single vote rental agreement
@@ -2019,12 +2055,14 @@ five scored posts are excluded from the cross-sectional analysis.
     emerged in early 2024 and has grown steadily; by the end of our sample
     period, approximately 8\% of all Snapshot votes by token weight involved
     rented voting power.}
+  \end{singlespace}
   \label{fig:lobbyfi}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{fig07_fiscal.png}
+  \begin{singlespace}
   \caption{\textbf{Fiscal Evolution and Treasury Dynamics.}
     Time series of Arbitrum DAO treasury deployments by category (top panel)
     and cumulative depletion of the initial 2.75 billion ARB DAO treasury
@@ -2032,12 +2070,14 @@ five scored posts are excluded from the cross-sectional analysis.
     price at the time of each disbursement. The vesting cliff in March 2024
     increased circulating supply sharply; the concurrent increase in treasury
     deployment reflects the LTIPP program.}
+  \end{singlespace}
   \label{fig:fiscal}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{fig09_amendments.png}
+  \begin{singlespace}
   \caption{\textbf{Constitutional Amendment Lifecycle.}
     For each constitutional proposal (those requiring a two-thirds supermajority),
     the figure plots the number of forum posts (x-axis), the duration from
@@ -2045,24 +2085,28 @@ five scored posts are excluded from the cross-sectional analysis.
     inverted: larger markers indicate more contested votes). Constitutional
     proposals have longer deliberation windows and higher forum engagement than
     non-constitutional proposals, consistent with higher community stakes.}
+  \end{singlespace}
   \label{fig:amendments}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{fig10_crossdao.png}
+  \begin{singlespace}
   \caption{\textbf{Cross-DAO Governance Benchmarking.}
     Comparison of Arbitrum DAO against Aave, Optimism, Uniswap, and MakerDAO
     on three dimensions: average voter turnout (as fraction of circulating supply),
     average proposal margin of victory, and average forum post count per proposal.
     Arbitrum ranks in the middle tier on turnout and forum engagement. Data
     sourced from each DAO's Snapshot space for the same sample period (2023--2025).}
+  \end{singlespace}
   \label{fig:crossdao}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{fig10b_participation.png}
+  \begin{singlespace}
   \caption{\textbf{Participation Breadth Over Time.}
     Monthly count of unique voters participating in Arbitrum DAO proposals
     (left axis, bars) and average voting power per unique voter (right axis,
@@ -2070,12 +2114,14 @@ five scored posts are excluded from the cross-sectional analysis.
     consolidates among a smaller number of high-power delegates. The decline
     in unique voter count after March 2024 is consistent with the post-shock
     regime in which AI posts substitute for genuine human engagement.}
+  \end{singlespace}
   \label{fig:participation}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{fig12_panel.png}
+  \begin{singlespace}
   \caption{\textbf{Delegate Within-FE Panel Results.}
     Coefficient plots for the panel specification in equation~(\ref{eq:panel}).
     Panel~A: coefficient on AI fraction (30-day) by quarter, showing the
@@ -2083,12 +2129,14 @@ five scored posts are excluded from the cross-sectional analysis.
     growth is consistent across subperiods. Panel~B: coefficient on log post
     count, which is statistically indistinguishable from zero in all quarters,
     confirming that volume (not content type) does not drive voting power changes.}
+  \end{singlespace}
   \label{fig:panel_app}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{fig13_chow.png}
+  \begin{singlespace}
   \caption{\textbf{Chow Test Battery: Structural Breaks at AI Model Release Dates.}
     Each panel plots the Chow $F$-statistic (y-axis, dashed line = 5\% critical
     value) and the pre/post Pearson correlations for each of the six candidate
@@ -2097,6 +2145,7 @@ five scored posts are excluded from the cross-sectional analysis.
     The QLR sup-$F$ path (bottom panel) identifies the endogenous break at
     November 25, 2023, with the sup-$F$ statistic of 14.48 exceeding the 5\%
     critical value of 8.85.}
+  \end{singlespace}
   \label{fig:chow}
 \end{figure}
 
@@ -2114,6 +2163,7 @@ five scored posts are excluded from the cross-sectional analysis.
 \centering
 \caption{Robustness: Alternative Pangram AI Classification Thresholds}
 \label{tab:threshold_robustness}
+\begin{singlespace}
 \begin{tabular}{lcccccc}
 \toprule
  & \multicolumn{2}{c}{Pre-break period} & \multicolumn{2}{c}{Post-break period} & \multicolumn{2}{c}{Chow test} \\
@@ -2133,6 +2183,7 @@ to classify posts as AI-generated. Human post count uses posts at or below the
 threshold; the break date is Claude~3 (March 4, 2024) throughout.
 \sym{*}~$p < 0.10$; \sym{**}~$p < 0.05$; \sym{***}~$p < 0.01$.
 \end{flushleft}
+\end{singlespace}
 \end{table}
 
 %% Distraction table is in appendix_distraction.tex
@@ -2173,6 +2224,7 @@ category. Table~\ref{tab:distraction} reports the corresponding regression estim
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth,height=0.62\textheight,keepaspectratio]{fig14_distraction.png}
+  \begin{singlespace}
   \caption{\textbf{Distraction Instrument Battery: First-Stage Effects on Forum Post Volume.}
     Each panel plots the point estimate and 95\% confidence interval for the
     effect of a candidate distraction instrument on forum post volume in the
@@ -2181,6 +2233,7 @@ category. Table~\ref{tab:distraction} reports the corresponding regression estim
     events to the right increase post volume. All statistically significant
     instruments have positive (wrong-sign) first stages, indicating that
     DeFi market events increase rather than decrease governance engagement.}
+  \end{singlespace}
   \label{fig:distraction}
 \end{figure}
 
@@ -2188,6 +2241,7 @@ category. Table~\ref{tab:distraction} reports the corresponding regression estim
 \centering
 \caption{Distraction Instrument Battery}
 \label{tab:distraction}
+\begin{singlespace}
 \begin{tabular}{lcccc}
 \toprule
 Event & $\hat{\beta}$ & SE & $t$ & Sign \\
@@ -2230,6 +2284,7 @@ simultaneously in April 2024, mechanically reducing the per-proposal post count
 without reflecting genuine distraction.
 \sym{*}~$p < 0.10$; \sym{**}~$p < 0.05$; \sym{***}~$p < 0.01$.
 \end{flushleft}
+\end{singlespace}
 \end{table}
 
 \subsection*{D.3 The Bitcoin Halving}
