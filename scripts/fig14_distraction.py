@@ -186,8 +186,8 @@ COLORS = {
     "scheduled":  "#27AE60",   # green (only one with "right" sign — but confounded)
 }
 
-fig, ax = plt.subplots(figsize=(11, 7))
-fig.subplots_adjust(left=0.41, right=0.88, top=0.88, bottom=0.12)
+fig, ax = plt.subplots(figsize=(12, 8))
+fig.subplots_adjust(left=0.39, right=0.87, top=0.88, bottom=0.24)
 
 y_pos = np.arange(len(binary_df))
 
@@ -219,17 +219,18 @@ for i, (_, row) in enumerate(binary_df.iterrows()):
             f"β={row['beta_fs']:+.2f}{star}  {n_str}",
             va="center", fontsize=7.5, color="#2C3E50")
 
-# Zero line with directional arrow
+# Zero line with directional arrow — placed inside plot at y=-0.6, clip_on=False
 ax.axvline(0, color="#2C3E50", linewidth=1.0, linestyle="-", alpha=0.6)
-ax.annotate("", xy=(-0.85, -0.9), xytext=(0, -0.9),
-            arrowprops=dict(arrowstyle="->", color="#27AE60", lw=1.5))
-ax.text(-0.43, -0.9, "Expected: fewer posts →", va="center",
-        fontsize=8, color="#27AE60", style="italic")
+ax.annotate("", xy=(-0.9, -0.6), xytext=(-0.05, -0.6),
+            arrowprops=dict(arrowstyle="->", color="#27AE60", lw=1.5),
+            annotation_clip=False)
+ax.text(-0.48, -0.6, "Expected: fewer posts →", va="center",
+        fontsize=8, color="#27AE60", style="italic", clip_on=False)
 
 ax.set_yticks(y_pos)
 ax.set_yticklabels(binary_df["label"], fontsize=8.5)
-ax.set_xlabel("First-stage coefficient β  [log(human posts + 1) ~ distraction dummy]",
-              fontsize=9.5)
+ax.set_xlabel(r"First-stage coefficient $\hat{\beta}$  [$\log(\mathrm{human\ posts}+1)\ \sim\ \mathrm{distraction\ dummy}$]",
+              fontsize=9.5, labelpad=18)
 ax.set_title(
     "Robustness: Distraction Instruments All Have the Wrong Sign\n"
     "Hirshleifer et al. (2009) framework — DAO participants respond to crypto events "
@@ -247,8 +248,8 @@ ax.legend(handles=legend_handles, fontsize=8, loc="lower right", framealpha=0.9)
 # Shaded "wrong direction" region
 xlim = ax.get_xlim()
 ax.axvspan(0, xlim[1], color="#FDECEA", alpha=0.25, label="_wrong zone")
-ax.text(xlim[1]*0.55, len(binary_df) - 0.4,
-        "← All significant estimates fall here\n   (wrong sign for a distraction instrument)",
+ax.text(xlim[1]*0.52, len(binary_df) - 0.5,
+        "All significant estimates fall here →\n(wrong sign for a distraction instrument)",
         fontsize=7.5, color="#E74C3C", ha="center", va="top", style="italic")
 
 note_text = (
@@ -257,7 +258,7 @@ note_text = (
     "by the Arbitrum LTIPP grant batch (n≈40 small applications in April 2024).\n"
     f"Full sample: N={N} contested proposals, 2023–2026."
 )
-fig.text(0.41, 0.01, note_text, fontsize=7.5, color="#555555", va="bottom")
+fig.text(0.39, 0.01, note_text, fontsize=7.5, color="#555555", va="bottom")
 
 fig.savefig(OUT_FIG, dpi=180, bbox_inches="tight")
 print(f"Saved → {OUT_FIG}")
