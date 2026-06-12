@@ -432,17 +432,11 @@ coefficient}---the minimum number of independent actors required to collude and
 control a majority of votes---stands as low as 4 delegates at the 51\% threshold
 and 3 at the 33\% blocking-minority threshold in early windows
 (Figure~\ref{fig:power_concentration}).
-Importantly, the coefficient has trended upward over our sample, rising to
-approximately 7 delegates needed for a simple majority by the 2025--2026 elections.
-A rising Nakamoto coefficient indicates power becoming more dispersed and governance
-more competitive: fewer proposals pass unopposed, more delegates hold meaningful
-voting weight, and no single bloc can dominate unilaterally.
-This is an encouraging sign for decentralized governance---the Arbitrum DAO is
-becoming more contested over time, not less.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth,height=0.52\textheight,keepaspectratio]{fig03_power_concentration.png}
+  \includegraphics[width=\textwidth,height=0.38\textheight,keepaspectratio]{fig03_power_concentration.png}
+  \begin{singlespace}
   \caption{\textbf{Evolution of Voting Power Concentration.}
     Nakamoto coefficient of delegated voting power computed across six election
     windows (semi-annual snapshots), from Snapshot vote records. The red bars
@@ -454,8 +448,17 @@ becoming more contested over time, not less.
     coefficient rises from as low as 4 delegates (early windows) to approximately 7
     (2025--2026), indicating governance is becoming more contested and decentralized
     over time.}
+  \end{singlespace}
   \label{fig:power_concentration}
 \end{figure}
+
+Importantly, the coefficient has trended upward over our sample, rising to
+approximately 7 delegates needed for a simple majority by the 2025--2026 elections.
+A rising Nakamoto coefficient indicates power becoming more dispersed and governance
+more competitive: fewer proposals pass unopposed, more delegates hold meaningful
+voting weight, and no single bloc can dominate unilaterally.
+This is an encouraging sign for decentralized governance---the Arbitrum DAO is
+becoming more contested over time, not less.
 
 %% ── 2.4 The Vote Rental Market ────────────────────────────────────────────────
 \subsection{The Vote Rental Market}
@@ -1043,6 +1046,27 @@ named actors and prior governance decisions, and contain substantive disagreemen
 These qualitative patterns confirm the quantitative result: AI-classified posts
 are proposal echoes, not opinion signals.
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth,height=0.38\textheight,keepaspectratio]{fig_ai_post_content.png}
+  \begin{singlespace}
+  \caption{\textbf{Content Analysis of AI-Generated vs.\ Human-Authored Forum Posts.}
+    \textit{Panel A:} Most distinctive TF-IDF n-grams (bigrams and trigrams) for
+    AI-classified posts (right, orange) vs.\ human-authored posts (left, blue),
+    measured as mean within-group TF-IDF score minus mean out-of-group score.
+    AI posts are characterized by generic governance language
+    (\textit{``community engagement,'' ``support proposal,'' ``decision making''});
+    human posts by skepticism and procedural specificity
+    (\textit{``don't think,'' ``security council,'' ``tally vote''}).
+    \textit{Panel B:} Word-count distributions; AI posts are longer on average
+    (median 160 vs.\ 126 words) but less informationally dense.
+    \textit{Panel C:} Share of posts containing at least one generic agreement phrase
+    (``I support,'' ``great proposal,'' etc.); AI posts are 1.7$\times$ more likely
+    to contain such phrases (35.4\% vs.\ 21.2\%).}
+  \end{singlespace}
+  \label{fig:ai_post_content}
+\end{figure}
+
 \paragraph{Ecosystem degradation: participation concentration.}
 The content differences documented above are detectable in aggregate but not
 reliably in real time by individual delegates. To assess whether the deliberative
@@ -1061,25 +1085,6 @@ why the human-post $\to$ margin correlation collapses even though AI and human
 posts remain distinguishable in aggregate: the deliberative ecosystem itself
 narrowed, reducing both the expected return to reading any post and the
 informational content of the human posts that remain.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth,height=0.52\textheight,keepaspectratio]{fig_ai_post_content.png}
-  \caption{\textbf{Content Analysis of AI-Generated vs.\ Human-Authored Forum Posts.}
-    \textit{Panel A:} Most distinctive TF-IDF n-grams (bigrams and trigrams) for
-    AI-classified posts (right, orange) vs.\ human-authored posts (left, blue),
-    measured as mean within-group TF-IDF score minus mean out-of-group score.
-    AI posts are characterized by generic governance language
-    (\textit{``community engagement,'' ``support proposal,'' ``decision making''});
-    human posts by skepticism and procedural specificity
-    (\textit{``don't think,'' ``security council,'' ``tally vote''}).
-    \textit{Panel B:} Word-count distributions; AI posts are longer on average
-    (median 160 vs.\ 126 words) but less informationally dense.
-    \textit{Panel C:} Share of posts containing at least one generic agreement phrase
-    (``I support,'' ``great proposal,'' etc.); AI posts are 1.7$\times$ more likely
-    to contain such phrases (35.4\% vs.\ 21.2\%).}
-  \label{fig:ai_post_content}
-\end{figure}
 
 \FloatBarrier
 %% ── 5.3 Chow Test Battery ────────────────────────────────────────────────────
