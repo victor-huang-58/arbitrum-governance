@@ -257,7 +257,10 @@ match_df = (pd.DataFrame(matched)
               .reset_index(drop=True))
 match_df["prop_index"] = match_df.index
 
+MATCHED_CSV = os.path.join(ROOT, "data", "matched_proposals.csv")
+match_df.to_csv(MATCHED_CSV, index=False)
 print(f"  {len(match_df)} proposals matched with human/AI post counts and margin data")
+print(f"  Saved to {MATCHED_CSV}")
 
 # Baseline correlation
 r_human, p_human = spstats.pearsonr(match_df["human_posts"], match_df["margin"])

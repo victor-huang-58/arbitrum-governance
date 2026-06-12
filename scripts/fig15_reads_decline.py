@@ -6,6 +6,7 @@ Monthly median reads per human-authored post on matched governance proposal
 threads. Measures actual delegate/voter engagement, not inferred behavior.
 """
 
+import os
 import duckdb
 import json
 import re
@@ -18,10 +19,13 @@ import matplotlib.patches as mpatches
 from pathlib import Path
 
 # ── Config ────────────────────────────────────────────────────────────────────
-DB_PATH      = "data/arbitrum.db"
-FORUM_CACHE  = "data/figure8_forum_cache.json"
-OUT_PNG      = "fig15_reads_decline.png"
-OUT_PNG_ALT  = "output/figures/fig15_reads_decline.png"
+HERE         = os.path.dirname(os.path.abspath(__file__))
+ROOT         = os.path.dirname(HERE)
+DB_PATH      = os.path.join(ROOT, "data", "arbitrum.db")
+FORUM_CACHE  = os.path.join(ROOT, "data", "figure8_forum_cache.json")
+OUT_PNG      = os.path.join(ROOT, "output", "figures", "fig15_reads_decline.png")
+OUT_PNG_ALT  = OUT_PNG
+os.makedirs(os.path.join(ROOT, "output", "figures"), exist_ok=True)
 
 GPT4T_DATE   = pd.Timestamp("2023-11-06", tz="UTC")   # GPT-4 Turbo release
 CLAUDE3_DATE = pd.Timestamp("2024-03-04", tz="UTC")   # Claude 3 (main break)
