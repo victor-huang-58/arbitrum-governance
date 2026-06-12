@@ -1395,22 +1395,6 @@ consistent with all four patterns simultaneously.
 %% ── (old) 6.2 now 6.3 Delegate Cross-Section ────────────────────────────────────────────────
 \subsection{Delegate Cross-Section}
 
-\begin{figure}[htb]
-  \centering
-  \includegraphics[width=\textwidth,height=0.52\textheight,keepaspectratio]{fig11_delegates.png}
-  \caption{\textbf{Delegate AI Adoption and Voting Power: Cross-Section.}
-    Each point represents one delegate ($n = 51$). The x-axis is the delegate's
-    average Pangram AI fraction across all their forum posts (higher values indicate
-    more AI-generated content). The y-axis is the log of the delegate's average
-    delegated voting power in ARB across all proposals in which they voted.
-    Marker size is proportional to total forum post count. The fitted OLS line
-    has slope $-1.84$ ($t = -3.47$, $p = 0.001$); the gray band is the 95\%
-    confidence interval. Selected delegates are labeled. High-AI delegates
-    hold systematically lower voting power: those with AI fraction above 20\%
-    average 71,000 ARB versus 1.9 million ARB for low-AI delegates.}
-  \label{fig:delegates}
-\end{figure}
-
 Figure~\ref{fig:delegates} presents the cross-sectional relationship between
 delegate AI adoption and delegated voting power. Each observation is one of the
 51 delegates for whom we observe both Pangram AI fraction (averaged across all
@@ -1433,6 +1417,22 @@ above 20\% hold an average of 71,000 ARB in delegated voting power; those with
 AI fraction below 20\% average 1.9 million ARB---a 27$\times$ gap. This gap is not
 driven by outliers: the median high-AI delegate holds 40,000 ARB, while the median
 low-AI delegate holds 680,000 ARB---still a 17$\times$ difference.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth,height=0.48\textheight,keepaspectratio]{fig11_delegates.png}
+  \caption{\textbf{Delegate AI Adoption and Voting Power: Cross-Section.}
+    Each point represents one delegate ($n = 51$). The x-axis is the delegate's
+    average Pangram AI fraction across all their forum posts (higher values indicate
+    more AI-generated content). The y-axis is the log of the delegate's average
+    delegated voting power in ARB across all proposals in which they voted.
+    Marker size is proportional to total forum post count. The fitted OLS line
+    has slope $-1.84$ ($t = -3.47$, $p = 0.001$); the gray band is the 95\%
+    confidence interval. Selected delegates are labeled. High-AI delegates
+    hold systematically lower voting power: those with AI fraction above 20\%
+    average 71,000 ARB versus 1.9 million ARB for low-AI delegates.}
+  \label{fig:delegates}
+\end{figure}
 
 \begin{table}[H]
 \centering
@@ -1813,7 +1813,6 @@ statistically detectable in the controlled specification at the 5\% level.
 
 \input{output/tables/tab_ols_structural_break}
 
-\clearpage
 %% ── 8. Conclusion ─────────────────────────────────────────────────────────────
 \section{Conclusion}
 \label{sec:conclusion}
@@ -2163,9 +2162,9 @@ proposal level.
 Figure~\ref{fig:distraction} presents the first-stage results for each instrument
 category. Table~\ref{tab:distraction} reports the corresponding regression estimates.
 
-\begin{figure}[p]
+\begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth,height=0.72\textheight,keepaspectratio]{fig14_distraction.png}
+  \includegraphics[width=\textwidth,height=0.50\textheight,keepaspectratio]{fig14_distraction.png}
   \caption{\textbf{Distraction Instrument Battery: First-Stage Effects on Forum Post Volume.}
     Each panel plots the point estimate and 95\% confidence interval for the
     effect of a candidate distraction instrument on forum post volume in the
