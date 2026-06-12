@@ -14,6 +14,21 @@
 \usepackage{booktabs}
 \usepackage{graphicx}
 \usepackage{float}
+% Compact captions: small font, bold label, tighter vertical spacing
+\setlength{\abovecaptionskip}{5pt}
+\setlength{\belowcaptionskip}{2pt}
+\makeatletter
+\renewcommand{\@makecaption}[2]{%
+  \vskip\abovecaptionskip
+  \sbox\@tempboxa{{\small\textbf{#1:} #2}}%
+  \ifdim \wd\@tempboxa >\hsize
+    {\small\textbf{#1:} #2\par}%
+  \else
+    \global\@minipagefalse
+    \hb@xt@\hsize{\hfil\box\@tempboxa\hfil}%
+  \fi
+  \vskip\belowcaptionskip}
+\makeatother
 % FloatBarrier: outputs pending floats at subsection boundaries without a hard page break
 \newcommand{\FloatBarrier}{\par\medskip}
 \usepackage[hypertexnames=false]{hyperref}
@@ -569,7 +584,7 @@ in a DuckDB relational database along with metadata including post author, times
 reply structure, and raw HTML content. Summary statistics are reported in
 Table~\ref{tab:summary_forum}.
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Summary Statistics: Arbitrum Governance Forum}
 \label{tab:summary_forum}
@@ -910,7 +925,7 @@ proposals), the slope is $\hat{\beta} = -0.0009$ ($t = -0.45$), with
 $r = -0.04$. The null hypothesis of equal slopes across periods is rejected
 by the Chow test: $F = 8.23$, $p = 0.0004$.
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Main Results: Human Forum Posts and Vote Margins}
 \label{tab:main_results}
@@ -1085,7 +1100,7 @@ near zero.
 
 We use Claude~3 as the primary break date because it provides a significant pre-period correlation ($r = -0.39$, $p = 0.009$, $n = 44$) and no post-period correlation ($r = -0.04$, $p = 0.66$). All results are robust to using GPT-4 Turbo or any other candidate date; see Table~\ref{tab:chow_battery}.
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Chow Test Battery: Structural Breaks at AI Model Release Dates}
 \label{tab:chow_battery}
@@ -1419,7 +1434,7 @@ AI fraction below 20\% average 1.9 million ARB---a 27$\times$ gap. This gap is n
 driven by outliers: the median high-AI delegate holds 40,000 ARB, while the median
 low-AI delegate holds 680,000 ARB---still a 17$\times$ difference.
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Delegate Cross-Section: AI Fraction and Voting Power}
 \label{tab:delegate_cross}
@@ -1489,7 +1504,7 @@ posts may create a \emph{short-run} appearance of active participation that attr
 marginal delegators, but this effect is economically small and quickly dominated
 by the tendency of voting power to revert toward the mean.
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Delegate Panel: AI Fraction and Voting Power Growth}
 \label{tab:delegate_panel}
