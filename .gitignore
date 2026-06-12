@@ -1,0 +1,15 @@
+data/arbitrum.db
+data/figure5_votes_cache.json
+data/figure10_voter_cache.json
+data/figure8_forum_cache.json
+__pycache__/
+*.pyc
+.DS_Store
+*.aux
+*.log
+*.bbl
+*.blg
+*.out
+*.synctex.gz
+*.fls
+*.fdb_latexmk

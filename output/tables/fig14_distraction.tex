@@ -1,0 +1,34 @@
+\begin{table}[ht]
+\centering
+\small
+\caption{Distraction Instruments: First-Stage Estimates \\{\small Dependent variable: $\log(\text{human posts} + 1)$ in proposal thread. Distraction dummy $= 1$ if event window overlaps proposal's active discussion period (creation date $+$ 10 days). Standard errors in parentheses. All significant estimates have the wrong sign: crypto events \emph{increase} DAO forum participation rather than reducing it.}}
+\label{tab:distraction_fs}
+\begin{tabular}{lcccccc}
+\hline\hline
+Instrument & Category & $n_{\text{treat}}$ & $\bar{x}_{\text{ctrl}}$ & $\bar{x}_{\text{treat}}$ & $\Delta\%$ & $\hat{\beta}$ \\
+\hline
+  ZKsync + LayerZero airdrop cluster & Airdrop & 7 & 37.7 & 53.6 & +42\% & $+0.696^{*}$ \\
+  & & & & & & (0.412) \\
+  Starknet (\\$STRK) airdrop & Airdrop & 2 & 38.3 & 53.5 & +40\% & $+0.714^{}$ \\
+  & & & & & & (0.762) \\
+  BoJ carry-trade crash (Aug 2024) & Crash & 4 & 37.3 & 80.8 & +116\%*** & $+0.983^{*}$ \\
+  & & & & & & (0.538) \\
+  SVB collapse + USDC depeg & Crash & 0 & \multicolumn{3}{c}{(no overlap)} & — \\
+  Nov 2023 hack cluster \text{[}QLR overlap\text{]} & Hack & 3 & 38.3 & 48.7 & +27\% & $+0.289^{}$ \\
+  & & & & & & (0.626) \\
+  Bybit hack (\\$1.5B) & Hack & 0 & \multicolumn{3}{c}{(no overlap)} & — \\
+  Euler Finance hack (\\$197M) & Hack & 0 & \multicolumn{3}{c}{(no overlap)} & — \\
+  SEC sues Binance + Coinbase & Regulatory & 0 & \multicolumn{3}{c}{(no overlap)} & — \\
+  Bitcoin spot ETF approval & Regulatory & 0 & \multicolumn{3}{c}{(no overlap)} & — \\
+  Bitcoin halving \text{[}LTIPP confound\text{]} & Scheduled & 40 & 41.5 & 30.1 & -28\%** & $+0.149^{}$ \\
+  & & & & & & (0.197) \\
+\hline
+  Concurrent DAO proposals (Hirshleifer) & Continuous & — & \multicolumn{3}{c}{(\log(1+\text{count}))} & $+0.168^{}$ \\
+  & & & & & & (0.122) \\
+  ETH 7-day return volatility (continuous) & Continuous & — & \multicolumn{3}{c}{(mean abs. log-ret.)} & $+35.536^{***}$ \\
+  & & & & & & (8.505) \\
+\hline\hline
+\multicolumn{7}{l}{\footnotesize $^*p<0.10$, $^{**}p<0.05$, $^{***}p<0.01$. $\Delta\%$ p-values from two-sample $t$-test; $\hat{\beta}$ from OLS.} \\
+\multicolumn{7}{l}{\footnotesize Bitcoin halving ($n=40$) confounded by Arbitrum LTIPP grant batch. November 2023 cluster overlaps QLR structural break.} \\
+\end{tabular}
+\end{table}

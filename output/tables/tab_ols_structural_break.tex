@@ -1,0 +1,32 @@
+\begin{table}[H]
+\centering
+\caption{OLS Regressions: Human Forum Posts and Margin of Victory}
+\label{tab:ols_structural_break}
+\small
+\begin{tabular}{lcccc}
+\toprule
+ & \multicolumn{2}{c}{Pre-period} & \multicolumn{2}{c}{Post-period} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+ & (1) & (2) & (3) & (4) \\
+\midrule
+\textit{Human posts} & $-0.0029^{***}$ & $-0.0019$ & $-0.0004$ & $-0.0008$ \\
+ & $(0.0007)$ & $(0.0012)$ & $(0.0008)$ & $(0.0008)$ \\
+\addlinespace[2pt]
+Log(votes) & --- & $-0.3676^{*}$ & --- & $+0.0348$ \\
+ &  & $(0.1647)$ &  & $(0.0263)$ \\
+\addlinespace[2pt]
+\midrule
+Category FE & No & Yes & No & Yes \\
+N & 44 & 44 & 108 & 108 \\
+$R^2$ & 0.152 & 0.311 & 0.002 & 0.048 \\
+\midrule
+Chow $F$ (controlled) & \multicolumn{4}{c}{$F = 3.88^{**}$, $p = 0.0025$} \\
+$\Delta\beta$ (post $-$ pre) & \multicolumn{4}{c}{$+0.00262^{*}$ $(0.00106)$} \\
+\bottomrule
+\end{tabular}
+\begin{minipage}{\linewidth}
+\smallskip
+\footnotesize
+\textit{Notes:} Dependent variable is margin of victory: $|\text{For\%} - \text{Against\%}| / (\text{For\%} + \text{Against\%})$, ranging from 0 (50/50 split) to 1 (unanimous). Human posts is the count of forum posts with Pangram \textit{fraction\_ai} $\leq 0.70$ in the proposal's discussion thread. Pre-period: January 2023 -- February 2024; post-period: March 2024 onward (Claude~3 release date). Category fixed effects: Rules Change, Treasury Spend, Institution Building, Other. All standard errors are HC3 heteroskedasticity-robust. Chow $F$ tests equality of the \textit{human\_posts} slope across periods in the controlled specification (columns 2 and 4). $\Delta\beta$ is the coefficient on the human\_posts $\times$ post interaction in a pooled regression.
+\end{minipage}
+\end{table}

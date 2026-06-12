@@ -1,0 +1,27 @@
+\begin{table}[H]
+\centering
+\caption{Vesting Cliff Placebo: Structural Break by Voting Power Concentration}
+\label{tab:concentration_control}
+\begin{tabular}{lcccccc}
+\toprule
+ & \multicolumn{2}{c}{Pre--Claude~3} & \multicolumn{2}{c}{Post--Claude~3} & \multicolumn{2}{c}{Chow test} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+Subsample & $n$ & $r$ & $n$ & $r$ & $F$ & $p$ \\
+\midrule
+  Low concentration (retail) & 20 & $-0.607$ & 58 & $-0.149$ & $3.28$ & $<0.05$\sym{**} \\
+  High concentration (whale) & 26 & $-0.233$ & 53 & $+0.097$ & $3.79$ & $<0.05$\sym{**} \\
+\midrule
+\multicolumn{7}{l}{Full sample: pre $r=-0.391$, post $r=-0.050$, Chow $F=8.22$, $p=0.0004$} \\
+\bottomrule
+\end{tabular}
+\begin{flushleft}
+\small\textit{Notes:} Each row splits the matched proposal sample at the median
+top-10 voter share of total VP cast. Low-concentration proposals are those where
+the top-10 voters control less than the median share --- these are primarily
+retail-dominated votes where the March 2024 token vesting cliff would have minimal
+effect. The structural break in the posts--margin relationship is present and
+significant in \emph{both} subsamples, inconsistent with the vesting cliff
+alternative explanation. Chow test as in Table~\ref{tab:chow_battery}.
+\sym{*}~$p < 0.10$; \sym{**}~$p < 0.05$; \sym{***}~$p < 0.01$.
+\end{flushleft}
+\end{table}
