@@ -14,6 +14,8 @@
 \usepackage{booktabs}
 \usepackage{graphicx}
 \usepackage{float}
+% FloatBarrier: outputs pending floats at subsection boundaries without a hard page break
+\newcommand{\FloatBarrier}{\par\medskip}
 \usepackage[hypertexnames=false]{hyperref}
 \usepackage{xcolor}
 \usepackage[T1]{fontenc}
@@ -940,7 +942,7 @@ of equal slopes in columns (2) and (3).
 \end{flushleft}
 \end{table}
 
-\begin{figure}[t]
+\begin{figure}[htb]
   \centering
   \includegraphics[width=\textwidth,height=0.62\textheight,keepaspectratio]{fig08_main_causal.png}
   \caption{\textbf{AI Posting Shocks and Forum Signal Degradation.}
@@ -970,6 +972,7 @@ which shows a similar pattern with a faster deterioration, consistent with AI
 posts diluting the human signal. The three-panel figure is the primary evidence
 for our central result.
 
+\FloatBarrier
 %% ── 5.2 The Signal in AI Posts ────────────────────────────────────────────────
 \subsection{The Signal in AI-Generated Posts}
 \label{sec:ecosystem}
@@ -1063,6 +1066,7 @@ informational content of the human posts that remain.
   \label{fig:ai_post_content}
 \end{figure}
 
+\FloatBarrier
 %% ── 5.3 Chow Test Battery ────────────────────────────────────────────────────
 \subsection{Chow Test Battery}
 
@@ -1372,10 +1376,11 @@ volume, declining per-post readership beginning in November 2023, and falling
 unique participant breadth. The AI-contamination mechanism is the only account
 consistent with all four patterns simultaneously.
 
+\FloatBarrier
 %% ── (old) 6.2 now 6.3 Delegate Cross-Section ────────────────────────────────────────────────
 \subsection{Delegate Cross-Section}
 
-\begin{figure}[t]
+\begin{figure}[htb]
   \centering
   \includegraphics[width=\textwidth,height=0.62\textheight,keepaspectratio]{fig11_delegates.png}
   \caption{\textbf{Delegate AI Adoption and Voting Power: Cross-Section.}
@@ -1448,6 +1453,7 @@ delegates that are organizations (DAOs, investment funds) rather than individual
 \end{flushleft}
 \end{table}
 
+\FloatBarrier
 %% ── 6.2 Delegate Panel: Within-Delegate Variation ────────────────────────────
 \subsection{Delegate Panel: Within-Delegate Variation}
 
@@ -1773,7 +1779,7 @@ pooled controlled regression is $\hat{\delta} = +0.0026$\sym{**}
 (HC3 robust SE $= 0.0011$, $p = 0.014$). The forum signal degradation is
 statistically detectable in the controlled specification at the 5\% level.
 
-\begin{figure}[t]
+\begin{figure}[htb]
   \centering
   \includegraphics[width=\textwidth,height=0.62\textheight,keepaspectratio]{output/figures/rob03_cooks_bootstrap.png}
   \caption{\textbf{Small-Sample Robustness Diagnostics.}
@@ -1792,6 +1798,7 @@ statistically detectable in the controlled specification at the 5\% level.
 
 \input{output/tables/tab_ols_structural_break}
 
+\clearpage
 %% ── 8. Conclusion ─────────────────────────────────────────────────────────────
 \section{Conclusion}
 \label{sec:conclusion}
