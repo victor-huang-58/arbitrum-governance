@@ -353,7 +353,7 @@ fig.legend(handles=[arb_patch], loc="lower center", fontsize=9,
            framealpha=0.92, bbox_to_anchor=(0.5, -0.02))
 
 fig.suptitle(
-    "Figure 10: Cross-DAO Governance Benchmarking\n"
+    "Figure A6: Cross-DAO Governance Benchmarking\n"
     "Voting Power Concentration, Participation, Passage Rate, and Minimum Control "
     "— Five DeFi DAOs on Snapshot, Jan 2023–Apr 2026\n"
     "(Optimism and Uniswap use on-chain governance not accessible via Snapshot API and are excluded)",

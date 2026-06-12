@@ -418,7 +418,7 @@ ax2.legend(handles=cat_patches + [discuss_patch, vote_patch, barrier_patch,
 ax2.set_xlabel("Date", fontsize=10)
 
 fig.suptitle(
-    "Figure 9: Constitutional Amendment Lifecycle — Forum Discussion → DAO Vote → Outcome\n"
+    "Figure A5: Constitutional Amendment Lifecycle — Forum Discussion → DAO Vote → Outcome\n"
     f"Arbitrum DAO, 2023–2026  ({passed_n} passed, {failed_n} failed; "
     r"2 reduced participation barriers ↓)",
     fontsize=12, fontweight="bold", y=1.01

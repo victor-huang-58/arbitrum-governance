@@ -397,7 +397,7 @@ ax_bal.set_xticklabels(all_q, rotation=45, ha="right", fontsize=8)
 ax_bal.set_xlim(-0.6, len(all_q) - 0.4)
 
 fig.suptitle(
-    "Figure 7: Fiscal Evolution & Treasury Dynamics\n"
+    "Figure A4: Fiscal Evolution & Treasury Dynamics\n"
     "Arbitrum DAO — Quarterly ARB Approved by Governance, 2023 Q1 – 2026 Q1\n"
     "(Layer 1: curated major programs; Layer 2: parsed Treasury Spend proposals; "
     "balance inferred from approved disbursements)",

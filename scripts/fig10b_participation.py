@@ -210,7 +210,7 @@ ax.legend(handles=legend_handles, loc="upper right",
           title="Each dot = one month", title_fontsize=8.5)
 
 fig.suptitle(
-    "Figure 10b: Participation Breadth Over Time — Unique Voters per Proposal\n"
+    "Figure A7: Participation Breadth Over Time — Unique Voters per Proposal\n"
     "Five DeFi DAOs on Snapshot, Jan 2023 – Apr 2026  "
     "|  Each dot = median voter count for proposals in that month",
     fontsize=12, fontweight="bold", y=1.01

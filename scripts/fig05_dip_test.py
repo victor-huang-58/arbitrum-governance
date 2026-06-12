@@ -317,7 +317,7 @@ leg_handles = [
 ax1.legend(handles=leg_handles, loc="upper left", fontsize=8.5, framealpha=0.92)
 
 fig.suptitle(
-    "Figure 5: Incentives and Participation — DIP Test\n"
+    "Figure A2: Incentives and Participation — DIP Test\n"
     "Large-Delegate Activity (VP ≥ 500k ARB) Before and After the Delegate Incentive Program\n"
     "Arbitrum DAO Snapshot Votes, January 2023 – March 2026",
     fontsize=12, fontweight="bold", y=1.01

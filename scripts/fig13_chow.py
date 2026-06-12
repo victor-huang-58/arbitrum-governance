@@ -318,7 +318,7 @@ ax_break.legend(fontsize=8.5)
 ax_break.grid(linestyle="--", linewidth=0.4, alpha=0.4)
 
 fig.suptitle(
-    f"Figure 13: Structural Break Analysis — Forum-to-Governance Signal\n"
+    f"Figure A9: Structural Break Analysis — Forum-to-Governance Signal\n"
     f"N = {n_total} matched Arbitrum proposals  |  Y = margin of victory  |  X = human post count",
     fontsize=12, fontweight="bold", y=1.01
 )

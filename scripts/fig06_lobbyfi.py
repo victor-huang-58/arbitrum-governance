@@ -231,7 +231,7 @@ ax_vp.legend(handles=phase_patches, loc="upper left",
 
 # ── Titles ────────────────────────────────────────────────────────────────────
 fig.suptitle(
-    "Figure 6: The Vote Rental Market — LobbyFi on Arbitrum DAO\n"
+    "Figure A3: The Vote Rental Market — LobbyFi on Arbitrum DAO\n"
     "Delegated Voting Power and Governance Share of the LobbyFi Proxy, July 2024 – April 2026\n"
     "(Each dot = one Snapshot proposal vote; 78 votes total, 0 after October 2025)",
     fontsize=11.5, fontweight="bold", y=1.01

@@ -350,7 +350,7 @@ legend_elements.append(
 ax_c.legend(handles=legend_elements, loc="upper left", fontsize=8.5, framealpha=0.92)
 
 fig.suptitle(
-    "Figure 4: Voter Turnout and Quorum Adequacy\n"
+    "Figure A1: Voter Turnout and Quorum Adequacy\n"
     "Arbitrum DAO — Snapshot Votes, 2023–2026  "
     "(% of delegated/votable supply; quorum thresholds marked)",
     fontsize=12, fontweight="bold", y=1.02

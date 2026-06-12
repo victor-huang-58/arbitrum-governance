@@ -236,55 +236,13 @@ print(f"\n  Rolling correlation computed over {len(roll_r)} windows")
 
 # ── plot ──────────────────────────────────────────────────────────────────────
 
-fig, axes = plt.subplots(2, 1, figsize=(12, 10))
-fig.subplots_adjust(hspace=0.45)
-ax_panel, ax_roll = axes
+fig, ax_roll = plt.subplots(1, 1, figsize=(12, 5.5))
 
 HUMAN_C = "#2980B9"
 AI_C    = "#E74C3C"
 CORR_C  = "#2C3E50"
 
-# Panel A: scatter Δlog(vp) vs ai_frac_30d (sample of points, coloured by delegate avg_ai)
-delegate_avg_ai = panel.groupby("username")["ai_frac_30d"].mean()
-panel["delegate_avg_ai"] = panel["username"].map(delegate_avg_ai)
-colors = panel["delegate_avg_ai"].apply(lambda x: AI_C if x > 0.20 else HUMAN_C)
-
-sample = panel.sample(min(3000, len(panel)), random_state=42)
-ax_panel.scatter(sample["ai_frac_30d"], sample["delta_log_vp"],
-                 c=colors.loc[sample.index], alpha=0.15, s=8, linewidths=0)
-
-# OLS line (pooled, no FE — for visual)
-xr = np.linspace(0, panel["ai_frac_30d"].max(), 100)
-slope_raw = np.polyfit(panel["ai_frac_30d"], panel["delta_log_vp"], 1)
-ax_panel.plot(xr, np.polyval(slope_raw, xr),
-              color=CORR_C, linewidth=2, linestyle="--", label="Pooled OLS")
-ax_panel.axhline(0, color="#95A5A6", linewidth=0.8)
-
-sig_str = ("***" if abs(t_stats[1]) > 3.29 else "**" if abs(t_stats[1]) > 2.58
-           else "*" if abs(t_stats[1]) > 1.96 else "n.s.")
-ax_panel.text(0.97, 0.97,
-    f"Within-FE: β(ai_frac) = {beta[1]:.3f}  t = {t_stats[1]:.2f} {sig_str}\n"
-    f"Raw r = {r_raw:.3f}  |  N = {n} obs  |  {panel['username'].nunique()} delegates",
-    transform=ax_panel.transAxes, fontsize=8.5, va="top", ha="right",
-    family="monospace",
-    bbox=dict(fc="white", ec="#BDC3C7", pad=4, alpha=0.93))
-
-import matplotlib.patches as mpatches
-ax_panel.legend(handles=[
-    mpatches.Patch(color=HUMAN_C, label="Delegate avg AI < 20%"),
-    mpatches.Patch(color=AI_C,    label="Delegate avg AI ≥ 20%"),
-], fontsize=9, loc="upper left")
-
-ax_panel.set_xlabel("Delegate's fraction_ai in prior 30 days", fontsize=10)
-ax_panel.set_ylabel("Δ log₁₀(voting power)", fontsize=10)
-ax_panel.set_title(
-    "Panel A: Does AI Posting Predict Delegation Changes?\n"
-    "Each point = one delegate × proposal  |  Y = log-change in vp from previous proposal",
-    fontsize=10.5, fontweight="bold", loc="left"
-)
-ax_panel.grid(linestyle="--", linewidth=0.4, alpha=0.4)
-
-# Panel B: rolling correlation over time
+# Rolling correlation over time
 ax_roll.plot(roll_dates, roll_r, color=CORR_C, linewidth=2)
 ax_roll.fill_between(roll_dates, 0, roll_r,
                      where=[r > 0 for r in roll_r], alpha=0.12, color=CORR_C)
@@ -296,24 +254,36 @@ ax_roll.axhline(0, color="#95A5A6", linewidth=0.8)
 for dt_str, label in [("2023-03-14", "GPT-4"), ("2024-03-04", "Claude 3"),
                        ("2024-05-13", "GPT-4o"), ("2025-01-20", "DeepSeek R1")]:
     dt = pd.Timestamp(dt_str)
-    if dt >= pd.Timestamp(roll_dates[0]) if roll_dates else False:
+    if roll_dates and dt >= pd.Timestamp(roll_dates[0]):
         ax_roll.axvline(dt, color="#7F8C8D", linewidth=1.2, linestyle="--", alpha=0.65)
-        ax_roll.text(dt, ax_roll.get_ylim()[1] * 0.9 if ax_roll.get_ylim()[1] else 0.5,
-                     label, rotation=90, fontsize=7.5, color="#7F8C8D", va="top")
+        ylim = ax_roll.get_ylim()
+        y_pos = ylim[0] + (ylim[1] - ylim[0]) * 0.88
+        ax_roll.text(dt, y_pos, label, rotation=90, fontsize=7.5,
+                     color="#7F8C8D", va="top")
+
+sig_str = ("***" if abs(t_stats[1]) > 3.29 else "**" if abs(t_stats[1]) > 2.58
+           else "*" if abs(t_stats[1]) > 1.96 else "n.s.")
+ax_roll.text(0.97, 0.97,
+    f"Within-FE: β(ai_frac) = {beta[1]:.3f}  t = {t_stats[1]:.2f} {sig_str}\n"
+    f"Raw r = {r_raw:.3f}  |  N = {n} obs  |  {panel['username'].nunique()} delegates",
+    transform=ax_roll.transAxes, fontsize=8.5, va="top", ha="right",
+    family="monospace",
+    bbox=dict(fc="white", ec="#BDC3C7", pad=4, alpha=0.93))
 
 ax_roll.set_ylabel(f"r(ai_frac_30d, Δlog_vp)  [rolling {min_w}-obs window]", fontsize=10)
 ax_roll.set_xlabel("Proposal date", fontsize=10)
 ax_roll.set_title(
-    "Panel B: Rolling Correlation — AI Posting Intensity vs. Delegation Change\n"
+    "Rolling Correlation — AI Posting Intensity vs. Delegation Change\n"
     "Does the ai→delegation relationship strengthen after major AI releases?",
     fontsize=10.5, fontweight="bold", loc="left"
 )
 ax_roll.grid(linestyle="--", linewidth=0.4, alpha=0.4)
 
 fig.suptitle(
-    "Figure 12: Panel Regression — AI Posting and Delegation Flows in Arbitrum DAO\n"
+    "Figure A8: Panel Regression — AI Posting and Delegation Flows in Arbitrum DAO\n"
     f"N = {n} delegate × proposal observations  |  {panel['username'].nunique()} delegates",
-    fontsize=11.5, fontweight="bold", y=1.01
+    fontsize=11.5, fontweight="bold", y=1.02
 )
+fig.tight_layout()
 fig.savefig(OUT_PATH, dpi=180, bbox_inches="tight")
 print(f"\nSaved → {OUT_PATH}")
