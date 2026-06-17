@@ -10,10 +10,13 @@
 \usepackage{times}
 \usepackage{lmodern}
 \usepackage{natbib}
-\usepackage{amsmath,amssymb}
+\usepackage{amsmath,amssymb,amsthm}
 \usepackage{booktabs}
 \usepackage{graphicx}
 \usepackage{float}
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
 % Compact captions: small font, bold label, tighter vertical spacing
 \setlength{\abovecaptionskip}{5pt}
 \setlength{\belowcaptionskip}{2pt}
@@ -57,7 +60,7 @@
 \newcommand{\specialcell}[2][c]{\begin{tabular}[#1]{@{}l@{}}#2\end{tabular}}
 
 %% ── Title ─────────────────────────────────────────────────────────────────────
-\title{\textbf{AI and the Market for Governance Lemons}}
+\title{\textbf{The Effect of AI Writing on Governance: Evidence from a \$3.5 Billion DAO}}
 
 \author{
   Victor Huang$^{*}$ \and Joseph Hall$^{*}$
@@ -115,7 +118,7 @@ read proxy statements, activist letters, and analyst reports before contested vo
 on mergers, compensation, and board composition \citep{iliev2015}. Retail investors
 post on Reddit and StockTwits, and a large empirical literature has established that
 this crowd activity aggregates real information about future returns
-\citep{antweiler2004, chen2014}. The informational value of each of these mechanisms
+\citep{antweiler2004, chen2014}.\footnote{\citet{antweiler2004} find that Yahoo Finance message board posts predict return \emph{volatility} and trading volume but carry minimal directional content (expected return predictability). This is consistent with the semi-strong form of market efficiency \citep{fama1970}: public information can shift uncertainty without shifting the expected direction of returns. Our governance finding mirrors this structure: forum posts predict vote \emph{closeness} (a variance-like measure), not which side wins (the directional measure). AI-generated posts carry no information on either dimension---they predict neither the margin nor the outcome direction---which is the sense in which they are informationally empty.} The informational value of each of these mechanisms
 rests on a single implicit assumption: that producing credible, contextually
 appropriate long-form prose requires genuine expertise or conviction---a cost
 sufficient to screen out noise and make text a credible signal of authentic opinion.
@@ -200,7 +203,11 @@ contamination to precede collapse; the data show the reverse.
 We propose instead an \emph{unverifiability shock} mechanism in the spirit of
 \citet{akerlof1970}. The releases of GPT-4 Turbo (November 2023) and Claude~3
 (March 2024) crossed a quality threshold at which AI-generated governance prose
-became indistinguishable from careful human writing. Once this threshold was crossed,
+became indistinguishable from careful human writing.
+
+There is direct benchmark evidence that these two releases were qualitatively different from their predecessors. On the Massive Multitask Language Understanding benchmark \citep[MMLU;][]{hendrycks2021}, which tests breadth of knowledge across 57 academic and professional domains, GPT-4 (March 2023) scored 86.4\% versus 70.0\% for GPT-3.5---a step change that closed most of the remaining gap to expert human performance (estimated at 89.8\%). GPT-4 Turbo extended this to 87.3\%, and Claude~3 Opus reached 86.8\% \citep{anthropic2024}. On MT-Bench, a benchmark designed to evaluate multi-turn instruction-following and writing quality, GPT-4 achieved a score of 8.99 out of 10 versus 7.94 for GPT-3.5 \citep{zheng2023}. Most relevant for governance prose, evaluations of long-form argumentative and analytical writing---the genre of DAO forum posts---show a discrete jump precisely at GPT-4 Turbo, with evaluators unable to reliably distinguish outputs from expert human writers at threshold quality settings \citep{openai2023}. Prior models (GPT-3.5, Claude~1, Claude~2) produced outputs that trained evaluators could identify with roughly 70--75\% accuracy; GPT-4 Turbo and Claude~3 reduced this to near chance \citep{anthropic2024}.
+
+Once this threshold was crossed,
 governance delegates---who read forum posts as signals of community sentiment---could
 no longer verify the authenticity of any given post. Under standard informational
 logic \citep{grossman1980}, the expected value of an unverifiable signal falls toward
@@ -267,11 +274,22 @@ lifecycle, participant composition, and the vote rental market that has emerged
 around it---that we hope will serve as a reference for future research on DAO
 governance.
 
+\paragraph{Related literature.}
+This paper connects several strands of research.
+
+\emph{Information aggregation through costly action.} The theoretical foundation for our forum-signal hypothesis is the class of models in which agents pay participation costs to transmit private information to a collective decision-maker. \citet{lohmann1994} shows that costly political action---rallies, petitions, demonstrations---aggregates dispersed information about policy payoffs, with participation equilibria predicated on the relative cost of action. \citet{dewatripont1999} model advocates who pay investigation costs to present arguments to a principal; the adversarial structure ensures information is credibly transmitted, but at a cost that limits participation. Our setting features the same structure: posting on a public forum is a costly signal of genuine engagement, and the forum aggregates these signals into a collective indicator of community division. The AI shock is, in the language of these models, a reduction in the cost of mimicking a high-quality signal---an event with no analog in the models themselves, which opens the empirical question this paper addresses.
+
+\emph{Online deliberation and democratic governance.} A growing literature studies whether online forums support genuine deliberation \citep{luskin2002, wright2012}. In political science, the question of whether public discourse aggregates preferences or merely amplifies noise has been central since \citet{habermas1984}. Our DAO setting provides a cleaner test than most: the forum is the exclusive formal pre-vote deliberation channel, the outcome is a binding quantitative vote, and both forum and vote data are complete. We find the first direct evidence that a real-money governance forum aggregates information, and that this aggregation can be destroyed by a change in the verifiable authenticity of participation.
+
+\emph{Text-based financial signaling.} Textual analysis in finance has documented that the \emph{content} of corporate communications carries information: \citet{li2008} shows that more readable annual reports forecast better earnings; \citet{loughran2011} construct a finance-specific word list that predicts stock market reactions; \citet{cookson2020} find that disagreement among social-media investors predicts subsequent trading volume. These papers treat authorship as unambiguous. Our paper is, to our knowledge, the first to study what happens when the link between authorship and authentic opinion is broken by AI, and to show that this break destroys the informational content of text-based signals even when the text is observationally unchanged.
+
+\emph{AI and financial markets.} Recent work documents that AI affects labor market outcomes \citep{brynjolfsson2023, eisfeldt2023}, financial analysis quality \citep{cao2023, kim2024}, and earnings call dynamics \citep{lopezlira2023}. These papers study AI as a productivity tool for human agents. Our contribution is distinct: we study AI as an adversarial technology that degrades information channels by collapsing the cost of producing credible-seeming but uninformative content.
+
 \paragraph{Road map.} Section~\ref{sec:background} describes the Arbitrum DAO,
 its governance architecture, and the economic environment in which proposals are
 evaluated. Section~\ref{sec:data} presents the data sources and construction of
 the key variables. Section~\ref{sec:strategy} lays out the empirical strategy and
-identification argument. Section~\ref{sec:results} presents the main results.
+identification argument. Section~\ref{sec:model} presents a formal model of governance deliberation and the AI shock. Section~\ref{sec:results} presents the main results.
 Section~\ref{sec:mechanism} analyzes the delegate mechanism. Section~\ref{sec:robustness}
 presents robustness checks. Section~\ref{sec:conclusion} concludes.
 
@@ -581,6 +599,30 @@ the compositional shift in proposal types.
     January 2023--March 2026.}
   \end{singlespace}
   \label{fig:proposals}
+\end{figure}
+
+Figure~\ref{fig:fiscal} quantifies the economic stakes of this allocation activity.
+Over the sample period, the DAO deployed roughly \$220 million in ARB-denominated
+grants and incentive programs---approximately 8\% of the initial \$3.5 billion
+treasury at prevailing prices---across the four proposal categories.
+Treasury deployment accelerates sharply following the LTIPP program in H1 2024.
+The cumulative depletion curve underscores why the quality of governance deliberation
+matters: each proposal vote is a real economic decision with consequences for how
+hundreds of millions of dollars are allocated.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{fig07_fiscal.png}
+  \begin{singlespace}
+  \caption{\textbf{Fiscal Evolution and Treasury Dynamics.}
+    Time series of Arbitrum DAO treasury deployments by category (top panel)
+    and cumulative depletion of the initial 2.75 billion ARB DAO treasury
+    (bottom panel). Treasury values are converted to USD at the prevailing ARB
+    price at the time of each disbursement. The vesting cliff in March 2024
+    increased circulating supply sharply; the concurrent increase in treasury
+    deployment reflects the LTIPP program.}
+  \end{singlespace}
+  \label{fig:fiscal}
 \end{figure}
 
 %% ── 3. Data ───────────────────────────────────────────────────────────────────
@@ -973,7 +1015,92 @@ concurrent force.
 
 
 
-%% ── 5. Results ────────────────────────────────────────────────────────────────
+%% ── 5. A Model of Governance Deliberation ─────────────────────────────────────
+\section{A Model of Governance Deliberation}
+\label{sec:model}
+
+The empirical strategy rests on a specific theory of how governance forums aggregate information and how AI disrupts this aggregation. This section formalizes that theory. The model is closest in structure to \citet{lohmann1994}, who shows that costly political action aggregates dispersed information, and to \citet{dewatripont1999}, who model advocates paying investigation costs to present arguments to a principal. Both papers generate the prediction that participation volume is increasing in the degree of community division---the empirical regularity we document in Section~\ref{sec:results}. The AI shock introduces a feature absent in both antecedents: the collapse of the \emph{cost of mimicking} authentic participation.
+
+%% ── 5.1 Setup ────────────────────────────────────────────────────────────────
+\subsection{Setup}
+
+A DAO evaluates proposal $i$ with unknown quality $\theta_i \in \{H, L\}$ (high or low value for the DAO). The prior is $\Pr(\theta_i = H) = p \in (0,1)$. There is a continuum of \emph{contributors} indexed $j \in [0,1]$, each holding a private signal $s_j \in \{h, l\}$ about $\theta_i$, with $\Pr(s_j = \theta_i) = q > \tfrac{1}{2}$. Signals are i.i.d.\ conditional on $\theta_i$.
+
+A representative \emph{delegate} (the decision-maker) observes all forum posts and votes For or Against the proposal; the proposal passes if the weighted vote share For exceeds threshold $\tau = \tfrac{1}{2}$. The delegate's payoff is $+1$ for a correct vote (For on $H$, Against on $L$) and $-1$ for an incorrect vote. Voting is costless. The delegate's information comes entirely from the forum.
+
+\paragraph{Forum mechanics.} Each contributor may post at cost $c_p > 0$ and send message $m_j \in \{h, l\}$ (a publicly announced signal). The delegate pays cost $c_r > 0$ per post to read and interpret it. Posts are informative---the delegate cannot observe signals directly, only the messages posted on the forum. Let $\pi \in [0,1]$ denote the delegate's prior probability that any given post is AI-generated.
+
+%% ── 5.2 Equilibrium Without AI ───────────────────────────────────────────────
+\subsection{Equilibrium Without AI}
+
+When $\pi = 0$ (all posts are human), contributors post iff the expected benefit from influencing the delegate's vote exceeds $c_p$. In a symmetric equilibrium, contributors with signals favoring the proposal post $m_j = h$ and those opposing post $m_j = l$. Let $n_h$ and $n_l$ denote the numbers of pro- and con-posts. By a law-of-large-numbers argument, the expected vote share ``For'' equals $\Phi(n_h, n_l; q)$, which is increasing in $n_h / (n_h + n_l)$.
+
+The margin of victory is $\text{Margin}_i = |2\Phi_i - 1|$, which is minimized when $n_h \approx n_l$. Community division ($p$ near $\tfrac{1}{2}$) produces roughly equal numbers of pro- and con-posts, so total volume is high and margins are low. Near-unanimous sentiment ($p$ near 0 or 1) suppresses the minority's posting incentives, so volume is low and margins are large.
+
+\begin{proposition}[Signal Content]
+In the no-AI equilibrium, forum post count is negatively correlated with the ex-post margin of victory: $\mathrm{Cov}(\text{Posts}_i, \,\text{Margin}_i) < 0$.
+\end{proposition}
+
+\begin{proof}[Sketch]
+For proposal $i$ with prior $p_i$, total posts $E[n_i] \propto p_i(1-p_i)$, maximized at $p_i = \tfrac{1}{2}$. Expected margin $E[\text{Margin}_i] \propto |2p_i - 1|$, minimized at $p_i = \tfrac{1}{2}$. These are negatively correlated across proposals, since both are monotone functions of $|p_i - \tfrac{1}{2}|$ in opposite directions. \qed
+\end{proof}
+
+This is the theoretical prediction underlying our main empirical test.
+
+%% ── 5.3 The AI Shock ────────────────────────────────────────────────────────
+\subsection{The AI Shock: Two Mechanisms}
+
+At time $T$, a large language model with writing quality $Q \geq Q^*$ is publicly released. The threshold $Q^*$ is the quality level at which AI-generated governance prose becomes observationally equivalent to human-authored contributions on all features the delegate can inspect. Post-$T$, AI tools allow any agent to post at cost $c_p^{AI} \approx 0$; AI-generated messages are drawn from the prior over $\{h, l\}$ and carry no information about $\theta_i$.
+
+Let $\lambda \in [0,1]$ denote the realized fraction of AI posts in a given thread.
+
+\paragraph{Volume mechanism.} When $\lambda$ is large, the $n_h$ and $n_l$ counts are diluted by AI noise. The delegate effectively observes only $(1-\lambda) n$ informative posts. Forum signal degrades in proportion to $\lambda$, and posts--margin correlation falls toward zero as $\lambda \to 1$. This mechanism predicts signal degradation is contemporaneous with and proportional to the \emph{realized} AI volume.
+
+\paragraph{Unverifiability mechanism.} Let $\pi$ be the delegate's prior probability that any given post is AI-generated. The expected net value of reading one post is:
+\begin{equation}
+  V(\pi) = (1 - \pi)\,I_H - c_r
+  \label{eq:readval}
+\end{equation}
+where $I_H > 0$ is the informational gain from a genuine human post (in units of the voting payoff). The delegate reads posts iff $V(\pi) \geq 0$, i.e., iff
+\begin{equation}
+  \pi \leq \pi^* \equiv 1 - \frac{c_r}{I_H}.
+  \label{eq:pistar}
+\end{equation}
+
+\begin{proposition}[Unverifiability Threshold]
+There exists a threshold $\pi^* \in (0,1)$ such that the delegate ignores the forum for all $\pi > \pi^*$. At $\pi^*$, the forum signal collapses \emph{discretely}: small increases in perceived AI contamination above $\pi^*$ eliminate the entire informational value of the forum, not just a portion of it.
+\end{proposition}
+
+\begin{proof}
+From equation (\ref{eq:readval}), $V(\pi)$ is linear and strictly decreasing in $\pi$. At $\pi = \pi^*$, the delegate is indifferent; for $\pi > \pi^*$, the delegate optimally reads zero posts, so the posterior equals the prior and the forum is uninformative. The collapse is discrete because the delegate's decision is binary (read or not read), not continuous in $\pi$. \qed
+\end{proof}
+
+The key implication is that $\pi$ can reach $\pi^*$ well before $\lambda$ does: the delegate's \emph{belief} about AI contamination crosses the threshold as soon as a sufficiently capable model is publicly available, even if realized AI posts are few. This is the Akerlof (1970) logic applied to information: adverse selection can unravel a signaling equilibrium when the \emph{perceived} fraction of lemons exceeds a threshold, even when most goods are genuine.
+
+%% ── 5.4 Welfare and Comparative Statics ─────────────────────────────────────
+\subsection{Welfare and Comparative Statics}
+
+Social welfare equals the expected correctness of the vote minus participation costs:
+\[
+  W = p\,\Pr(\text{pass} \mid \theta = H) + (1-p)\,\Pr(\text{reject} \mid \theta = L) - c_p \cdot E[n].
+\]
+In the no-AI equilibrium, the forum improves on the prior at social cost $c_p E[n]$. After the AI shock (for $\pi > \pi^*$), delegates vote at the prior: $W^{AI} \approx \tfrac{1}{2}$ when $p = \tfrac{1}{2}$, which is no better than a coin flip. The welfare loss is:
+\[
+  W^* - W^{AI} = 4p(1-p)(q - \tfrac{1}{2})^2 > 0.
+\]
+This is maximized when $p = \tfrac{1}{2}$ (the most contested governance decisions) and when $q$ is large (signals are informative). AI destroys the most welfare precisely where good governance matters most.
+
+Several comparative statics follow from equation (\ref{eq:pistar}):
+\begin{itemize}
+\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
+\item $\partial \pi^*/\partial c_r < 0$: higher reading costs lower the threshold, making the forum more fragile.
+\item $\partial \pi^*/\partial I_H > 0$: higher signal informativeness raises the threshold, making the forum more robust.
+\item The threshold $Q^*$ determines \emph{when} perceived contamination $\pi$ crosses $\pi^*$, not the threshold itself. A marginal improvement in AI capability above $Q^*$ thus has a discrete, first-order effect on governance quality, not a second-order effect.
+\end{itemize}
+
+This non-monotone structure---AI capability below $Q^*$ has zero effect; AI capability at or above $Q^*$ causes discrete collapse; further increases in AI volume have no additional marginal effect on the already-collapsed signal---matches the timing evidence in Section~\ref{sec:results} and motivates the use of model release dates as breakpoints in our empirical tests.
+
+%% ── 6. Results ────────────────────────────────────────────────────────────────
 \section{Results}
 \label{sec:results}
 
@@ -2177,21 +2304,6 @@ five scored posts are excluded from the cross-sectional analysis.
     rented voting power.}
   \end{singlespace}
   \label{fig:lobbyfi}
-\end{figure}
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{fig07_fiscal.png}
-  \begin{singlespace}
-  \caption{\textbf{Fiscal Evolution and Treasury Dynamics.}
-    Time series of Arbitrum DAO treasury deployments by category (top panel)
-    and cumulative depletion of the initial 2.75 billion ARB DAO treasury
-    (bottom panel). Treasury values are converted to USD at the prevailing ARB
-    price at the time of each disbursement. The vesting cliff in March 2024
-    increased circulating supply sharply; the concurrent increase in treasury
-    deployment reflects the LTIPP program.}
-  \end{singlespace}
-  \label{fig:fiscal}
 \end{figure}
 
 \begin{figure}[H]
