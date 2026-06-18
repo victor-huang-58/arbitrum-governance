@@ -17,6 +17,7 @@
 
 \newtheorem{proposition}{Proposition}
 \newtheorem{lemma}{Lemma}
+\renewcommand{\qedsymbol}{}
 % Compact captions: small font, bold label, tighter vertical spacing
 \setlength{\abovecaptionskip}{5pt}
 \setlength{\belowcaptionskip}{2pt}
@@ -712,8 +713,8 @@ analysis; their omission does not materially affect results, as they are
 concentrated in short acknowledgment posts (``+1'', ``agree'', ``thanks'').
 
 Figure~\ref{fig:dip} shows the distribution of \textit{fraction\_ai}
-scores across the full sample. The distribution is bimodal: 78\% of
-posts score below 0.10 or above 0.85, with limited
+scores across the full sample. The distribution is strongly bimodal: 90\% of
+posts score below 0.10 and 8\% score above 0.85, with negligible
 mass in the intermediate range. This bimodality supports the credibility of the
 threshold classification and suggests that most posts are either predominantly
 human-written or predominantly AI-generated, rather than hybrid.
@@ -724,11 +725,12 @@ human-written or predominantly AI-generated, rather than hybrid.
   \begin{singlespace}
   \caption{\textbf{Bimodal Distribution of AI-Detection Scores.}
     Histogram of Pangram \textit{fraction\_ai} scores for all scored posts
-    (15,891 posts with at least 20 words). The distribution is strongly bimodal:
-    the majority of posts cluster at or near 0 (predominantly human-written) or
-    at or near 1 (predominantly AI-generated), with limited mass in the intermediate
-    range. The Hartigan dip statistic rejects unimodality at $p < 0.001$,
-    supporting the use of a binary classification threshold at 0.70.}
+    (15,802 posts with at least 20 words). 90\% of posts score below 0.10
+    (blue, predominantly human-written) and 8\% score above 0.85 (red,
+    predominantly AI-generated), with negligible mass in between. The dashed
+    vertical line marks the classification threshold at 0.70. The sharp
+    bimodality supports the threshold classifier: most posts are unambiguously
+    human or AI, not hybrid.}
   \end{singlespace}
   \label{fig:dip}
 \end{figure}
