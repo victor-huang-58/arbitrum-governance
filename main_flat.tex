@@ -361,8 +361,8 @@ eligible DAOs building on Arbitrum; (iii) 42.78\% to Offchain Labs team members
 and advisors, subject to a four-year vesting schedule with a one-year cliff;
 (iv) 17.53\% to early investors, subject to the same vesting schedule; and
 (v) 27.70\% to the Arbitrum DAO treasury, available for governance allocation.
-At launch, the ARB token traded at approximately \$1.30, implying a fully diluted
-market capitalization of \$13 billion and a DAO treasury of approximately
+At launch, the ARB token traded at \$1.30, implying a fully diluted
+market capitalization of \$13 billion and a DAO treasury of
 \$3.5 billion.
 
 The vesting cliff in March 2024 unlocked 1.1 billion previously locked team and
@@ -424,7 +424,7 @@ typically withdrawn before proceeding.
 
 In the third stage, passed temperature checks proceed to a binding on-chain vote
 via Tally, which records votes on the Arbitrum blockchain. A minimum quorum of
-approximately 5\% of circulating supply must participate for the vote to be valid,
+5\% of circulating supply must participate for the vote to be valid,
 and the proposal must receive a majority (or supermajority, for constitutional
 proposals) of votes cast. Passed proposals are implemented automatically by the DAO's
 smart contract governor after a mandatory timelock delay (typically 14 days for
@@ -714,12 +714,27 @@ We score all posts with at least 20 words, yielding scored coverage of 15,891 po
 analysis; their omission does not materially affect results, as they are
 concentrated in short acknowledgment posts (``+1'', ``agree'', ``thanks'').
 
-Figure~\ref{fig:power_concentration} shows the distribution of \textit{fraction\_ai}
+Figure~\ref{fig:dip} shows the distribution of \textit{fraction\_ai}
 scores across the full sample. The distribution is bimodal: 78\% of
 posts score below 0.10 or above 0.85, with limited
 mass in the intermediate range. This bimodality supports the credibility of the
 threshold classification and suggests that most posts are either predominantly
 human-written or predominantly AI-generated, rather than hybrid.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{fig05_dip_test.png}
+  \begin{singlespace}
+  \caption{\textbf{Bimodal Distribution of AI-Detection Scores.}
+    Histogram of Pangram \textit{fraction\_ai} scores for all scored posts
+    (15,891 posts with at least 20 words). The distribution is strongly bimodal:
+    the majority of posts cluster at or near 0 (predominantly human-written) or
+    at or near 1 (predominantly AI-generated), with limited mass in the intermediate
+    range. The Hartigan dip statistic rejects unimodality at $p < 0.001$,
+    supporting the use of a binary classification threshold at 0.70.}
+  \end{singlespace}
+  \label{fig:dip}
+\end{figure}
 
 \paragraph{Threshold robustness.}
 We verify that our results are not sensitive to the choice of threshold. In
@@ -965,7 +980,7 @@ Claude~3 in March 2024 was not conditioned on the state of the Arbitrum governan
 forum.
 
 \emph{Second} (relevance), AI model releases cause a meaningful increase in the
-share of AI-generated content in the forum. Figure~\ref{fig:forum_activity}
+share of AI-generated content in the forum. Figure~\ref{fig:main_causal} (Panel~A)
 confirms this: the monthly AI post count, as measured by Pangram, rises from under 5\% of forum volume at the QLR break date to above 8\% by the Claude~3 release, and continues rising through 2024.
 
 \emph{Third} (exclusion restriction), the AI shock affects the margin of victory
@@ -1031,7 +1046,7 @@ A representative \emph{delegate} (the decision-maker) observes all forum posts a
 %% ── 5.2 Equilibrium Without AI ───────────────────────────────────────────────
 \subsection{Equilibrium Without AI}
 
-When $\pi = 0$ (all posts are human), contributors post iff the expected benefit from influencing the delegate's vote exceeds $c_p$. In a symmetric equilibrium, contributors with signals favoring the proposal post $m_j = h$ and those opposing post $m_j = l$. Let $n_h$ and $n_l$ denote the numbers of pro- and con-posts. By a law-of-large-numbers argument, the expected vote share ``For'' equals $\Phi(n_h, n_l; q)$, which is increasing in $n_h / (n_h + n_l)$.
+When $\pi = 0$ (all posts are human), contributors post if and only if the expected benefit from influencing the delegate's vote exceeds $c_p$. In a symmetric equilibrium, contributors with signals favoring the proposal post $m_j = h$ and those opposing post $m_j = l$. Let $n_h$ and $n_l$ denote the numbers of pro- and con-posts. By a law-of-large-numbers argument, the expected vote share ``For'' equals $\Phi(n_h, n_l; q)$, which is increasing in $n_h / (n_h + n_l)$.
 
 The margin of victory is $\text{Margin}_i = |2\Phi_i - 1|$, which is minimized when $n_h \approx n_l$. Community division ($p$ near $\tfrac{1}{2}$) produces roughly equal numbers of pro- and con-posts, so total volume is high and margins are low. Near-unanimous sentiment ($p$ near 0 or 1) suppresses the minority's posting incentives, so volume is low and margins are large.
 
@@ -1040,7 +1055,7 @@ In the no-AI equilibrium, forum post count is negatively correlated with the ex-
 \end{proposition}
 
 \begin{proof}[Sketch]
-For proposal $i$ with prior $p_i$, total posts $E[n_i] \propto p_i(1-p_i)$, maximized at $p_i = \tfrac{1}{2}$. Expected margin $E[\text{Margin}_i] \propto |2p_i - 1|$, minimized at $p_i = \tfrac{1}{2}$. These are negatively correlated across proposals, since both are monotone functions of $|p_i - \tfrac{1}{2}|$ in opposite directions. \qed
+For proposal $i$ with prior $p_i$, total posts $E[n_i] \propto p_i(1-p_i)$, maximized at $p_i = \tfrac{1}{2}$. Expected margin $E[\text{Margin}_i] \propto |2p_i - 1|$, minimized at $p_i = \tfrac{1}{2}$. These are negatively correlated across proposals, since both are monotone functions of $|p_i - \tfrac{1}{2}|$ in opposite directions.
 \end{proof}
 
 This is the theoretical prediction underlying our main empirical test.
@@ -1059,7 +1074,7 @@ Let $\lambda \in [0,1]$ denote the realized fraction of AI posts in a given thre
   V(\pi) = (1 - \pi)\,I_H - c_r
   \label{eq:readval}
 \end{equation}
-where $I_H > 0$ is the informational gain from a genuine human post (in units of the voting payoff). The delegate reads posts iff $V(\pi) \geq 0$, i.e., iff
+where $I_H > 0$ is the informational gain from a genuine human post (in units of the voting payoff). The delegate reads posts if and only if $V(\pi) \geq 0$, i.e., if and only if
 \begin{equation}
   \pi \leq \pi^* \equiv 1 - \frac{c_r}{I_H}.
   \label{eq:pistar}
@@ -1070,7 +1085,7 @@ There exists a threshold $\pi^* \in (0,1)$ such that the delegate ignores the fo
 \end{proposition}
 
 \begin{proof}
-From equation (\ref{eq:readval}), $V(\pi)$ is linear and strictly decreasing in $\pi$. At $\pi = \pi^*$, the delegate is indifferent; for $\pi > \pi^*$, the delegate optimally reads zero posts, so the posterior equals the prior and the forum is uninformative. The collapse is discrete because the delegate's decision is binary (read or not read), not continuous in $\pi$. \qed
+From equation (\ref{eq:readval}), $V(\pi)$ is linear and strictly decreasing in $\pi$. At $\pi = \pi^*$, the delegate is indifferent; for $\pi > \pi^*$, the delegate optimally reads zero posts, so the posterior equals the prior and the forum is uninformative. The collapse is discrete because the delegate's decision is binary (read or not read), not continuous in $\pi$.
 \end{proof}
 
 The key implication is that $\pi$ can reach $\pi^*$ well before $\lambda$ does: the delegate's \emph{belief} about AI contamination crosses the threshold as soon as a sufficiently capable model is publicly available, even if realized AI posts are few. This is the Akerlof (1970) logic applied to information: adverse selection can unravel a signaling equilibrium when the \emph{perceived} fraction of lemons exceeds a threshold, even when most goods are genuine.
@@ -2274,19 +2289,6 @@ five scored posts are excluded from the cross-sectional analysis.
   \label{fig:taxonomy}
 \end{figure}
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{fig05_dip_test.png}
-  \begin{singlespace}
-  \caption{\textbf{Incentives and Participation: DIP Test.}
-    Proposal-level ARB value at stake (log scale) vs.\ participation rate
-    (unique voters / circulating supply). Higher-stakes proposals attract
-    more voters, consistent with rational attention allocation. OLS fit with
-    95\% CI. The DIP test \citep{gillan2010} evaluates whether participation
-    rises with economic significance.}
-  \end{singlespace}
-  \label{fig:dip}
-\end{figure}
 
 \begin{figure}[H]
   \centering
