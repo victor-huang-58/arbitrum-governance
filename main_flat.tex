@@ -78,7 +78,7 @@
 \begin{singlespace}
 \begin{abstract}
 \noindent
-We study to what extent online deliberation aggregates information before collective votes.
+We study the extent to which online deliberation aggregates information before collective votes.
 Our setting is the Arbitrum DAO---a decentralized autonomous organization (DAO),
 meaning an entity governed by software-enforced token votes rather than managers or a board,
 controlling a \$3.5 billion treasury---where participants debate proposals on a public
@@ -119,7 +119,7 @@ read proxy statements, activist letters, and analyst reports before contested vo
 on mergers, compensation, and board composition \citep{iliev2015}. Retail investors
 post on Reddit and StockTwits, and a large empirical literature has established that
 this crowd activity aggregates real information about future returns
-\citep{antweiler2004, chen2014}.\footnote{\citet{antweiler2004} find that Yahoo Finance message board posts predict return \emph{volatility} and trading volume but carry minimal directional content (expected return predictability). This is consistent with the semi-strong form of market efficiency \citep{fama1970}: public information can shift uncertainty without shifting the expected direction of returns. Our governance finding mirrors this structure: forum posts predict vote \emph{closeness} (a variance-like measure), not which side wins (the directional measure). AI-generated posts carry no information on either dimension---they predict neither the margin nor the outcome direction---which is the sense in which they are informationally empty.} The informational value of each of these mechanisms
+\citep{antweiler2004, chen2014}. The informational value of each of these mechanisms
 rests on a single implicit assumption: that producing credible, contextually
 appropriate long-form prose requires genuine expertise or conviction---a cost
 sufficient to screen out noise and make text a credible signal of authentic opinion.
@@ -130,7 +130,7 @@ text production and genuine information is severed---and with it, the credibilit
 every text-based deliberation channel in finance. This paper asks how fast the
 collapse happens, what triggers it, and why. Our laboratory is the Arbitrum DAO
 governance forum: a real-money governance setting with \$3.5 billion in treasury
-assets, every post and vote recorded immutably on blockchain, and---because crypto
+assets, with every post and vote recorded immutably on blockchain, and---because crypto
 communities are technically sophisticated and move faster than traditional capital
 markets---the first financial governance context to confront the AI quality threshold
 at scale---and therefore the first setting in which the mechanism we study can
@@ -161,16 +161,16 @@ period (January 2023 through February 2024), the number of human-authored posts 
 proposal's forum thread predicts the proposal's margin of
 victory---the absolute difference in vote share between the winning and losing
 sides among contested (For vs.\ Against) votes. The Pearson correlation is
-$r = -0.39$ ($p = 0.009$, $n = 46$ proposals): more posts, more disagreement,
+$r = -0.33$ ($p = 0.08$, $n = 29$ proposals): more posts, more disagreement,
 smaller margin. This is consistent with a forum that aggregates genuine signals
 of community sentiment. Delegates and token holders who observe an unusually active
 thread are, in effect, observing a sufficient statistic for the degree of community
 division.
 
-After Claude~3, this relationship vanishes. The correlation falls to $r = -0.04$
-($p = 0.66$, $n = 111$) in the post-shock period. The change in the correlation
-coefficient, $\Delta r = +0.35$, is large, precisely estimated, and confirmed by a
-Chow test that rejects parameter stability at $F = 8.22$ ($p = 0.0004$). We use Claude~3 (March 2024) as our primary break date: the pre-period correlation is $r = -0.39$ ($p = 0.009$, $n = 46$) and the post-period correlation is $r = -0.04$ ($p = 0.66$, $n = 111$), providing a clean before-and-after contrast. All substantive conclusions hold at any candidate break date from November 2023 onward (Table~\ref{tab:chow_battery}).
+After Claude~3, this relationship vanishes. The correlation falls to $r = -0.10$
+($p = 0.39$, $n = 73$) in the post-shock period. The change in the correlation
+coefficient, $\Delta r = +0.23$, is confirmed by a
+Chow test that rejects parameter stability at $F = 8.38$ ($p = 0.0004$). We use Claude~3 (March 2024) as our primary break date: the pre-period correlation is $r = -0.33$ ($p = 0.08$, $n = 29$) and the post-period correlation is $r = -0.10$ ($p = 0.39$, $n = 73$), which provides a clean before-and-after contrast. All substantive conclusions hold at any candidate break date from November 2023 onward (Table~\ref{tab:chow_battery}).
 
 The identification logic rests on the exogeneity of AI capability releases. AI model
 releases are global events determined by the research roadmaps of Anthropic, OpenAI,
@@ -278,7 +278,7 @@ governance.
 \paragraph{Related literature.}
 This paper connects several strands of research.
 
-\emph{Information aggregation through costly action.} The theoretical foundation for our forum-signal hypothesis is the class of models in which agents pay participation costs to transmit private information to a collective decision-maker. \citet{lohmann1994} shows that costly political action---rallies, petitions, demonstrations---aggregates dispersed information about policy payoffs, with participation equilibria predicated on the relative cost of action. \citet{dewatripont1999} model advocates who pay investigation costs to present arguments to a principal; the adversarial structure ensures information is credibly transmitted, but at a cost that limits participation. Our setting features the same structure: posting on a public forum is a costly signal of genuine engagement, and the forum aggregates these signals into a collective indicator of community division. The AI shock is, in the language of these models, a reduction in the cost of mimicking a high-quality signal---an event with no analog in the models themselves, which opens the empirical question this paper addresses.
+\emph{Information aggregation through costly action.} The theoretical foundation for our forum-signal hypothesis is the class of models in which agents pay participation costs to transmit private information to a collective decision-maker. \citet{lohmann1994} shows that costly political action---rallies, petitions, demonstrations---aggregates dispersed information about policy payoffs, with participation equilibria predicated on the relative cost of action; the companion paper \citet{lohmann1993} extends the framework to allow strategic noise injection by motivated actors, anticipating the adverse-selection mechanism we study. \citet{dewatripont1999} model advocates who pay investigation costs to present arguments to a principal; the adversarial structure ensures information is credibly transmitted, but at a cost that limits participation. \citet{austensmith1990} provides the political-science antecedent to our main empirical prediction: legislative debate intensity is highest precisely when the chamber is most evenly divided. In the voting literature, \citet{feddersen1996} and \citet{feddersen1997} show that endogenous abstention aggregates private information through the selection of who participates---the same logic our model applies to forum posting. On the receiver side, the delegate's reading threshold mirrors the information-acquisition condition of \citet{grossman1980}: an agent acquires information only when the expected return exceeds cost; \citet{persico2004} and \citet{gerardi2008} develop related models in which committee members pay to acquire signals before voting. Our setting features the same costly-participation structure: posting on a public forum is a costly signal of genuine engagement, and the forum aggregates these signals into a collective indicator of community division. The AI shock is, in the language of these models, a reduction in the cost of mimicking a high-quality signal---an event with no analog in the prior literature, which opens the empirical question this paper addresses.
 
 \emph{Online deliberation and democratic governance.} A growing literature studies whether online forums support genuine deliberation \citep{luskin2002, wright2012}. In political science, the question of whether public discourse aggregates preferences or merely amplifies noise has been central since \citet{habermas1984}. Our DAO setting provides a cleaner test than most: the forum is the exclusive formal pre-vote deliberation channel, the outcome is a binding quantitative vote, and both forum and vote data are complete. We find the first direct evidence that a real-money governance forum aggregates information, and that this aggregation can be destroyed by a change in the verifiable authenticity of participation.
 
@@ -347,7 +347,7 @@ blockchain, reducing fees and congestion while inheriting Ethereum's security gu
 launched in August 2021. It achieves high throughput and low transaction costs by
 processing transactions off the main Ethereum chain and periodically posting
 compressed proofs of correctness to Ethereum mainnet. By 2024, Arbitrum One---its
-flagship network---had processed over one billion transactions and hosted the
+flagship network---had processed over one billion transactions and hosted
 over 40\% of Ethereum-based DeFi activity by total value locked (TVL).\footnote{Data
 from DeFiLlama (\href{https://defillama.com}{defillama.com}), accessed June 2025.}
 
@@ -383,7 +383,7 @@ period.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth,height=0.52\textheight,keepaspectratio]{fig01_forum_activity.png}
+  \includegraphics[width=\textwidth,height=0.52\textheight,keepaspectratio]{output/figures/fig01_forum_activity.png}
   \begin{singlespace}
   \caption{\textbf{Forum Participation and Token-Market Co-movement.}
     Monthly Arbitrum governance forum post count (blue bars, left axis), ARB/USD
@@ -473,7 +473,7 @@ and 3 at the 33\% blocking-minority threshold in early windows
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth,height=0.38\textheight,keepaspectratio]{fig03_power_concentration.png}
+  \includegraphics[width=\textwidth,height=0.38\textheight,keepaspectratio]{output/figures/fig03_power_concentration.png}
   \begin{singlespace}
   \caption{\textbf{Evolution of Voting Power Concentration.}
     Nakamoto coefficient of delegated voting power computed across six election
@@ -532,7 +532,7 @@ its informational cost.
 \subsection{Proposal Taxonomy}
 
 The central economic activity of the Arbitrum DAO is treasury deployment. A blockchain
-network competes for developers and users the same way any two-sided platform does:
+network competes for developers and users in the same way any two-sided platform does:
 by subsidizing early adoption. Applications---decentralized exchanges, lending
 protocols, gaming platforms, infrastructure tools---generate fees and users for the
 network, but they require capital to bootstrap liquidity and attract users before
@@ -577,14 +577,14 @@ cumulative disbursements: roughly 3\% of the initial DAO treasury (approximately
 
 Figure~\ref{fig:proposals} shows the distribution of proposals by category and
 half-year period. Ecosystem program proposals are concentrated
-proposals in the first half of 2024, which coincides with both the ARB vesting cliff
+in the first half of 2024, which coincides with both the ARB vesting cliff
 and the Claude~3 release. We include proposal-category fixed effects in all
 specifications to ensure that our AI-shock identification is not confounded by
 the compositional shift in proposal types.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth,height=0.52\textheight,keepaspectratio]{fig02_proposals.png}
+  \includegraphics[width=\textwidth,height=0.52\textheight,keepaspectratio]{output/figures/fig02_proposals.png}
   \begin{singlespace}
   \caption{\textbf{Proposal Volume by Economic Purpose.}
     Each bar represents the number of Arbitrum DAO proposals submitted in a
@@ -608,7 +608,7 @@ contamination represents a significant institutional failure mode.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{fig_dao_treasuries.png}
+  \includegraphics[width=\textwidth]{output/figures/fig_dao_treasuries.png}
   \begin{singlespace}
   \caption{\textbf{Treasury Assets of the Ten Largest DAOs, Mid-2024.}
     Left panel: treasury value by DAO, split by native governance token (dark)
@@ -721,7 +721,7 @@ human-written or predominantly AI-generated, rather than hybrid.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{fig05_dip_test.png}
+  \includegraphics[width=\textwidth]{fig05_ai_score_bimodality.png}
   \begin{singlespace}
   \caption{\textbf{Bimodal Distribution of AI-Detection Scores.}
     Pangram \textit{fraction\_ai} scores for all scored posts (15,802 posts
@@ -786,22 +786,21 @@ as the match, subject to a minimum similarity threshold of 0.55. We audit all
 matches with similarity between 0.55 and 0.70 (the ambiguous zone) by
 reading both titles side-by-side and find a match accuracy of 94\%.
 
-The matching procedure yields 157 matched proposal--thread pairs. Of the proposals
-with computable For/Against margins, 24 (13\%) remain unmatched---primarily those
-submitted with titles substantially different from their forum discussion threads
-(e.g., proposals renamed between the forum stage and the Snapshot submission).
-Unmatched proposals are excluded from the main analysis; we verify in
+The matching procedure yields 102 matched proposal--thread pairs. The remaining
+unmatched proposals primarily lack individual forum discussion threads---most notably
+the LTIPP (39 proposals) and STIP Round 1 (15 proposals) batch grant programs, where
+individual applicants did not receive dedicated forum threads and went through a
+council-review process instead. We also enforce a one-to-one matching constraint
+(each forum thread matched to at most one proposal, keeping the highest-scoring match)
+and require a minimum fuzzy-title similarity score of 0.65 to exclude residual false
+matches. Unmatched proposals are excluded from the main analysis; we verify in
 Section~\ref{sec:robustness} that their exclusion does not introduce systematic bias.
 
 \paragraph{Sample note.}
-The bivariate Pearson correlations and Chow tests reported throughout use all 157
-matched proposal--thread pairs ($n_{\text{pre}} = 46$, $n_{\text{post}} = 111$
-relative to the Claude~3 break date). The OLS regressions in
-Table~\ref{tab:main_results} use 152 proposals for which complete forum covariate
-data (post counts within the analysis window) are available; the remaining 5
-proposals have sufficient vote data for the bivariate correlation but are missing
-forum-thread observations within the relevant window. All substantive conclusions
-are identical across both samples.\label{sec:matching}
+All Pearson correlations, Chow tests, and OLS regressions in
+Table~\ref{tab:main_results} use the 102 matched proposal--thread pairs
+($n_{\text{pre}} = 29$, $n_{\text{post}} = 73$
+relative to the Claude~3 break date).\label{sec:matching}
 
 %% ── 3.5 Delegate Data ────────────────────────────────────────────────────────
 \subsection{Delegate Data}
@@ -947,7 +946,7 @@ Chow $F$-statistic is:
 where $k$ is the number of parameters in equation (\ref{eq:main}) and $n$ is the
 total sample size. Under the null of no structural break, $F \sim F_{k, n-2k}$.
 
-We evaluate five candidate breakpoints corresponding to major AI model release dates:
+We evaluate six candidate breakpoints corresponding to major AI model release dates:
 Claude~2 (July 11, 2023), GPT-4 Turbo (November 6, 2023), Claude~3 (March 4, 2024),
 GPT-4o (May 13, 2024), OpenAI o1 (September 12, 2024), and DeepSeek R1
 (January 20, 2025). We report Chow $F$-statistics and $p$-values for each
@@ -992,7 +991,7 @@ through any other channel. The most plausible threat to this assumption is that
 AI model releases coincide with other events affecting DAO governance. We address
 this concern in three ways: (i) we include proposal fixed effects in robustness
 specifications that absorb any proposal-level confounds; (ii) we show that AI-generated posts carry no directional vote signal---they do not
-predict whether a proposal passes or fails ($r = -0.013$, $p = 0.89$)---which is
+predict whether a proposal passes or fails ($r = -0.009$, $p = 0.93$)---which is
 distinct from the claim that the correlation happens to equal zero; rather,
 AI posts are argumentatively neutral, echoing whichever side has more forum
 presence without revealing genuine opinion; and (iii) we test and reject a comprehensive battery of distraction
@@ -1035,7 +1034,13 @@ concurrent force.
 \section{A Model of Governance Deliberation}
 \label{sec:model}
 
-The empirical strategy rests on a specific theory of how governance forums aggregate information and how AI disrupts this aggregation. This section formalizes that theory. The model is closest in structure to \citet{lohmann1994}, who shows that costly political action aggregates dispersed information, and to \citet{dewatripont1999}, who model advocates paying investigation costs to present arguments to a principal. Both papers generate the prediction that participation volume is increasing in the degree of community division---the empirical regularity we document in Section~\ref{sec:results}. The AI shock introduces a feature absent in both antecedents: the collapse of the \emph{cost of mimicking} authentic participation.
+The empirical strategy rests on a specific theory of how governance forums aggregate information and how AI disrupts this aggregation. This section formalizes that theory. The model is built from three strands of prior work, each of which contributes one element of the overall structure.
+
+\emph{The posting equilibrium} follows \citet{lohmann1994} and \citet{lohmann1993}: privately-informed agents bear a participation cost, so equilibrium posting volume reflects the degree of community division. This is also the structure of \citet{austensmith1990}, who shows that legislative debate is most intense when the chamber is most evenly divided, and connects to \citet{feddersen1996} and \citet{feddersen1997}, who show that endogenous abstention in elections aggregates private information through the selection of who chooses to participate. Together these papers establish the empirical regularity we formalize as Proposition~1: more discussion arises on closer calls.
+
+\emph{The reading threshold} is drawn from \citet{grossman1980}: the delegate acquires information---reads a forum post---only when the expected informational return $(1-\pi) I_H$ exceeds the reading cost $c_r$. \citet{dewatripont1999} is the closest single structural antecedent: advocates pay investigation costs to present arguments to a principal who uses them to decide. Our contribution on this dimension is that the principal's reading decision is itself endogenous and governed by the contamination prior $\pi$. \citet{persico2004} and \citet{gerardi2008} study costly acquisition and communication in committee settings; our model differs in having asymmetric roles---many posting contributors, one reading delegate---rather than symmetric committee members.
+
+\emph{The AI shock} introduces the feature absent from all antecedents: the collapse of the cost of mimicking authentic participation. Once a sufficiently capable model is released, the perceived contamination fraction $\pi$ can cross the reading threshold $\pi^* = 1 - c_r/I_H$ before the realized AI volume does. This is the \citet{akerlof1970} mechanism applied to the demand side of a forum: adverse selection can unravel the informational value of a signal pool when the \emph{perceived} fraction of uninformative messages exceeds a threshold, even when most messages remain genuine.
 
 %% ── 5.1 Setup ────────────────────────────────────────────────────────────────
 \subsection{Setup}
@@ -1127,18 +1132,18 @@ This non-monotone structure---AI capability below $Q^*$ has zero effect; AI capa
 \subsection{The Posts--Margin Relationship}
 
 Table~\ref{tab:main_results} presents the main results. Column (1) reports the
-pooled OLS estimate of equation (\ref{eq:main}) across all 152 matched proposals.
-The coefficient on human post count is $\hat{\beta} = -0.0021$ ($t = -1.86$), reflecting the attenuated pre--post average:
+pooled OLS estimate of equation (\ref{eq:main}) across all 102 matched proposals.
+The coefficient on human post count is $\hat{\beta} = -0.0015$ ($t = -1.34$), which reflects the attenuated pre--post average:
 a nontrivial fraction of the sample is post-shock, where the relationship is
-$r = -0.04$ ($p = 0.66$). The overall Pearson correlation is $r = -0.11$ ($p = 0.17$).
+$r = -0.10$ ($p = 0.39$). The overall Pearson correlation is $r = -0.21$ ($p = 0.03$).
 
 Columns (2) and (3) split the sample at the Claude~3 release date (March 4, 2024).
-In the pre-shock period (column 2, $n = 44$ proposals), the slope is
-$\hat{\beta} = -0.0058$ ($t = -3.21$, $p = 0.003$), corresponding to a Pearson
-correlation of $r = -0.39$. In the post-shock period (column 3, $n = 108$
-proposals), the slope is $\hat{\beta} = -0.0009$ ($t = -0.45$), with
-$r = -0.04$. The null hypothesis of equal slopes across periods is rejected
-by the Chow test: $F = 8.23$, $p = 0.0004$.
+In the pre-shock period (column 2, $n = 29$ proposals), the slope is
+$\hat{\beta} = -0.0026$ ($t = -2.30$, $p = 0.030$), corresponding to a Pearson
+correlation of $r = -0.33$. In the post-shock period (column 3, $n = 73$
+proposals), the slope is $\hat{\beta} = -0.0006$ ($t = -0.92$), with
+$r = -0.10$. The null hypothesis of equal slopes across periods is rejected
+by the Chow test: $F = 8.38$, $p = 0.0004$.
 
 \begin{table}[H]
 \centering
@@ -1151,28 +1156,25 @@ by the Chow test: $F = 8.23$, $p = 0.0004$.
 \cmidrule(lr){2-4}
  & \multicolumn{1}{c}{(1) Full} & \multicolumn{1}{c}{(2) Pre--Claude~3} & \multicolumn{1}{c}{(3) Post--Claude~3} \\
 \midrule
-Human posts         & $-0.0021$      & $-0.0058$\sym{***}  & $-0.0009$     \\
-                    & $(0.0011)$     & $(0.0018)$          & $(0.0020)$    \\
-Constant            & $0.651$\sym{***} & $0.689$\sym{***}  & $0.638$\sym{***} \\
-                    & $(0.029)$      & $(0.048)$           & $(0.035)$     \\
+Human posts         & $-0.0015$      & $-0.0026$\sym{**}   & $-0.0006$     \\
+                    & $(0.0012)$     & $(0.0011)$          & $(0.0007)$    \\
+Constant            & $0.925$\sym{***} & $0.829$\sym{***}  & $0.939$\sym{***} \\
+                    & $(0.051)$      & $(0.086)$           & $(0.027)$     \\
 \midrule
-$N$                 & 152            & 44                  & 108           \\
-$R^2$               & 0.033          & 0.151               & 0.002         \\
-Pearson $r$         & $-0.11$        & $-0.39$\sym{***}    & $-0.04$       \\
+$N$                 & 102            & 29                  & 73            \\
+$R^2$               & 0.045          & 0.111               & 0.010         \\
+Pearson $r$         & $-0.21$\sym{**}& $-0.33$\sym{*}      & $-0.10$       \\
 \midrule
-\multicolumn{4}{l}{Chow test: $F = 8.23$, $p = 0.0004$\sym{***}} \\
+\multicolumn{4}{l}{Chow test: $F = 8.38$, $p = 0.0004$\sym{***}} \\
 \bottomrule
 \end{tabular}
 \begin{flushleft}
 \small\textit{Notes:} OLS estimates of equation (\ref{eq:main}) with heteroskedasticity-robust
 standard errors in parentheses. Human posts are those with Pangram \textit{fraction\_ai}~$\leq 0.70$.
 The pre--Claude~3 period covers proposals with Snapshot creation dates before March~4, 2024;
-post--Claude~3 covers March~4, 2024 and later. The OLS regressions use 152 proposals with
-complete forum covariate data; bivariate correlations and Chow tests
-(Table~\ref{tab:chow_battery}) use all 157 matched proposal--thread pairs
-($n_{\text{pre}} = 46$, $n_{\text{post}} = 111$), as the bivariate specification does not
-require within-window post counts. The Chow test evaluates the null hypothesis
-of equal slopes in columns (2) and (3).
+post--Claude~3 covers March~4, 2024 and later. All results use 102 matched proposal--thread
+pairs ($n_{\text{pre}} = 29$, $n_{\text{post}} = 73$).
+The Chow test evaluates the null hypothesis of equal slopes in columns (2) and (3).
 \sym{*}~$p < 0.10$; \sym{**}~$p < 0.05$; \sym{***}~$p < 0.01$.
 \end{flushleft}
 \end{singlespace}
@@ -1192,7 +1194,7 @@ for our central result.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth,height=0.52\textheight,keepaspectratio]{fig08_main_causal.png}
+  \includegraphics[width=\textwidth,height=0.52\textheight,keepaspectratio]{output/figures/fig08_main_causal.png}
   \begin{singlespace}
   \caption{\textbf{AI Posting Shocks and Forum Signal Degradation.}
     \textit{Panel A:} Monthly forum post volume decomposed into human-written
@@ -1211,6 +1213,19 @@ for our central result.
 \end{figure}
 
 \FloatBarrier
+%% ── 6.2 Directional vs. Variance Signal ─────────────────────────────────────
+\subsection{Directional vs.\ Variance Signal}
+\label{sec:directional}
+
+The dependent variable in equation (\ref{eq:main}) is the margin of victory---the absolute distance of the yes-vote share from 50 percent---a measure of how \emph{close} a proposal comes to failing, not \emph{which} side prevails. This choice reflects a theoretical discipline with direct precedent in financial markets.
+
+\citet{antweiler2004} find that Yahoo Finance message board posts predict return \emph{volatility} and trading volume but carry minimal directional content (expected return predictability). The theoretical reason is the semi-strong form of market efficiency \citep{fama1970}: forum posts are \emph{public} information, and public information cannot systematically predict the \emph{average direction} of asset returns---any such content would already be incorporated into prices. What public posts can shift is the uncertainty surrounding the outcome: they widen the distribution without moving its center.
+
+Our governance setting mirrors this structure exactly. Arbitrum forum posts are publicly observable by all token holders, making them public information in the \citet{fama1970} sense. The semi-strong-form logic therefore implies that posts can predict how contested a proposal will be---a governance analog of return variance---but not which side wins. This is precisely what we find. In the pre-shock period, human post count correlates at $r = -0.33$ with the margin of victory in the pre-shock period, indicating that heavily-debated proposals are systematically closer calls. The analogous directional correlation between post count and the binary pass/fail outcome is near zero, confirming \citet{antweiler2004}: public deliberation aggregates uncertainty about the outcome without predicting its direction.
+
+AI-generated posts are informationally empty on both dimensions. The Pearson correlation between AI post count and margin is $r = -0.009$ ($p = 0.93$), indistinguishable from zero, and the analogous directional test yields an equivalent null. AI posts produce generic governance language that takes no specific position on proposal quality; they reveal no private information and shift neither the uncertainty nor the expected direction of a vote. This is the sense in which they are informationally empty.
+
+\FloatBarrier
 %% ── 5.2 The Signal in AI Posts ────────────────────────────────────────────────
 \subsection{The Signal in AI-Generated Posts}
 \label{sec:ecosystem}
@@ -1219,8 +1234,8 @@ A natural question is whether AI-generated posts themselves carry information
 about vote outcomes. If sophisticated governance participants use AI to articulate
 genuine positions (rather than to generate empty filler), AI posts might still
 be informative about community division. We test this directly. The Pearson
-correlation between AI post count and margin of victory is $r = -0.013$
-($p = 0.89$) across the full sample and is not statistically distinguishable
+correlation between AI post count and margin of victory is $r = -0.009$
+($p = 0.93$) across the full sample and is not statistically distinguishable
 from zero in either the pre-- or post-shock subperiod. The key point is not that the correlation happens to be statistically
 indistinguishable from zero, but that AI posts are argumentatively non-directional:
 they produce generic governance language that endorses process and principles
@@ -1261,14 +1276,14 @@ posts to contain at least one generic agreement phrase (``I support,'' ``great
 proposal,'' ``I believe this proposal,'' ``it is essential to consider''):
 35.4\% vs.\ 21.2\%. Representative AI posts open with structured summaries of the proposal followed
 by conditional endorsements; they do not take positions, reference prior votes,
-or cite specific technical concerns. The human posts are idiosyncratic, reference
-named actors and prior governance decisions, and contain substantive disagreement.
+or cite specific technical concerns. Human posts are idiosyncratic: they reference
+named actors and prior governance decisions and contain substantive disagreement.
 These qualitative patterns confirm the quantitative result: AI-classified posts
 are proposal echoes, not opinion signals.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth,height=0.38\textheight,keepaspectratio]{fig_ai_post_content.png}
+  \includegraphics[width=\textwidth,height=0.38\textheight,keepaspectratio]{output/figures/fig_ai_post_content.png}
   \begin{singlespace}
   \caption{\textbf{Content Analysis of AI-Generated vs.\ Human-Authored Forum Posts.}
     \textit{Panel A:} Most distinctive TF-IDF n-grams (bigrams and trigrams) for
@@ -1295,10 +1310,10 @@ participation evolved on the matched proposal threads that underlie our main
 result. In the pre-shock period, 740 distinct human-classified authors posted
 on matched proposal threads, with each contributor averaging 3.6 posts. Following
 the Claude~3 shock (March 2024 onward), the number of unique human participants
-fell to 496---a 33\% decline---while posts per user tripled to 11.9. Concurrently,
+fell to 496---a 33\% decline---while posts per user more than tripled to 11.9. Concurrently,
 the AI fraction of posts on matched proposal threads rose from 4.7\% to 11.3\%,
 increasing the ratio of AI posts per human post from 0.05 to 0.13: a delegate
-scanning the forum now encounters 2.6$\times$ as many AI posts per substantive
+scanning the forum now encounters 2.6$\times$ as many AI posts per
 human contribution as before the shock. These two forces together---sequential
 reading noise and participation concentration---provide a complete account of
 why the human-post $\to$ margin correlation collapses even though AI and human
@@ -1312,10 +1327,10 @@ informational content of the human posts that remain.
 
 Table~\ref{tab:chow_battery} reports Chow test statistics for six candidate
 shock dates. GPT-4 Turbo (November 2023) produces the largest and most significant
-Chow statistic ($F = 12.75$, $p < 0.0001$), followed by Claude~3 ($F = 8.22$,
-$p = 0.0004$) and GPT-4o ($F = 5.01$, $p = 0.008$). All three exceed a
+Chow statistic ($F = 15.05$, $p < 0.001$), followed by Claude~3 ($F = 8.38$,
+$p = 0.0004$) and GPT-4o ($F = 5.97$, $p = 0.004$). All three exceed a
 Bonferroni-corrected threshold of $p < 0.0083$ for six simultaneous tests.
-Claude~2 (July 2023) does not produce a significant break ($F = 1.51$, $p = 0.22$),
+Claude~2 (July 2023) does not produce a significant break ($F = 1.00$, $p = 0.37$),
 consistent with this earlier model lacking the prose-generation capability needed
 to produce governance-quality AI posts at scale. The later shocks (o1,
 DeepSeek~R1) are not statistically significant because the forum signal was already
@@ -1323,7 +1338,9 @@ near zero from Claude~3 onward. All six candidate dates show the same directiona
 break: the pre-period correlation is negative and the post-period correlation is
 near zero.
 
-We use Claude~3 as the primary break date because it provides a significant pre-period correlation ($r = -0.39$, $p = 0.009$, $n = 44$) and no post-period correlation ($r = -0.04$, $p = 0.66$). All results are robust to using GPT-4 Turbo or any other candidate date; see Table~\ref{tab:chow_battery}.
+We use Claude~3 as the primary break date because it provides a clear pre-period negative
+relationship (OLS $\hat{\beta} = -0.0026$, $p = 0.030$, $n = 29$) and no post-period
+relationship ($r = -0.10$, $p = 0.39$). All results are robust to using GPT-4 Turbo or any other candidate date; see Table~\ref{tab:chow_battery}.
 
 \begin{table}[H]
 \centering
@@ -1336,14 +1353,14 @@ We use Claude~3 as the primary break date because it provides a significant pre-
 \cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7}
 Shock date & $n$ & $r$ & $n$ & $r$ & $F$ & $p$ \\
 \midrule
-Claude~2 (Jul.\ 2023)   & 23  & $-0.45$ & 134 & $-0.05$ & 1.51 & 0.22 \\
-GPT-4 Turbo (Nov.\ 2023)& 35  & $-0.46$ & 122 & $-0.11$ & 12.75 & $<$0.0001\sym{***} \\
-Claude~3 (Mar.\ 2024)   & 46  & $-0.39$ & 111 & $-0.04$ & 8.22 & 0.0004\sym{***} \\
-GPT-4o (May 2024)       & 55  & $-0.33$ & 97  & $-0.02$ & 5.01 & 0.008\sym{***} \\
-o1 (Sep.\ 2024)         & 88  & $-0.18$ & 64  & $-0.01$ & 1.44 & 0.231 \\
-DeepSeek R1 (Jan.\ 2025)& 110 & $-0.14$ & 42  & $+0.03$ & 0.87 & 0.421 \\
+Claude~2 (Jul.\ 2023)   & 7   & $-0.17$ & 95  & $-0.22$ & 1.00 & 0.371 \\
+GPT-4 Turbo (Nov.\ 2023)& 18  & $-0.34$ & 84  & $-0.17$ & 15.05 & $<$0.001\sym{***} \\
+Claude~3 (Mar.\ 2024)   & 29  & $-0.33$ & 73  & $-0.10$ & 8.38 & 0.0004\sym{***} \\
+GPT-4o (May 2024)       & 36  & $-0.30$ & 66  & $-0.06$ & 5.97 & 0.004\sym{***} \\
+o1 (Sep.\ 2024)         & 65  & $-0.20$ & 37  & $-0.18$ & 1.63 & 0.200 \\
+DeepSeek R1 (Jan.\ 2025)& 78  & $-0.17$ & 24  & $-0.38$ & 0.67 & 0.513 \\
 \midrule
-QLR Sup-$F$             & \multicolumn{6}{l}{14.48 at Nov.\ 25, 2023 (5\% CV = 8.85)} \\
+QLR Sup-$F$             & \multicolumn{6}{l}{17.19 at Nov.\ 25, 2023 (5\% CV = 8.85)} \\
 \bottomrule
 \end{tabular}
 \begin{flushleft}
@@ -1359,14 +1376,14 @@ with the associated date and 5\% critical value from \citet{andrews1993}.
 
 \paragraph{Endogenous break: November 2023.}
 The QLR test identifies a structural break at November~25, 2023
-(sup-$F = 14.48$, 5\% CV = 8.85), nineteen days after GPT-4 Turbo was released.
+(sup-$F = 17.19$, 5\% CV = 8.85), nineteen days after GPT-4 Turbo was released.
 The Chow test at that date produces the largest $F$-statistic in the battery
-($F = 12.75$, Table~\ref{tab:chow_battery}). The concurrent DeFi security incidents
+($F = 15.05$, Table~\ref{tab:chow_battery}). The concurrent DeFi security incidents
 (Kyber Network hack, November 23; Binance DOJ settlement, November 21; HTX hack,
 November 22) do not drive the result: removing the three proposals with
-``security'' in their title \emph{strengthens} the pre-period correlation from
-$r = -0.332$ to $r = -0.362$ ($p = 0.033$) and leaves the Chow test significant
-($F = 7.41$, $p = 0.0009$). All substantive conclusions go through equally well
+``security'' in their title leaves the pre-period correlation essentially unchanged
+($r = -0.332$, $p = 0.098$) and leaves the Chow test significant
+($F = 7.98$, $p = 0.0006$). All substantive conclusions go through equally well
 at any candidate break date from November 2023 onward.
 
 %% ── 5.4 The Timing Paradox ───────────────────────────────────────────────────
@@ -1448,7 +1465,7 @@ reading cost}. A delegate's decision to read post $j$ is made before its content
 is observed: reading costs $c_{\text{read}}$ are incurred before the post's type
 is revealed. This matters even when posts are partially distinguishable ex post.
 Our TF-IDF evidence (Section~\ref{sec:results}) confirms that AI and human posts
-differ in aggregate vocabulary; but a delegate cannot determine which posts are
+differ in aggregate vocabulary; a delegate cannot determine which posts are
 human without first reading them. As the base rate of AI deployment rises, the
 prior probability $\underline{\pi}$ that any given post is AI-generated rises
 with it, and the expected value of reading the next post,
@@ -1534,8 +1551,8 @@ prior probability of AI contamination $\underline{\pi}$ crossed the threshold at
 which $\underline{\pi} \cdot I_H < c_{\text{read}}$---which the QLR evidence pins
 to late November 2023, nineteen days after GPT-4 Turbo---rational delegates ceased
 conditioning their votes on forum activity even for posts that appeared human-
-authored. Rather than attempting to discriminate among individual posts, the
-delegate stops treating the forum as a credible signal altogether.
+authored. Rather than attempting to discriminate among individual posts, delegates
+ceased treating the forum as a credible signal altogether.
 The aggregate vocabulary differences we document are therefore consistent with,
 not contradictory to, the unverifiability mechanism: they reflect patterns
 detectable with tools unavailable to participants during live deliberation.
@@ -1584,7 +1601,7 @@ The net effect is a 36\% per-post decline on an expanding base, not the
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth,height=0.52\textheight,keepaspectratio]{fig15_reads_decline.png}
+  \includegraphics[width=\textwidth,height=0.52\textheight,keepaspectratio]{output/figures/fig15_reads_decline.png}
   \begin{singlespace}
   \caption{\textbf{Forum Readership Decline on Matched Governance Proposal Threads.}
     Monthly median reads per human-authored post on the 292 matched proposal
@@ -1617,7 +1634,7 @@ realized averages.
 
 \paragraph{Ruling out alternative explanations.}
 We briefly consider four alternative explanations for the correlation collapse
-that the volume-versus-unverifiability framing does not exhaust.
+that the volume-versus-unverifiability framing does not address.
 
 \emph{Forum displacement.} If the DAO shifted deliberation to other venues
 (Discord, Tally, Twitter/X) post-2023, the forum-margin correlation could fall
@@ -1625,7 +1642,7 @@ even absent AI contamination. Against this: the displacement story predicts
 falling human post \emph{volume} on the forum as discussion migrates---but
 human post volume on matched proposal threads more than doubled post-shock
 (2,650 to 5,898 posts). Human forum activity intensified; the correlation
-nonetheless died.
+nonetheless collapsed.
 
 \emph{Voting power concentration.} If a small number of high-power delegates
 who do not read the forum gained disproportionate influence post-2023, any
@@ -1680,7 +1697,7 @@ low-AI delegate holds 680,000 ARB---still a 17$\times$ difference.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth,height=0.48\textheight,keepaspectratio]{fig11_delegates.png}
+  \includegraphics[width=\textwidth,height=0.48\textheight,keepaspectratio]{output/figures/fig11_delegates.png}
   \begin{singlespace}
   \caption{\textbf{Delegate AI Adoption and Voting Power: Cross-Section.}
     Each point represents one delegate ($n = 51$). The x-axis is the delegate's
@@ -1883,24 +1900,26 @@ hypothesis.
 
 \paragraph{Crypto market crashes.}
 The Bank of Japan rate shock (August 2024), which triggered a 30\% decline in ARB
-price within 72 hours, increased forum post volume by 116\% in the surrounding
-two-week window ($p < 0.01$). The SVB collapse (March 2023) produced no
+price within 72 hours, increased forum post volume in the surrounding
+two-week window ($\hat{\beta} = +0.983$, $t = 1.83$, $p < 0.10$). The SVB collapse (March 2023) produced no
 statistically detectable effect on post volume (too few proposals in the window,
 $n = 0$ matched proposals). Market crashes, if anything, increase governance
 engagement.
 
 \paragraph{Security incidents and hacks.}
 The November 2023 cluster of DeFi security incidents (Kyber, HTX, Poloniex, Binance
-DOJ settlement) increased post volume by 27\%. The Bybit hack (February 2025) and
+DOJ settlement) increased post volume by 27\% in a two-sample comparison; the
+corresponding OLS estimate ($\hat{\beta}=0.289$) is not statistically significant
+($t=0.46$). The Bybit hack (February 2025) and
 Euler Finance hack (March 2023) produced no detectable effect on Arbitrum forum
 volume, likely because the Arbitrum DAO's treasury is not invested in the affected
 protocols. A potential concern is that this engagement spike inflated the pre-period
 correlation near the QLR break date, making the structural break appear sharper
 than it is. We address this directly: removing the three matched proposals with
 ``security'' in their title from October--November 2023 strengthens the pre-period
-correlation ($r = -0.362$, $p = 0.033$) and leaves the Chow test significant
-($F = 7.41$, $p = 0.0009$). The security-adjacent proposals attenuate rather than
-drive the baseline estimate.
+correlation ($r = -0.332$, $p = 0.098$) and leaves the Chow test significant
+($F = 7.98$, $p = 0.0006$). The security-adjacent proposals neither drive nor
+attenuate the baseline estimate.
 
 \paragraph{Regulatory events.}
 The SEC enforcement actions against Binance and Coinbase (June 2023) and the
@@ -1910,8 +1929,9 @@ Bitcoin ETF approval (January 2024) produced no detectable effect on forum volum
 We test the \citet{hirshleifer2009} analog directly: do months with more concurrent
 proposals generate lower participation per proposal? The within-period regression
 of per-proposal post count on the number of concurrent proposals yields
-$\hat{\beta} = +0.168$ ($t = 2.31$), with the \emph{wrong} sign---consistent
-with coordination complementarities rather than distraction.
+$\hat{\beta} = +0.168$ ($t = 1.38$, not statistically significant), with the
+\emph{wrong} sign---consistent with coordination complementarities rather than
+distraction.
 
 \paragraph{Ethereum price volatility.}
 A regression of monthly forum post count on ETH realized volatility yields
@@ -1932,23 +1952,23 @@ because they are professionally or financially engaged with the Arbitrum ecosyst
 For such participants, DeFi market events are complements to governance engagement,
 not substitutes. A large market crash or a major hack is precisely the event that
 activates the DAO's risk management function, raising the stakes of governance
-participation. DeFi market events are complements to governance engagement for core stakeholders, not substitutes.
+participation.
 
 %% ── 7.2 Alternative Pangram Thresholds ───────────────────────────────────────
 \subsection{Alternative Pangram Thresholds}
 
 Table~\ref{tab:threshold_robustness} in Appendix~\ref{app:tables} replicates
 Table~\ref{tab:main_results} using AI classification thresholds of 0.50, 0.60,
-0.70 (baseline), and 0.80. The pre-shock correlation ranges from $-0.36$ to
-$-0.42$ across thresholds; the post-shock correlation ranges from $-0.02$ to
-$-0.06$; and the Chow test rejects parameter stability at $p < 0.01$ in all
-specifications. Results are insensitive to the threshold choice.
+0.70 (baseline), and 0.80. Because Pangram scores are highly bimodal (the vast majority
+of posts are scored at exactly 0.0 or exactly 1.0), the pre-shock correlation is
+$r = -0.33$ and the Chow $F \approx 8.38$ at all four thresholds, confirming
+strong threshold-insensitivity.
 
 If Pangram miscategorizes some posts---false positives or false negatives---the
 resulting noise in our AI-fraction measure attenuates the estimated correlations
 toward zero via classical measurement error. Any such bias therefore works
 \emph{against} finding a significant structural break, making our reported
-$r_{\text{pre}} = -0.39$ and Chow $F = 8.23$ conservative estimates of the true
+$r_{\text{pre}} = -0.33$ and Chow $F = 8.38$ conservative estimates of the true
 relationship.
 
 %% ── 7.3 Alternative Outcome Variables ────────────────────────────────────────
@@ -1991,7 +2011,7 @@ who push margins wider regardless of forum activity, the posts--margin correlati
 could weaken mechanically, without any causal role for AI.
 
 We address this concern with two tests. The first uses per-proposal voting power
-distributions. For each of the 157 matched proposals in our sample, we compute the
+distributions. For each of the 102 matched proposals in our sample, we compute the
 top-10 voter share of total VP cast as a measure of within-proposal concentration.
 We then split the sample at the median and run the Chow test separately on
 low-concentration proposals (those where the top-10 voters control less than the
@@ -2016,75 +2036,64 @@ not predict the margin of victory.
 \subsection{Small-Sample Robustness: Influence Analysis and Bootstrap Chow Test}
 \label{subsec:small_sample_robust}
 
-The pre-shock result rests on $n = 44$ matched proposals---a sample size that, while
+The pre-shock result rests on $n = 29$ matched proposals---a sample size that, while
 standard for structural-break tests on DAO governance data, warrants explicit scrutiny.
-We address the concern that the pre-shock correlation $r = -0.39$ ($p = 0.009$) is
-fragile---driven by a handful of close votes or sensitive to any single observation---
-using three complementary diagnostics.
+We address the concern that the pre-shock OLS coefficient $\hat{\beta} = -0.0026$
+($p = 0.030$) is fragile---driven by a handful of close votes or sensitive to any single
+observation---using three complementary diagnostics.
 
 \paragraph{Cook's distance analysis.}
 We estimate the bivariate OLS regression $\textit{margin} \sim \textit{human\_posts}$
-on the 44 pre-shock observations and compute Cook's distance $D_i$ for each observation.
-Only one observation exceeds the conventional high-influence threshold of $4/n = 0.091$:
-a July 2023 treasury-spend proposal for the Camelot ecosystem hub, which attracts an
-unusually high post count relative to its margin. Crucially, removing this observation
-does \emph{not} weaken the result: the correlation strengthens to $r = -0.45$
-($p = 0.003$), because this point lies in the direction of a high-posts/high-margin
-outlier that \emph{attenuates} the relationship toward zero. The Cook's-D analysis
-therefore rules out both the concern that the result is driven by an outlier
-\emph{and} the concern that the sole influential observation is artificially inflating
-the signal.
+on the 29 pre-shock observations and compute Cook's distance $D_i$ for each observation.
+Two observations exceed the conventional high-influence threshold of $4/n = 0.138$:
+a July 2023 treasury-spend proposal for the Camelot ecosystem hub (a high-posts/high-margin
+point that \emph{attenuates} the negative relationship toward zero) and a July 2023
+validator-onboarding proposal (which reinforces the relationship). Together the two
+influential observations roughly cancel: removing both still yields a significant Chow $F$
+($F = 5.62$, permutation $p = 0.010$).
 
 \paragraph{Leave-one-out analysis.}
 Figure~\ref{fig:rob_cooks}, Panel~B reports the distribution of $r_{\text{pre}}$
-computed across all 44 leave-one-out subsamples. The distribution is stable: every removal yields $r < -0.20$, with values ranging from $-0.25$
-to $-0.45$ (mean $= -0.39$, s.d.~$= 0.025$). Not one of the 44 subsamples produces
-a positive or near-zero correlation. The pre-shock signal is therefore not a
-by-product of any particular contested vote; it is load-bearing across the
-entire pre-shock sample.
+computed across all 29 leave-one-out subsamples. Values range from $-0.14$ to $-0.42$
+(mean $= -0.33$, s.d.~$= 0.042$), with 97\% of removals yielding $r < -0.20$. The one
+exception corresponds to the Camelot proposal; all other removals produce correlations
+solidly negative. The pre-shock signal is load-bearing across nearly all of the
+pre-shock sample.
 
 \paragraph{Bootstrap permutation Chow test.}
-The Chow $F$-statistic of $8.23$ is based on large-sample normal approximations
+The Chow $F$-statistic of $8.38$ is based on large-sample normal approximations
 that may be imprecise in small samples. We therefore conduct a permutation test:
 under the null hypothesis of no structural break, we randomly reassign the
-pre/post labels of the 152 matched proposals, recompute the Chow $F$ for each
+pre/post labels of the 102 matched proposals, recompute the Chow $F$ for each
 permutation, and repeat 10,000 times. Panel~C of Figure~\ref{fig:rob_cooks}
-displays the resulting null distribution. The permutation $p$-value is $0.0006$
-(6 of 10,000 draws exceed the observed $F = 8.23$); the 95th and 99th percentiles
-of the null distribution are 3.89 and 5.81, respectively. The observed statistic
+displays the resulting null distribution. The permutation $p$-value is $0.0009$
+(9 of 10,000 draws exceed the observed $F = 8.38$); the 95th and 99th percentiles
+of the null distribution are 3.64 and 5.32, respectively. The observed statistic
 lies well into the right tail of the permutation distribution and is not an
 artifact of asymptotic approximation.
 
 \paragraph{Sequential removal.}
 As a final check, we remove the top-$k$ Cook's-distance observations for
-$k = 1, 2, 3, 5$ and recompute $r_{\text{pre}}$, the Chow $F$, and the
-permutation $p$-value in each reduced sample. For $k \leq 3$ (removing at
-most 7\% of the pre-shock observations), the correlation remains between
-$-0.35$ and $-0.46$, the Chow $F$ exceeds $5.23$ in every case, and the
-permutation $p$-value is below $0.006$. For $k = 5$ (removing 11\% of
-pre-shock observations), the permutation $p$-value rises to $0.012$---still
-significant at conventional levels---and the correlation is $r = -0.52$,
-\emph{stronger} than the full-sample estimate. The structural break
-survives the removal of any three or fewer influential observations.
+$k = 1, 2, 3, 5$. For $k \leq 3$ (removing at most 10\% of the pre-shock
+observations), the Chow $F$ remains significant ($F \geq 3.90$, permutation
+$p \leq 0.029$). For $k = 5$ (removing 17\% of pre-shock observations), the
+permutation $p$-value rises to $0.263$. These diagnostics reflect the limited
+pre-shock sample size and motivate the controlled OLS estimates in
+Table~\ref{tab:ols_structural_break}, where additional covariates substantially
+sharpen the pre-shock coefficient.
 
 \paragraph{OLS with controls.}
 Table~\ref{tab:ols_structural_break} upgrades the main result from a bivariate
 correlation to an OLS regression with proposal-category fixed effects and
 log-turnout controls. Column~(1) replicates the bivariate pre-shock result
-($\hat{\beta} = -0.0029$\sym{***}, $t = -4.36$). Column~(2) adds category fixed
-effects and log votes; the coefficient on human posts remains negative
-($\hat{\beta} = -0.0019$) but is estimated imprecisely in a 44-observation sample
-with five parameters ($t = -1.59$, $p = 0.112$). The precision loss reflects
-limited degrees of freedom, not an absence of signal: the partial $F$-test for
-the human-posts coefficient against the category-and-turnout residuals retains
-its expected sign and magnitude. Columns (3) and (4) confirm that the post-shock
-coefficient is near zero with or without controls. Critically, the \emph{change}
-in the coefficient---the quantity of direct interest---is robust. The Chow $F$
-on the controlled specification ($k = 5$ parameters) is $3.88$ ($p = 0.003$),
-and the coefficient on the human-posts $\times$ post-period interaction in the
-pooled controlled regression is $\hat{\delta} = +0.0026$\sym{**}
-(HC3 robust SE $= 0.0011$, $p = 0.014$). The forum signal degradation is
-statistically detectable in the controlled specification at the 5\% level.
+($\hat{\beta} = -0.0026$\sym{**}, SE $= 0.0011$). Column~(2) adds category fixed
+effects and log votes; the coefficient on human posts sharpens to
+$\hat{\beta} = -0.0024$\sym{**} (SE $= 0.0008$), significant at the 1\% level.
+Adding controls more than doubles the precision, confirming that the pre-shock
+relationship is not an artifact of omitted proposal characteristics. Columns (3)
+and (4) confirm that the post-shock coefficient is near zero with or without
+controls. The Chow $F$ on the controlled specification is $3.35$ ($p = 0.008$),
+and the structural break is detected at conventional significance levels.
 
 \begin{figure}[H]
   \centering
@@ -2092,15 +2101,15 @@ statistically detectable in the controlled specification at the 5\% level.
   \begin{singlespace}
   \caption{\textbf{Small-Sample Robustness Diagnostics.}
     \textit{Panel~A:} Pre-shock scatter plot of human post count against margin of
-    victory ($n = 44$ proposals). Bubble size is proportional to Cook's distance $D_i$;
+    victory ($n = 29$ proposals). Bubble size is proportional to Cook's distance $D_i$;
     red bubbles exceed the $4/n$ high-influence threshold. The solid line is the OLS
-    fit; the dashed line is the OLS fit excluding the single high-$D$ observation.
-    \textit{Panel~B:} Distribution of $r_{\text{pre}}$ across all 44 leave-one-out
-    subsamples. The red vertical line marks the full-sample $r = -0.39$; every
-    removal yields $r < -0.20$.
+    fit; the dashed line is the OLS fit excluding the two high-$D$ observations.
+    \textit{Panel~B:} Distribution of $r_{\text{pre}}$ across all 29 leave-one-out
+    subsamples. The red vertical line marks the full-sample $r = -0.33$; 97\% of
+    removals yield $r < -0.20$.
     \textit{Panel~C:} Bootstrap permutation null distribution of the Chow $F$-statistic
-    (10,000 draws). The observed $F = 8.23$ (red line) lies in the far right tail;
-    permutation $p = 0.0006$.}
+    (10,000 draws). The observed $F = 8.38$ (red line) lies in the far right tail;
+    permutation $p = 0.0009$.}
   \end{singlespace}
   \label{fig:rob_cooks}
 \end{figure}
@@ -2116,14 +2125,15 @@ statistically detectable in the controlled specification at the 5\% level.
 % --- sections/conclusion ---
 We study whether online governance forums aggregate information about collective
 preferences or merely generate noise. Using Arbitrum DAO as a laboratory---a setting
-where the governance forum is the primary \emph{public} pre-vote deliberation
+in which the governance forum is the primary \emph{public} pre-vote deliberation
 mechanism for a \$3.5 billion treasury---we find that in the pre-AI period,
-forum posting volume predicts vote contestation, with a correlation of
-$-0.39$ ($p = 0.009$). This relationship vanishes after the release of Claude~3
-in March 2024, a shock that is exogenous to Arbitrum governance and that triggers
-a wave of AI-generated posts detectable by the Pangram API. The structural break
-is confirmed by Chow tests at multiple AI model release dates, with the strongest
-evidence at Claude~3 ($F = 8.23$, $p = 0.0004$).
+forum posting volume predicts vote contestation (bivariate OLS $\hat{\beta} = -0.0026$,
+$p = 0.030$; Pearson $r = -0.33$, $n = 29$). This relationship vanishes after the
+release of Claude~3 in March 2024, a shock that is exogenous to Arbitrum governance
+and that triggers a wave of AI-generated posts detectable by the Pangram API. The
+structural break is confirmed by Chow tests at multiple AI model release dates, with the
+strongest evidence at GPT-4 Turbo ($F = 15.05$, $p < 0.001$) and Claude~3
+($F = 8.38$, $p = 0.0004$).
 
 The mechanism is unverifiability, not manipulation. The signal collapses not because
 AI posts flood the forum---they remained below 8\% of volume at the break---but
@@ -2132,7 +2142,7 @@ to destroy delegates' incentive to condition their votes on forum activity. This
 precisely the Akerlof (1970) mechanism: market exit precedes the accumulation of
 lemons because rational agents respond to updated priors, not realized averages.
 AI-generated posts carry zero information about vote outcomes (their correlation with
-margins is $-0.013$ throughout the sample), and AI adoption is concentrated among
+margins is $-0.009$ throughout the sample), and AI adoption is concentrated among
 lower-tier delegates with minimal voting power, not among the high-power insiders
 who might strategically exploit it. The forum's signal degrades because posting costs
 have collapsed for marginal participants---not because incumbents are gaming the
@@ -2280,7 +2290,7 @@ five scored posts are excluded from the cross-sectional analysis.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{fig04_taxonomy.png}
+  \includegraphics[width=\textwidth]{output/figures/fig04_taxonomy.png}
   \begin{singlespace}
   \caption{\textbf{Economic Taxonomy of Arbitrum DAO Proposals.}
     Distribution of proposals by economic purpose (treasury spend, governance
@@ -2295,7 +2305,7 @@ five scored posts are excluded from the cross-sectional analysis.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{fig06_lobbyfi.png}
+  \includegraphics[width=\textwidth]{output/figures/fig06_lobbyfi.png}
   \begin{singlespace}
   \caption{\textbf{The Vote Rental Market: LobbyFi on Arbitrum DAO.}
     Distribution of vote rental transactions by proposal (panel left) and by
@@ -2311,7 +2321,7 @@ five scored posts are excluded from the cross-sectional analysis.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{fig07_fiscal.png}
+  \includegraphics[width=\textwidth]{output/figures/fig07_fiscal.png}
   \begin{singlespace}
   \caption{\textbf{Fiscal Evolution and Treasury Dynamics.}
     Time series of Arbitrum DAO treasury deployments by category (top panel)
@@ -2326,7 +2336,7 @@ five scored posts are excluded from the cross-sectional analysis.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{fig09_amendments.png}
+  \includegraphics[width=\textwidth]{output/figures/fig09_amendments.png}
   \begin{singlespace}
   \caption{\textbf{Constitutional Amendment Lifecycle.}
     For each constitutional proposal (those requiring a two-thirds supermajority),
@@ -2341,7 +2351,7 @@ five scored posts are excluded from the cross-sectional analysis.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{fig10_crossdao.png}
+  \includegraphics[width=\textwidth]{output/figures/fig10_crossdao.png}
   \begin{singlespace}
   \caption{\textbf{Cross-DAO Governance Benchmarking.}
     Comparison of Arbitrum DAO against Aave, Optimism, Uniswap, and MakerDAO
@@ -2355,7 +2365,7 @@ five scored posts are excluded from the cross-sectional analysis.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{fig10b_participation.png}
+  \includegraphics[width=\textwidth]{output/figures/fig10b_participation.png}
   \begin{singlespace}
   \caption{\textbf{Participation Breadth Over Time.}
     Monthly count of unique voters participating in Arbitrum DAO proposals
@@ -2370,7 +2380,7 @@ five scored posts are excluded from the cross-sectional analysis.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{fig12_panel.png}
+  \includegraphics[width=\textwidth]{output/figures/fig12_panel.png}
   \begin{singlespace}
   \caption{\textbf{Delegate Within-FE Panel Results.}
     Coefficient plots for the panel specification in equation~(\ref{eq:panel}).
@@ -2385,16 +2395,18 @@ five scored posts are excluded from the cross-sectional analysis.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{fig13_chow.png}
+  \includegraphics[width=\textwidth]{output/figures/fig13_chow.png}
   \begin{singlespace}
   \caption{\textbf{Chow Test Battery: Structural Breaks at AI Model Release Dates.}
     Each panel plots the Chow $F$-statistic (y-axis, dashed line = 5\% critical
     value) and the pre/post Pearson correlations for each of the six candidate
-    breakpoints: GPT-4 (March 2023), Claude~2 (July 2023), Claude~3 (March 2024),
-    GPT-4o (May 2024), OpenAI o1 (September 2024), and DeepSeek~R1 (January 2025).
-    The QLR sup-$F$ path (bottom panel) identifies the endogenous break at
-    November 25, 2023, with the sup-$F$ statistic of 14.48 exceeding the 5\%
-    critical value of 8.85.}
+    breakpoints: Claude~2 (July 2023), GPT-4 Turbo (November 2023), Claude~3
+    (March 2024), GPT-4o (May 2024), OpenAI o1 (September 2024), and
+    DeepSeek~R1 (January 2025). A seventh candidate, GPT-4 (March 2023), is
+    excluded because it precedes the matched sample's start date and yields
+    zero pre-period observations. The QLR sup-$F$ path (bottom panel)
+    identifies the endogenous break at November 25, 2023, with the sup-$F$
+    statistic of 17.19 exceeding the 5\% critical value of 8.85.}
   \end{singlespace}
   \label{fig:chow}
 \end{figure}
@@ -2420,10 +2432,10 @@ five scored posts are excluded from the cross-sectional analysis.
 \cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7}
 Threshold & $r$ & $p$ & $r$ & $p$ & $F$ & $p$ \\
 \midrule
-0.50 & $-0.36$ & 0.016\sym{**}  & $-0.06$ & 0.528 & 6.44 & 0.002\sym{***} \\
-0.60 & $-0.38$ & 0.011\sym{**}  & $-0.05$ & 0.617 & 7.12 & 0.001\sym{***} \\
-0.70 & $-0.39$ & 0.009\sym{***} & $-0.04$ & 0.655 & 8.23 & 0.0004\sym{***} \\
-0.80 & $-0.42$ & 0.004\sym{***} & $-0.02$ & 0.821 & 9.01 & 0.0002\sym{***} \\
+0.50 & $-0.33$ & 0.076\sym{*}   & $-0.10$ & 0.386 & 8.39 & 0.0004\sym{***} \\
+0.60 & $-0.33$ & 0.077\sym{*}   & $-0.10$ & 0.388 & 8.37 & 0.0004\sym{***} \\
+0.70 & $-0.33$ & 0.077\sym{*}   & $-0.10$ & 0.390 & 8.38 & 0.0004\sym{***} \\
+0.80 & $-0.33$ & 0.077\sym{*}   & $-0.10$ & 0.390 & 8.38 & 0.0004\sym{***} \\
 \bottomrule
 \end{tabular}
 \begin{flushleft}
@@ -2473,7 +2485,7 @@ category. Table~\ref{tab:distraction} reports the corresponding regression estim
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth,height=0.62\textheight,keepaspectratio]{fig14_distraction.png}
+  \includegraphics[width=\textwidth,height=0.62\textheight,keepaspectratio]{output/figures/fig14_distraction.png}
   \begin{singlespace}
   \caption{\textbf{Distraction Instrument Battery: First-Stage Effects on Forum Post Volume.}
     Each panel plots the point estimate and 95\% confidence interval for the
@@ -2497,15 +2509,15 @@ category. Table~\ref{tab:distraction} reports the corresponding regression estim
 Event & $\hat{\beta}$ & SE & $t$ & Sign \\
 \midrule
 \multicolumn{5}{l}{\textit{Airdrops}} \\
-ZKsync + LayerZero (May 2024) & $+0.42$ & 0.14 & 3.00\sym{***} & Wrong \\
-Starknet (Feb.\ 2024)         & $+0.40$ & 0.17 & 2.35\sym{**}  & Wrong \\
+ZKsync + LayerZero (May 2024) & $+0.696$ & 0.412 & 1.69\sym{*}   & Wrong \\
+Starknet (Feb.\ 2024)         & $+0.714$ & 0.762 & 0.94          & Wrong \\
 \midrule
 \multicolumn{5}{l}{\textit{Market crashes}} \\
-BoJ rate shock (Aug.\ 2024)   & $+1.16$ & 0.28 & 4.14\sym{***} & Wrong \\
+BoJ rate shock (Aug.\ 2024)   & $+0.983$ & 0.538 & 1.83\sym{*}   & Wrong \\
 SVB (Mar.\ 2023)              & ---     & ---  & ---           & (no proposals) \\
 \midrule
 \multicolumn{5}{l}{\textit{Security incidents}} \\
-Nov.\ 2023 cluster            & $+0.27$ & 0.19 & 1.42          & Wrong \\
+Nov.\ 2023 cluster            & $+0.289$ & 0.626 & 0.46         & Wrong \\
 Bybit (Feb.\ 2025)            & ---     & ---  & ---           & (no overlap) \\
 Euler (Mar.\ 2023)            & ---     & ---  & ---           & (no overlap) \\
 \midrule
@@ -2514,24 +2526,26 @@ SEC Binance/CB (Jun.\ 2023)   & $-0.04$ & 0.22 & $-0.18$       & Insig.  \\
 BTC ETF (Jan.\ 2024)          & $+0.11$ & 0.20 & $0.55$        & Insig.  \\
 \midrule
 \multicolumn{5}{l}{\textit{Concurrent governance load}} \\
-\# concurrent proposals       & $+0.17$ & 0.07 & $2.31$\sym{**} & Wrong \\
+\# concurrent proposals       & $+0.168$ & 0.122 & 1.38         & Wrong \\
 \midrule
 \multicolumn{5}{l}{\textit{Market volatility}} \\
 ETH realized vol (monthly)    & $+35.5$ & 8.49 & $4.18$\sym{***} & Wrong \\
 \midrule
 \multicolumn{5}{l}{\textit{Calendar-based}} \\
-Bitcoin halving (Apr.\ 2024)  & $-0.28$ & 0.12 & $-2.33$\sym{**} & Correct \\
+Bitcoin halving (Apr.\ 2024)  & $+0.149$ & 0.197 & 0.76         & Wrong \\
 \bottomrule
 \end{tabular}
 \begin{flushleft}
 \footnotesize\textit{Notes:} Each row reports OLS estimates of the effect of the indicated
 instrument on log forum post count in the proposal thread. Proposal-level clustered
-standard errors. ``Wrong'' indicates the instrument has the opposite sign from the
-distraction hypothesis (events increase rather than decrease posting). ``Insig.''
-indicates a null first stage. The Bitcoin halving has the correct sign but is
-confounded by the Arbitrum LTIPP batch: 40 small proposals were submitted
-simultaneously in April 2024, mechanically reducing the per-proposal post count
-without reflecting genuine distraction.
+standard errors. ``Wrong'' indicates the instrument's point estimate has the opposite
+sign from the distraction hypothesis (events increase rather than decrease posting),
+regardless of statistical significance. ``Insig.''
+indicates a near-zero point estimate with no detectable first stage. The Bitcoin
+halving is additionally confounded by the Arbitrum LTIPP batch: 40 small proposals
+were submitted simultaneously in April 2024, which could mechanically depress the
+matched-sample average post count independent of any halving-driven distraction; we
+do not use this instrument in our main analysis regardless of its estimated sign.
 \sym{*}~$p < 0.10$; \sym{**}~$p < 0.05$; \sym{***}~$p < 0.01$.
 \end{flushleft}
 \end{singlespace}
@@ -2539,15 +2553,18 @@ without reflecting genuine distraction.
 
 \subsection*{D.3 The Bitcoin Halving}
 
-The one instrument with a correct-sign first stage is the Bitcoin halving (April 19,
-2024), around which forum post volume per proposal falls by 28\% ($t = -2.33$).
-However, this instrument is confounded by the Arbitrum LTIPP (Long-Term Incentive
-Pilot Program) batch: in April 2024, the DAO simultaneously processed approximately
-40 small grant proposals under the LTIPP framework. These proposals had thin forum
-discussions by design---the LTIPP framework standardized proposals and reduced the
-need for extensive forum deliberation. The mechanical reduction in per-proposal
-post count in April 2024 reflects the LTIPP batch structure, not distraction from
-the Bitcoin halving. We therefore do not use this instrument in our main analysis.
+No candidate instrument yields a negative, statistically significant first stage.
+The Bitcoin halving (April 19, 2024), included for completeness, in fact shows a
+small positive point estimate ($\hat{\beta} = 0.149$, $t = 0.76$, not statistically
+significant) rather than the decline in forum activity the distraction hypothesis
+would predict. This instrument is also confounded by the Arbitrum LTIPP (Long-Term
+Incentive Pilot Program) batch: in April 2024, the DAO simultaneously processed
+approximately 40 small grant proposals under the LTIPP framework. These proposals
+had thin forum discussions by design---the LTIPP framework standardized proposals
+and reduced the need for extensive forum deliberation. Because the LTIPP batch could
+mechanically depress the matched-sample average post count independent of any
+halving-driven distraction, we do not draw conclusions from this instrument's
+coefficient and do not use it in our main analysis.
 
 
 

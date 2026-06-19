@@ -84,10 +84,23 @@ def main():
     ).fetchone()[0]
     print(f"Already scored: {already_scored} posts")
 
+    # Pick up never-scored posts AND posts whose previous attempt ended in a
+    # transient API error (headline LIKE 'error:%'). Without the second
+    # clause, any post that hit a rate limit / timeout / 5xx is silently and
+    # permanently excluded, since INSERT OR REPLACE never gets a chance to
+    # overwrite a row that already "exists". too_short rows are NOT retried
+    # by design (that's a deterministic skip, not a failure).
+    n_retry_candidates = con.execute(
+        "SELECT COUNT(*) FROM post_ai_scores WHERE headline LIKE 'error:%'"
+    ).fetchone()[0]
+    if n_retry_candidates:
+        print(f"Retrying {n_retry_candidates} posts with a prior API error.")
+
     rows = con.execute("""
         SELECT p.id, p.cooked
         FROM posts p
         WHERE p.id NOT IN (SELECT post_id FROM post_ai_scores)
+           OR p.id IN (SELECT post_id FROM post_ai_scores WHERE headline LIKE 'error:%')
         ORDER BY p.id
     """).fetchall()
     print(f"Posts remaining: {len(rows)}")

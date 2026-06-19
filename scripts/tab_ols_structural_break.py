@@ -122,7 +122,13 @@ def load_json(p):
     return {}
 
 snap_raw    = load_json(SNAP_CACHE)
-forum_cache = load_json(FORUM_CACHE)
+
+# Load all forum topic titles from DuckDB for broader title matching
+con2 = duckdb.connect(DB_PATH, read_only=True)
+all_topics_df = con2.execute("SELECT id, title FROM topics WHERE title IS NOT NULL").df()
+con2.close()
+all_topic_titles = dict(zip(all_topics_df["id"].astype(int), all_topics_df["title"]))
+matchable_tids = set(topic_human.keys())
 
 rows = []
 for p in snap_raw:
@@ -140,10 +146,11 @@ snap_df = pd.DataFrame(rows)
 matched = []
 for row in snap_df.itertuples():
     best_s, best_tid = 0, None
-    for tid, fd in forum_cache.items():
-        s = title_sim(row.title, fd.get("title", ""))
+    for tid, ttitle in all_topic_titles.items():
+        if tid not in matchable_tids: continue
+        s = title_sim(row.title, ttitle)
         if s > best_s:
-            best_s, best_tid = s, int(tid)
+            best_s, best_tid = s, tid
     if best_s < MATCH_THRESHOLD or best_tid is None: continue
     hp = topic_human.get(best_tid, np.nan)
     if np.isnan(hp): continue
@@ -157,12 +164,21 @@ for row in snap_df.itertuples():
         "total_posts": float(topic_total.get(best_tid, hp)),
         "votes":       row.votes,
         "category":    cat,
+        "topic_id":    best_tid,
+        "match_score": best_s,
     })
 
 df = (pd.DataFrame(matched)
         .dropna(subset=["human_posts", "margin"])
         .sort_values("created")
         .reset_index(drop=True))
+
+# De-duplicate: enforce 1-to-1 forum-thread → proposal matching (same logic as fig08).
+df = df[~(df["title"].str.contains("AIP 1.05", na=False) &
+           ~df["title"].str.contains(r"\[REAL\]", na=False, regex=True))]
+df = (df.sort_values("match_score", ascending=False)
+        .drop_duplicates("topic_id", keep="first"))
+df = df[df["match_score"] >= 0.65].sort_values("created").reset_index(drop=True)
 
 df["log_votes"]    = np.log1p(df["votes"])
 df["period"]       = np.where(df["created"] < BREAK_DATE, "pre", "post")

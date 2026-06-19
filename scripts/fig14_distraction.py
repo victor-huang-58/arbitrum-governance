@@ -183,7 +183,7 @@ COLORS = {
     "hack":       "#8E44AD",   # purple
     "crash":      "#E74C3C",   # red
     "regulatory": "#2980B9",   # blue
-    "scheduled":  "#27AE60",   # green (only one with "right" sign — but confounded)
+    "scheduled":  "#27AE60",   # green
 }
 
 fig, ax = plt.subplots(figsize=(12, 8))
@@ -254,8 +254,9 @@ ax.text(xlim[1]*0.52, len(binary_df) - 0.5,
 
 note_text = (
     "Note: Instruments with n=0 treated proposals reflect no Arbitrum voting\n"
-    "during the event window. Bitcoin halving (green, −sign) is confounded\n"
-    "by the Arbitrum LTIPP grant batch (n≈40 small applications in April 2024).\n"
+    "during the event window. Bitcoin halving is confounded\n"
+    "by the Arbitrum LTIPP grant batch (n≈40 small applications in April 2024);\n"
+    "its estimated sign is positive (wrong direction), same as all other instruments.\n"
     f"Full sample: N={N} contested proposals, 2023–2026."
 )
 fig.text(0.39, 0.01, note_text, fontsize=7.5, color="#555555", va="bottom")

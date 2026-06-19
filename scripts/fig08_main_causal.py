@@ -218,11 +218,17 @@ print(f"  Margin stats: mean={snap_df['margin'].mean():.3f}  "
       f"min={snap_df['margin'].min():.3f}  max={snap_df['margin'].max():.3f}")
 
 
-# ── Step 3: Load forum thread cache ──────────────────────────────────────────
+# ── Step 3: Load all forum topic titles from DuckDB ──────────────────────────
 
-print("\nStep 3: Loading forum thread cache...")
-forum_cache = load_json(FORUM_CACHE)
-print(f"  {len(forum_cache)} forum threads in cache")
+print("\nStep 3: Loading forum topic titles from DuckDB...")
+con2 = duckdb.connect(DB_PATH, read_only=True)
+all_topics_df = con2.execute("SELECT id, title FROM topics WHERE title IS NOT NULL").df()
+con2.close()
+all_topic_titles = dict(zip(all_topics_df["id"].astype(int), all_topics_df["title"]))
+print(f"  {len(all_topic_titles)} forum topics available for matching")
+# Only match to topics that have scored posts in DuckDB (so human_posts is not NaN)
+matchable_tids = set(topic_human.keys())
+print(f"  {len(matchable_tids)} topics have scored post data")
 
 
 # ── Step 4: Match forum threads → Snapshot proposals ─────────────────────────
@@ -232,10 +238,12 @@ print("\nStep 4: Matching forum threads to Snapshot proposals...")
 matched = []
 for row in snap_df.itertuples():
     best_score, best_tid, best_title = 0, None, None
-    for tid, fdata in forum_cache.items():
-        s = title_sim(row.title, fdata.get("title", ""))
+    for tid, ttitle in all_topic_titles.items():
+        if tid not in matchable_tids:
+            continue
+        s = title_sim(row.title, ttitle)
         if s > best_score:
-            best_score, best_tid, best_title = s, int(tid), fdata.get("title", "")
+            best_score, best_tid, best_title = s, tid, ttitle
     if best_score < MATCH_THRESHOLD or best_tid is None:
         continue
     matched.append({
@@ -255,11 +263,22 @@ match_df = (pd.DataFrame(matched)
               .dropna(subset=["human_posts", "margin"])
               .sort_values("created")
               .reset_index(drop=True))
+
+# De-duplicate: enforce 1-to-1 forum-thread → proposal matching.
+# Batch grant programs (LTIPP, STIP Round 1) produce many proposals with
+# similar titles that fuzzy-match to the same unrelated thread. We drop the
+# retracted AIP 1.05 vote, then keep only the highest-score match per
+# topic_id, then require match_score >= 0.65 to exclude residual bad matches.
+match_df = match_df[~(match_df["title"].str.contains("AIP 1.05", na=False) &
+                       ~match_df["title"].str.contains(r"\[REAL\]", na=False, regex=True))]
+match_df = (match_df.sort_values("match_score", ascending=False)
+                    .drop_duplicates("topic_id", keep="first"))
+match_df = match_df[match_df["match_score"] >= 0.65].sort_values("created").reset_index(drop=True)
 match_df["prop_index"] = match_df.index
 
 MATCHED_CSV = os.path.join(ROOT, "data", "matched_proposals.csv")
 match_df.to_csv(MATCHED_CSV, index=False)
-print(f"  {len(match_df)} proposals matched with human/AI post counts and margin data")
+print(f"  {len(match_df)} proposals matched with human/AI post counts and margin data (after de-dup)")
 print(f"  Saved to {MATCHED_CSV}")
 
 # Baseline correlation

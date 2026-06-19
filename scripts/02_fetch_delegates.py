@@ -201,13 +201,21 @@ def store_mapping(con, mapping: dict):
             ens_name       VARCHAR
         )
     """)
-    con.execute("DELETE FROM delegate_wallet_map")
-    for username, info in mapping.items():
-        con.execute(
-            "INSERT INTO delegate_wallet_map VALUES (?, ?, ?, ?)",
-            (username, info["wallet"], info["source"], info.get("ens"))
-        )
-    con.commit()
+    # Wrap delete + re-insert in a single transaction so a crash mid-loop
+    # cannot leave the table empty (previously: autocommitted DELETE, then
+    # one INSERT per row with no rollback on failure).
+    con.execute("BEGIN TRANSACTION")
+    try:
+        con.execute("DELETE FROM delegate_wallet_map")
+        for username, info in mapping.items():
+            con.execute(
+                "INSERT INTO delegate_wallet_map VALUES (?, ?, ?, ?)",
+                (username, info["wallet"], info["source"], info.get("ens"))
+            )
+        con.commit()
+    except Exception:
+        con.rollback()
+        raise
     print(f"  Stored {len(mapping)} delegate→wallet mappings")
 
 

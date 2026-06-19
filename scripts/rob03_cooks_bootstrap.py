@@ -3,14 +3,14 @@
 Robustness Check: Cook's D Influence Analysis + Bootstrap Chow Test
 Journal of Finance paper on Arbitrum governance.
 
-Directly addresses the referee concern that the pre-period r = -0.39 (n=44)
+Directly addresses the referee concern that the pre-period r = -0.33 (n=29)
 is fragile and potentially driven by a handful of close votes.
 
 Panel A: Pre-period scatter (human posts vs margin) with Cook's D bubble sizes.
          Flags observations with D > 4/n (standard high-influence threshold).
          Shows the OLS fit and 95% CI survive removal of high-D points.
 
-Panel B: Leave-one-out sensitivity — distribution of r_pre when each of the 44
+Panel B: Leave-one-out sensitivity — distribution of r_pre when each of the 29
          pre-period observations is removed. A tight distribution far from zero
          rules out a single-observation driver.
 
@@ -19,7 +19,7 @@ Panel C: Bootstrap permutation Chow F — under H0 (no structural break), random
          The observed F's position in this null distribution gives a
          non-parametric p-value free of small-sample normal approximation.
 
-Break date: GPT-4 Turbo, November 6 2023 (QLR-identified primary break).
+Break date: Claude 3, March 4 2024 (QLR-identified primary break, n_pre=29, n_post=73).
 """
 
 import os, re, json, time
@@ -52,7 +52,7 @@ SNAPSHOT_URL    = "https://hub.snapshot.org/graphql"
 HEADERS         = {"User-Agent": "Mozilla/5.0 (research-bot)"}
 MATCH_THRESHOLD = 0.55
 AI_THRESHOLD    = 0.70
-BREAK_DATE      = pd.Timestamp("2024-03-04")   # Claude 3 (matches abstract n=44)
+BREAK_DATE      = pd.Timestamp("2024-03-04")   # Claude 3 (n_pre=29, n_post=73)
 N_BOOT          = 10_000
 RNG_SEED        = 42
 
@@ -107,8 +107,14 @@ con.close()
 topic_human = dict(zip(topic_scores.topic_id.astype(int),
                        topic_scores.human_posts.astype(int)))
 
-snap_raw   = load_json(SNAP_CACHE)
-forum_cache = load_json(FORUM_CACHE)
+snap_raw = load_json(SNAP_CACHE)
+
+# Load all forum topic titles from DuckDB (same expanded universe as fig08)
+con2 = duckdb.connect(DB_PATH, read_only=True)
+all_topics_df = con2.execute("SELECT id, title FROM topics WHERE title IS NOT NULL").df()
+con2.close()
+all_topic_titles = dict(zip(all_topics_df["id"].astype(int), all_topics_df["title"]))
+matchable_tids = set(topic_human.keys())
 
 rows = []
 for p in snap_raw:
@@ -130,10 +136,12 @@ snap_df = pd.DataFrame(rows)
 matched = []
 for row in snap_df.itertuples():
     best_s, best_tid, best_title = 0, None, ""
-    for tid, fd in forum_cache.items():
-        s = title_sim(row.title, fd.get("title", ""))
+    for tid, ttitle in all_topic_titles.items():
+        if tid not in matchable_tids:
+            continue
+        s = title_sim(row.title, ttitle)
         if s > best_s:
-            best_s, best_tid, best_title = s, int(tid), fd.get("title", "")
+            best_s, best_tid, best_title = s, tid, ttitle
     if best_s < MATCH_THRESHOLD or best_tid is None:
         continue
     hp = topic_human.get(best_tid, np.nan)
@@ -148,6 +156,13 @@ df = (pd.DataFrame(matched)
         .dropna(subset=["human_posts", "margin"])
         .sort_values("created")
         .reset_index(drop=True))
+
+# De-duplicate: same logic as fig08 and tab_ols
+df = df[~(df["title"].str.contains("AIP 1.05", na=False) &
+           ~df["title"].str.contains(r"\[REAL\]", na=False, regex=True))]
+df = (df.sort_values("match_score", ascending=False)
+        .drop_duplicates("topic_id", keep="first"))
+df = df[df["match_score"] >= 0.65].sort_values("created").reset_index(drop=True)
 
 pre  = df[df["created"] <  BREAK_DATE].reset_index(drop=True)
 post = df[df["created"] >= BREAK_DATE].reset_index(drop=True)
@@ -437,7 +452,7 @@ despine(ax_c)
 
 fig.suptitle(
     f"Robustness: Cook's D Influence Analysis and Bootstrap Chow Test\n"
-    f"Arbitrum DAO — Break date: GPT-4 Turbo ({BREAK_DATE.date()})  |  "
+    f"Arbitrum DAO — Break date: Claude 3 ({BREAK_DATE.date()})  |  "
     f"pre n={n_pre}  post n={len(post)}",
     fontsize=11, fontweight="bold", y=1.02
 )
