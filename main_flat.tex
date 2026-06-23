@@ -85,16 +85,16 @@ controlling a \$3.5 billion treasury---where participants debate proposals on a 
 forum before each binding vote, analogous to a shareholder message board.
 Forum activity predicted vote closeness before March 2024 but became uninformative after.
 The collapse coincides with language models capable of producing indistinguishable
-governance prose. The mechanism is not a flood of AI posts, which arrived nine months later,
-but the \emph{threat}: the mere possibility of unverifiable AI content is sufficient to
-unravel the forum's information value.
+governance prose.
+Interestingly, the signal collapse occurs when relatively few posts are AI-generated---approximately 5\% of forum volume at the time of the structural break, compared to 15--20\% by end of sample as AI posting volume grows rapidly.
+We use a model of endogenous posting and voting to show that this may be a general phenomenon: the signal value of the forum can collapse to zero at a discrete tipping point with a very low volume of AI posts.
+Calibrating the model to the data, using average post length (237 words) as the unit of writing effort, we estimate that the forum generated net social benefits equivalent to saving approximately 555 words of delegate research effort per proposal, all of which is destroyed at the tipping point.
 Delegates who rely on AI hold far less voting power than those who do not, ruling out
 power capture by insiders.
 Beyond the AI findings, this paper provides one of the first granular accounts of how a
 major DAO deliberates---a governance structure controlling hundreds of billions in assets
 that remains largely unstudied.
-Text-based governance is fragile: once producing a convincing fake becomes cheap, the
-signal collapses even if most participants remain honest.
+Our results suggest that the mere existence of indistinguishable AI writing is sufficient to degrade the governance capabilities of economically important organizations, even if such AI is rarely used in equilibrium.
 \end{abstract}
 
 \vspace{0.8em}
@@ -196,10 +196,7 @@ physical flood of AI-generated posts numerically overwhelmed the human signal---
 falsified by timing. To be precise: AI-generated posts are detectable on the forum
 well before the structural break---a small but measurable share appear as early as
 early 2023---but at negligible volume. At the date of the QLR break (November 2023),
-AI posts constituted less than 5\% of forum volume, and below 8\% at the Claude~3
-break (March 2024). The large-scale volume surge did not arrive until late 2024,
-nine to twelve months after the signal collapsed. A volume mechanism requires
-contamination to precede collapse; the data show the reverse.
+AI posts constituted approximately 5\% of forum volume at the QLR break (November 2023) and approximately 5\% at the Claude~3 break (March 2024). The large-scale volume surge did not arrive until late 2024, reaching 15--20\% of forum traffic nine to twelve months after the signal collapsed. A volume mechanism requires contamination to precede collapse; the data show the reverse.
 
 We propose instead an \emph{unverifiability shock} mechanism in the spirit of
 \citet{akerlof1970}. The releases of GPT-4 Turbo (November 2023) and Claude~3
@@ -1100,6 +1097,7 @@ The key implication is that $\pi$ can reach $\pi^*$ well before $\lambda$ does: 
 
 %% ── 5.4 Welfare and Comparative Statics ─────────────────────────────────────
 \subsection{Welfare and Comparative Statics}
+\label{sec:welfare}
 
 Social welfare equals the expected correctness of the vote minus participation costs:
 \[
@@ -1120,6 +1118,34 @@ Several comparative statics follow from equation (\ref{eq:pistar}):
 \end{itemize}
 
 This non-monotone structure---AI capability below $Q^*$ has zero effect; AI capability at or above $Q^*$ causes discrete collapse; further increases in AI volume have no additional marginal effect on the already-collapsed signal---matches the timing evidence in Section~\ref{sec:results} and motivates the use of model release dates as breakpoints in our empirical tests.
+
+%% ── 5.5 Calibration ─────────────────────────────────────────────────────────
+\subsection{Calibration}
+\label{sec:calibration}
+
+We calibrate the model to the data using average post length as the unit of writing effort. The average human-authored post in the pre-period (January 2023 -- February 2024) contains 237 words; we set $c_p = 237$ words per post. The pre-period averages $\bar{n} = 44.2$ human posts per proposal (1{,}283 posts across 29 proposals), so the total human writing cost per proposal is $\bar{n} \cdot c_p = 10{,}480$ words.
+
+To calibrate $\pi^*$, we use the QLR endogenous break date (November 25, 2023), at which realized AI posts constitute 5.3\% of forum volume. If we take this as the point at which the delegate's perceived contamination probability $\pi$ first crossed the reading threshold---consistent with the unverifiability mechanism in which $\pi$ tracks the public availability of capable AI---then $\pi^* = 0.053$. Substituting into equation (\ref{eq:pistar}):
+\[
+  c_r = I_H (1 - \pi^*) = 0.947 \cdot I_H.
+\]
+Normalizing $I_H = c_p = 237$ words (the information value of one genuine post equals the cost of writing one), this gives $c_r = 224$ words of reading and interpretation effort per post.
+
+The net reading value per delegate per post in the no-AI equilibrium is:
+\[
+  I_H - c_r = 237 - 224 = 13 \text{ words per post}.
+\]
+The forum is thus fragile by design: each post provides only 13 words' worth of net informational surplus per delegate---just 5.3\% of its gross information value---so that a 5.3\% contamination rate is precisely sufficient to push the expected return on reading to zero. Integrating across the thread:
+\[
+  \bar{n} \cdot (I_H - c_r) = 44.2 \times 13 \approx 555 \text{ words per delegate per proposal}.
+\]
+If $K$ delegates read the forum, the net social surplus per proposal is:
+\[
+  K \cdot 555 - \bar{n} \cdot c_p = 555K - 10{,}480 \text{ words},
+\]
+which is positive for $K \geq 19$. Arbitrum's 62 identified active delegates ($K = 62$) implies net social benefits of approximately $62 \times 555 - 10{,}480 \approx 24{,}000$ words per proposal---about 2.3 times the human writing effort invested in each thread---entirely from the public-good externality of the forum. Because 454 unique community members posted in pre-period proposal threads (and readership exceeds participation), $K \geq 62$ is a lower bound.
+
+At the tipping point, the delegate's net reading value falls from 555 to exactly 0 in a single step, and 24{,}000 words of social surplus per proposal is destroyed. After the break, human contributors still write $\approx 8{,}858$ words per proposal (the post-period average), but delegates no longer read them---a pure transfer of human effort with zero social return. The welfare loss in Section~\ref{sec:welfare} is thus not a continuous erosion but a cliff: the 5.3\% AI contamination threshold marks the exact point at which the forum transitions from a $24{,}000$-word-per-proposal public good to a $0$-word-per-proposal waste.
 
 %% ── 6. Results ────────────────────────────────────────────────────────────────
 \section{Results}
