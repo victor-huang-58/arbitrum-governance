@@ -74,30 +74,22 @@
 \begin{document}
 
 \maketitle
+\vspace{-1.5em}
 
 \begin{singlespace}
 \begin{abstract}
 \noindent
 We study the extent to which online deliberation aggregates information before collective votes.
-Our setting is the Arbitrum DAO---a decentralized autonomous organization (DAO),
-meaning an entity governed by software-enforced token votes rather than managers or a board,
-controlling a \$3.5 billion treasury---where participants debate proposals on a public
-forum before each binding vote, analogous to a shareholder message board.
-Forum activity predicted vote closeness before March 2024 but became uninformative after.
-The collapse coincides with language models capable of producing indistinguishable
-governance prose.
-Interestingly, the signal collapse occurs when relatively few posts are AI-generated---approximately 5\% of forum volume at the time of the structural break, compared to 15--20\% by end of sample as AI posting volume grows rapidly.
-We use a model of endogenous posting and voting to show that this may be a general phenomenon: the signal value of the forum can collapse to zero at a discrete tipping point with a very low volume of AI posts.
-Calibrating the model to the data, using average post length (237 words) as the unit of writing effort, we estimate that the forum generated net social benefits equivalent to saving approximately 555 words of delegate research effort per proposal, all of which is destroyed at the tipping point.
-Delegates who rely on AI hold far less voting power than those who do not, ruling out
-power capture by insiders.
-Beyond the AI findings, this paper provides one of the first granular accounts of how a
-major DAO deliberates---a governance structure controlling hundreds of billions in assets
-that remains largely unstudied.
+Our setting is Arbitrum DAO, a decentralized organization controlling a \$3.5 billion treasury, where token holders debate proposals on a public forum before each binding vote.
+Forum activity predicted vote closeness before March 2024 but became uninformative after, coinciding with language models capable of producing indistinguishable governance prose.
+Interestingly, we observe that the degradation of the forum's signal (the elimination of the correlation between posting volume and margin-of-victory) takes place at a time when relatively few posts are A.I.\ generated, relative to the end of the sample period where A.I.\ posting volume grows rapidly.
+We use a model of endogenous posting and voting to show that this may be a general phenomenon: the signal value of the forum can collapse to zero at a discrete tipping point with a very low volume of A.I.\ posts.
+Calibrating to the data, the forum generated net social benefits equivalent to saving 555 words of delegate research effort per proposal---all destroyed at the tipping point.
+Delegates who rely on AI hold far less voting power than those who do not, ruling out power capture by insiders.
 Our results suggest that the mere existence of indistinguishable AI writing is sufficient to degrade the governance capabilities of economically important organizations, even if such AI is rarely used in equilibrium.
 \end{abstract}
 
-\vspace{0.8em}
+\vspace{0.3em}
 \noindent\textit{JEL}: G18, G34, D72, O33\quad
 \noindent\textit{Keywords}: decentralized autonomous organizations, DAO governance,
 artificial intelligence, information aggregation, structural break, blockchain governance
@@ -1135,9 +1127,9 @@ The net reading value per delegate per post in the no-AI equilibrium is:
 \[
   I_H - c_r = 237 - 224 = 13 \text{ words per post}.
 \]
-The forum is thus fragile by design: each post provides only 13 words' worth of net informational surplus per delegate---just 5.3\% of its gross information value---so that a 5.3\% contamination rate is precisely sufficient to push the expected return on reading to zero. Integrating across the thread:
+The forum is thus fragile by design: each post provides only 13 words' worth of net informational surplus per delegate---just 5.3\% of its gross information value---so that a 5.3\% contamination rate is precisely sufficient to push the expected return on reading to zero. Integrating across the thread, using the unrounded difference $I_H - c_r = 237 - 224.44 = 12.56$ words per post:
 \[
-  \bar{n} \cdot (I_H - c_r) = 44.2 \times 13 \approx 555 \text{ words per delegate per proposal}.
+  \bar{n} \cdot (I_H - c_r) = 44.2 \times 12.56 \approx 555 \text{ words per delegate per proposal}.
 \]
 If $K$ delegates read the forum, the net social surplus per proposal is:
 \[
