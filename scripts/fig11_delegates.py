@@ -272,7 +272,7 @@ ax_scatter.text(0.03, 0.96,
     bbox=dict(fc="white", ec="#BDC3C7", pad=4, alpha=0.93))
 
 ax_scatter.set_xlabel("Avg Pangram fraction_ai  (0 = fully human, 1 = fully AI)", fontsize=10)
-ax_scatter.set_ylabel("log₁₀(avg voting power)", fontsize=10)
+ax_scatter.set_ylabel(r"$\log_{10}$(avg voting power)", fontsize=10)
 ax_scatter.set_title(
     "Panel A: AI Posting Intensity vs. Delegated Voting Power\n"
     "Bubble size = forum post count  |  Individual vs. protocol delegates separated",

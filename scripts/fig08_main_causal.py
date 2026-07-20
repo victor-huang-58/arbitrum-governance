@@ -390,7 +390,7 @@ def plot_rolling(ax, roll_col, color, label, dates):
         ax.text(dt, 0.96, lbl, transform=ax.get_xaxis_transform(),
                 rotation=90, va="top", ha="right", fontsize=8,
                 color=SHOCK_C, style="italic")
-    ax.set_ylabel(f"Pearson $r$ (rolling {ROLLING_WINDOW}-proposal window)")
+    ax.set_ylabel(r"Rolling Pearson $r$")
     ax.set_xlabel("Proposal date")
     ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda v, _: f"{v:.2f}"))
     ax.set_ylim(-0.85, 0.65)
