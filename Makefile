@@ -6,7 +6,7 @@ PYTHON   := python3
 SCRIPTS  := scripts
 OUT_FIG  := output/figures
 OUT_TAB  := output/tables
-PAPER    := paper
+PAPER    := main_flat
 DB       := data/arbitrum.db
 
 .PHONY: replicate environment data figures tables paper clean help
@@ -122,30 +122,31 @@ $(OUT_FIG)/rob03_cooks_bootstrap.png: $(SCRIPTS)/rob03_cooks_bootstrap.py $(DB)
 	$(PYTHON) $(SCRIPTS)/rob03_cooks_bootstrap.py
 
 # ── 3. Tables ─────────────────────────────────────────────────────────────────
-tables: $(DB) $(OUT_TAB)/tab_ols_structural_break.tex
-	@echo "==> Generating LaTeX tables..."
-	$(PYTHON) $(SCRIPTS)/figT01_ai_fraction.py
-	$(PYTHON) $(SCRIPTS)/figT02_pangram_monthly.py
+# Both tables below are \input directly by the paper.
+tables: $(DB) $(OUT_TAB)/tab_ols_structural_break.tex $(OUT_TAB)/rob02_concentration_control.tex
 
 $(OUT_TAB)/tab_ols_structural_break.tex: $(SCRIPTS)/tab_ols_structural_break.py $(DB)
 	$(PYTHON) $(SCRIPTS)/tab_ols_structural_break.py
 
+$(OUT_TAB)/rob02_concentration_control.tex: $(SCRIPTS)/rob02_concentration_control.py $(DB)
+	$(PYTHON) $(SCRIPTS)/rob02_concentration_control.py
+
 # ── 4. Paper ──────────────────────────────────────────────────────────────────
-paper: $(PAPER)/main.tex
+paper: $(PAPER).tex
 	@echo "==> Compiling paper..."
-	cd $(PAPER) && pdflatex -interaction=nonstopmode main.tex > /dev/null 2>&1
-	cd $(PAPER) && bibtex main > /dev/null 2>&1
-	cd $(PAPER) && pdflatex -interaction=nonstopmode main.tex > /dev/null 2>&1
-	cd $(PAPER) && pdflatex -interaction=nonstopmode main.tex > /dev/null 2>&1
-	@echo "==> Paper compiled: $(PAPER)/main.pdf"
+	pdflatex -interaction=nonstopmode $(PAPER).tex > /dev/null 2>&1
+	bibtex $(PAPER) > /dev/null 2>&1
+	pdflatex -interaction=nonstopmode $(PAPER).tex > /dev/null 2>&1
+	pdflatex -interaction=nonstopmode $(PAPER).tex > /dev/null 2>&1
+	@echo "==> Paper compiled: $(PAPER).pdf"
 
 # ── Utilities ─────────────────────────────────────────────────────────────────
 clean:
 	@echo "==> Cleaning generated outputs (preserving data/)..."
 	rm -f $(OUT_FIG)/*.png $(OUT_FIG)/*.pdf
 	rm -f $(OUT_TAB)/*.tex
-	rm -f $(PAPER)/main.pdf $(PAPER)/*.aux $(PAPER)/*.bbl \
-	      $(PAPER)/*.blg $(PAPER)/*.log $(PAPER)/*.out
+	rm -f $(PAPER).pdf $(PAPER).aux $(PAPER).bbl \
+	      $(PAPER).blg $(PAPER).log $(PAPER).out
 
 help:
 	@echo ""

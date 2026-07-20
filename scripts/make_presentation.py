@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Build presentation.pptx — 25-slide conference deck
-"AI and the Market for Governance Lemons"
+"The Effect of AI Writing on Governance: Evidence from a $3.5 Billion DAO"
 """
 
 from pptx import Presentation
@@ -35,7 +35,7 @@ prs.slide_height = SLIDE_H
 
 blank_layout = prs.slide_layouts[6]   # completely blank
 
-FIGURES = Path(".")
+FIGURES = Path("output/figures")
 
 def add_slide():
     return prs.slides.add_slide(blank_layout)
@@ -94,7 +94,7 @@ def footer(slide, n, total=25):
     tf2 = tb2.text_frame
     p2 = tf2.paragraphs[0]
     r2 = p2.add_run()
-    r2.text = "AI and the Market for Governance Lemons"
+    r2.text = "The Effect of AI Writing on Governance: Evidence from a $3.5 Billion DAO"
     r2.font.size = Pt(9)
     r2.font.italic = True
     r2.font.color.rgb = RGBColor(0xaa, 0xcc, 0xff)
@@ -174,12 +174,12 @@ def stat_box(slide, label, value, l, t, w=2.8, h=0.95, fill=LGRAY, vcolor=NAVY):
 sl = add_slide(); bg(sl, NAVY); footer(sl, 1)
 rect(sl, 0, 0, 13.333, 7.5, fill=NAVY)
 rect(sl, 0, 2.8, 13.333, 0.07, fill=BLUE)
-textbox(sl, "AI and the Market for Governance Lemons",
+textbox(sl, "The Effect of AI Writing on Governance: Evidence from a $3.5 Billion DAO",
         0.6, 1.0, 12.1, 1.5, size=34, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
 textbox(sl, "How Large Language Models Undermined DAO Deliberation",
         0.6, 2.5, 12.1, 0.6, size=17, color=RGBColor(0xcc,0xdd,0xff),
         align=PP_ALIGN.CENTER, italic=True)
-textbox(sl, "Victor Huang",
+textbox(sl, "Victor Huang  ·  Joseph Hall",
         0.6, 3.3, 12.1, 0.5, size=16, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
 textbox(sl, "Journal of Finance",
         0.6, 3.85, 12.1, 0.4, size=13, color=RGBColor(0xaa,0xcc,0xff),
@@ -196,10 +196,10 @@ textbox(sl,
 rect(sl, 1.0, 2.55, 11.3, 0.04, fill=BLUE)
 
 cols = [
-    ("Setting", "Arbitrum DAO: largest DAO by treasury ($2.5B ARB), 17,553 forum posts, 157 Snapshot proposals"),
+    ("Setting", "Arbitrum DAO: largest DAO by treasury ($3.5B ARB), 17,553 forum posts, 306 Snapshot proposals (102 matched)"),
     ("Shock",   "GPT-4 Turbo (Nov 2023) / Claude 3 (Mar 2024): first LLMs capable of governance-quality prose"),
     ("Method",  "Structural break analysis: does the forum-signal relationship change around AI model releases?"),
-    ("Answer",  "Yes — completely. Pre-shock r = −0.39 (p=0.009). Post-shock r = −0.04 (p=0.66). Chow F = 8.22."),
+    ("Answer",  "Yes — completely. Pre-shock r = −0.33 (n=29). Post-shock r = −0.10 (n=73). Chow F = 8.38 (p=0.0004)."),
 ]
 for i, (hd, txt) in enumerate(cols):
     x = 0.55 + i * 3.1
@@ -212,9 +212,9 @@ for i, (hd, txt) in enumerate(cols):
 # ════════════════════════════════════════════════════════════
 sl = add_slide(); bg(sl); header_bar(sl, "Why This Matters"); footer(sl, 3)
 bullets(sl,
-    ["DAOs govern $30B+ in on-chain treasury assets",
+    ["The ten largest DAOs govern ~$9B in on-chain treasury assets",
      "Text-based deliberation is the only public governance input mechanism",
-     "Arbitrum alone: $2.5B treasury, 157 on-chain proposals, 62 active delegates",
+     "Arbitrum alone: $3.5B treasury, 306 on-chain proposals (102 matched), 62 identified delegates",
      "If AI undermines deliberation, governance quality degrades silently"],
     0.5, 1.25, 6.0, 3.0, title="The stakes in DAOs", size=13)
 bullets(sl,
@@ -240,8 +240,8 @@ bullets(sl,
      "Forum deliberation is the only public deliberative stage before voting"],
     0.5, 1.3, 5.8, 3.2, title="Governance structure", size=13)
 bullets(sl,
-    ["17,553 forum posts, Jan 2023 – Apr 2026",
-     "157 matched Snapshot proposals",
+    ["17,553 forum posts, Jan 2023 – Mar 2026",
+     "102 matched Snapshot proposals (306 binary total)",
      "All posts scored by Pangram AI-detection API (v3 endpoint)",
      "Vote margin: |2·For/(For+Against) − 1|, ranging 0 (tied) to 1 (unanimous)"],
     0.5, 4.6, 5.8, 2.3, title="Data", size=13)
@@ -256,9 +256,9 @@ textbox(sl, "Contested proposals attract more genuine discussion.",
 textbox(sl, "A rational delegate should update positively on human post volume when deciding how to vote.",
         0.5, 1.75, 12.3, 0.4, size=13, color=DGRAY)
 add_figure(sl, "fig08_main_causal.png", 0.5, 2.25, 8.0)
-stat_box(sl, "Pre-shock correlation", "r = −0.39", 9.0, 2.3, fill=RGBColor(0xe8,0xf0,0xff), vcolor=PRE)
-stat_box(sl, "p-value", "p = 0.009", 9.0, 3.35, fill=RGBColor(0xe8,0xf0,0xff), vcolor=NAVY)
-stat_box(sl, "Sample size", "n = 44", 9.0, 4.4, fill=RGBColor(0xe8,0xf0,0xff), vcolor=NAVY)
+stat_box(sl, "Pre-shock correlation", "r = −0.33", 9.0, 2.3, fill=RGBColor(0xe8,0xf0,0xff), vcolor=PRE)
+stat_box(sl, "p-value (OLS)", "p = 0.030", 9.0, 3.35, fill=RGBColor(0xe8,0xf0,0xff), vcolor=NAVY)
+stat_box(sl, "Sample size", "n = 29", 9.0, 4.4, fill=RGBColor(0xe8,0xf0,0xff), vcolor=NAVY)
 textbox(sl, "More human posts → more contested vote. Forum is a real signal. Until it isn't.",
         9.0, 5.5, 4.1, 0.8, size=11, italic=True, color=DGRAY)
 
@@ -323,18 +323,18 @@ stat_box(sl, "Unique human participants", "740 → 496  (−33%)", 7.15, 4.55,
 # ════════════════════════════════════════════════════════════
 sl = add_slide(); bg(sl); header_bar(sl, "Data"); footer(sl, 8)
 bullets(sl,
-    ["17,553 posts across 956 governance topics (Jan 2023 – Apr 2026)",
+    ["17,553 posts across 1,101 governance topics (Jan 2023 – Mar 2026)",
      "Full text, read counts, like counts, reply counts per post",
-     "Forum–Snapshot match: title token overlap ≥ 0.55; 157 matched proposals"],
+     "Forum–Snapshot match: title token overlap ≥ 0.55; 102 matched proposals"],
     0.5, 1.3, 6.0, 2.5, title="Forum (Discourse API)", size=13)
 bullets(sl,
-    ["All 15,802 scoreable posts classified by Pangram API v3 endpoint",
+    ["All 15,891 scoreable posts classified by Pangram API v3 endpoint",
      "fraction_ai ∈ [0,1]; threshold 0.70 → AI-classified",
      "90.5% of corpus has valid scores; results robust to 0.50, 0.60, 0.80",
      "Measurement error attenuates correlations toward zero (conservative bias)"],
     0.5, 3.95, 6.0, 2.75, title="AI detection (Pangram)", size=13)
 bullets(sl,
-    ["Vote tallies from Snapshot GraphQL API (157 proposals)",
+    ["Vote tallies from Snapshot GraphQL API (306 binary proposals)",
      "Margin = |2·For/(For+Against) − 1|  ∈ [0, 1]",
      "Delegate wallet map: 62 identified delegates with forum usernames",
      "Post-level read counts: direct measure of delegate engagement"],
@@ -365,13 +365,13 @@ sl = add_slide(); bg(sl); header_bar(sl, "Main Result: The Correlation Collapse"
 add_figure(sl, "fig08_main_causal.png", 0.5, 1.25, 9.5)
 rect(sl, 10.2, 1.3, 2.85, 1.5, fill=RGBColor(0xe8,0xf0,0xff), line=PRE)
 textbox(sl, "Pre-shock", 10.35, 1.38, 2.55, 0.38, size=12, bold=True, color=PRE)
-textbox(sl, "r = −0.39\np = 0.009\nn = 44", 10.35, 1.78, 2.55, 0.9, size=13, color=DGRAY)
+textbox(sl, "r = −0.33\np = 0.030\nn = 29", 10.35, 1.78, 2.55, 0.9, size=13, color=DGRAY)
 rect(sl, 10.2, 2.95, 2.85, 1.5, fill=RGBColor(0xfd,0xee,0xee), line=POST)
 textbox(sl, "Post-shock", 10.35, 3.03, 2.55, 0.38, size=12, bold=True, color=POST)
-textbox(sl, "r = −0.04\np = 0.655\nn = 108", 10.35, 3.43, 2.55, 0.9, size=13, color=DGRAY)
+textbox(sl, "r = −0.10\np = 0.390\nn = 73", 10.35, 3.43, 2.55, 0.9, size=13, color=DGRAY)
 rect(sl, 10.2, 4.6, 2.85, 1.3, fill=LGRAY, line=NAVY)
 textbox(sl, "Chow F", 10.35, 4.68, 2.55, 0.35, size=12, bold=True, color=NAVY)
-textbox(sl, "F = 8.22\np = 0.0004", 10.35, 5.05, 2.55, 0.75, size=13, color=DGRAY)
+textbox(sl, "F = 8.38\np = 0.0004", 10.35, 5.05, 2.55, 0.75, size=13, color=DGRAY)
 
 # ════════════════════════════════════════════════════════════
 # SLIDE 11 — STRUCTURAL BREAK
@@ -381,9 +381,9 @@ add_figure(sl, "fig13_chow.png", 0.5, 1.3, 7.5)
 textbox(sl, "Three-pronged identification:", 8.3, 1.3, 4.8, 0.4,
         size=13, bold=True, color=NAVY)
 items = [
-    ("Chow test (Claude 3)",    "F = 8.22,  p = 0.0004"),
-    ("QLR test (endogenous)",   "sup-F = 14.48 at Nov 25, 2023\n5% CV = 8.85  (Andrews 1993)"),
-    ("Bootstrap permutation",  "0 / 10,000 random permutations\nexceed F = 8.22;  p_perm = 0.0006"),
+    ("Chow test (Claude 3)",    "F = 8.38,  p = 0.0004"),
+    ("QLR test (endogenous)",   "sup-F = 17.19 at Nov 25, 2023\n5% CV = 8.85  (Andrews 1993)"),
+    ("Bootstrap permutation",  "9 / 10,000 random permutations\nexceed F = 8.38;  p_perm = 0.0009"),
 ]
 for i, (lbl, val) in enumerate(items):
     y = 1.8 + i * 1.55
@@ -403,12 +403,12 @@ header_bar(sl, "Chow Test Battery",
 footer(sl, 12)
 
 rows = [
-    ("Claude 2  (Jul 2023)",     "23",  "−0.45", "134", "−0.05",  "1.51",  "0.22",     False),
-    ("GPT-4 Turbo  (Nov 2023)",  "35",  "−0.46", "122", "−0.11", "12.75", "<0.0001",   True),
-    ("Claude 3  (Mar 2024) ★",   "46",  "−0.39", "111", "−0.04",  "8.22",  "0.0004",   True),
-    ("GPT-4o  (May 2024)",       "55",  "−0.33",  "97", "−0.02",  "5.01",  "0.008",    True),
-    ("o1  (Sep 2024)",           "88",  "−0.18",  "64", "−0.01",  "1.44",  "0.231",    False),
-    ("DeepSeek R1  (Jan 2025)", "110",  "−0.14",  "42", "+0.03",  "0.87",  "0.421",    False),
+    ("Claude 2  (Jul 2023)",     "7",   "−0.17", "95",  "−0.22",  "1.00",  "0.371",    False),
+    ("GPT-4 Turbo  (Nov 2023)",  "18",  "−0.34", "84",  "−0.17", "15.05", "<0.001",    True),
+    ("Claude 3  (Mar 2024) ★",   "29",  "−0.33", "73",  "−0.10",  "8.38",  "0.0004",   True),
+    ("GPT-4o  (May 2024)",       "36",  "−0.30", "66",  "−0.06",  "5.97",  "0.004",    True),
+    ("o1  (Sep 2024)",           "65",  "−0.20", "37",  "−0.18",  "1.63",  "0.200",    False),
+    ("DeepSeek R1  (Jan 2025)",  "78",  "−0.17", "24",  "−0.38",  "0.67",  "0.513",    False),
 ]
 headers = ["Shock date", "n_pre", "r_pre", "n_post", "r_post", "F", "p"]
 col_x   = [0.5, 4.7, 5.7, 6.6, 7.5, 8.7, 9.8]
@@ -430,8 +430,8 @@ for i, row in enumerate(rows):
 
 rect(sl, 0.5, 6.3, 12.3, 0.04, fill=NAVY)
 textbox(sl,
-    "QLR sup-F = 14.48 at Nov 25, 2023  |  5% CV = 8.85  |  "
-    "★ Primary break: Claude 3 chosen because GPT-4 Turbo yields n_pre ≈ 23 (r_pre non-significant at p = 0.11)  |  "
+    "QLR sup-F = 17.19 at Nov 25, 2023  |  5% CV = 8.85  |  "
+    "★ Primary break: Claude 3 chosen for a clean before/after contrast (clear negative pre, null post); results robust to GPT-4 Turbo  |  "
     "Three dates survive Bonferroni correction (p < 0.0083)",
     0.5, 6.4, 12.3, 0.65, size=10, color=DGRAY, italic=True)
 
@@ -542,7 +542,7 @@ textbox(sl, "Tokenholders delegate to authentic delegates — rational discrimin
 # SLIDE 18 — ROBUSTNESS: SMALL SAMPLE
 # ════════════════════════════════════════════════════════════
 sl = add_slide(); bg(sl)
-header_bar(sl, "Robustness: Small-Sample Concerns (n = 44)",
+header_bar(sl, "Robustness: Small-Sample Concerns (n = 29)",
            "Three independent tests confirm the pre-period result is not driven by outliers or the small sample")
 footer(sl, 18)
 # Figure narrower to leave room; placed top-left
@@ -550,11 +550,11 @@ add_figure(sl, "rob03_cooks_bootstrap.png", 0.5, 1.3, 8.6)
 # Three stat boxes stacked on right
 items = [
     ("Cook's Distance",
-     "Only 1 obs exceeds 4/n = 0.091 threshold\n(Matrixed.Link).\nRemoving it: r = −0.448\nResult strengthens, not weakens.", PRE),
-    ("Leave-One-Out (n=44)",
-     "100% of 44 single removals\nyield r < −0.20.\nMean r = −0.389, min = −0.250.", NAVY),
+     "Two obs exceed 4/n = 0.138\nthreshold; they roughly cancel.\nRemoving both: Chow F = 5.62\n(perm p = 0.010).", PRE),
+    ("Leave-One-Out (n=29)",
+     "97% of 29 single removals\nyield r < −0.20.\nMean r = −0.33 (range −0.14 to −0.42).", NAVY),
     ("Bootstrap Permutation\nChow Test",
-     "0 / 10,000 random permutations\nexceed observed F = 8.22.\np_perm = 0.0006.", ORANGE),
+     "9 / 10,000 random permutations\nexceed observed F = 8.38.\np_perm = 0.0009.", ORANGE),
 ]
 for i, (lbl, val, col) in enumerate(items):
     x = 9.3
@@ -564,10 +564,10 @@ for i, (lbl, val, col) in enumerate(items):
     textbox(sl, val, x+0.14, y+0.62, 3.55, 1.0, size=10, color=DGRAY)
 # Interpretation callout fills the bottom
 callout_box(sl,
-    "The pre-period result (r = −0.39, p = 0.009) is not fragile: "
+    "The pre-period result (r = −0.33, p = 0.030) is not fragile: "
     "no single observation drives it, every subsample confirms it, "
     "and the structural break cannot be explained by random chance. "
-    "The Chow F = 8.22 sits in the extreme tail of its permutation null.",
+    "The Chow F = 8.38 sits in the extreme tail of its permutation null.",
     0.5, 6.15, 12.3, 0.95, fill=RGBColor(0xe8,0xf0,0xff), border=BLUE, size=12)
 
 # ════════════════════════════════════════════════════════════
@@ -583,11 +583,11 @@ textbox(sl,
 rect(sl, 0.5, 2.1, 5.9, 2.9, fill=LGRAY, line=BLUE)
 textbox(sl, "Direct test:", 0.65, 2.2, 5.6, 0.38, size=12, bold=True, color=NAVY)
 textbox(sl,
-    "Remove the three proposals with 'security' in their title from Oct–Nov 2023 "
-    "(13, 20, and 17 human posts respectively).",
+    "Remove the three matched proposals with 'security' in their title "
+    "from Oct–Nov 2023 and re-estimate.",
     0.65, 2.6, 5.6, 0.85, size=12, color=DGRAY)
-rows2 = [("Full sample", "−0.332  (p = 0.042)", "8.07  (p = 0.0005)"),
-         ("Security excluded", "−0.362  (p = 0.033)", "7.41  (p = 0.0009)")]
+rows2 = [("Full sample", "−0.33", "8.38  (p = 0.0004)"),
+         ("Security excluded", "−0.332  (p = 0.098)", "7.98  (p = 0.0006)")]
 textbox(sl, "Sample", 0.65, 3.55, 1.8, 0.32, size=10, bold=True, color=NAVY)
 textbox(sl, "r_pre", 2.55, 3.55, 1.8, 0.32, size=10, bold=True, color=NAVY)
 textbox(sl, "Chow F", 4.4, 3.55, 1.7, 0.32, size=10, bold=True, color=NAVY)
@@ -706,8 +706,8 @@ callout_box(sl,
 sl = add_slide(); bg(sl); header_bar(sl, "Summary of Findings"); footer(sl, 24)
 findings = [
     ("Finding 1", "The forum signal existed and then died",
-     "Pre-shock: r = −0.39 (p=0.009, n=44). Post-shock: r = −0.04 (p=0.66, n=108).\n"
-     "Chow F = 8.22 (p=0.0004). QLR break: November 25, 2023 — nineteen days after GPT-4 Turbo.",
+     "Pre-shock: r = −0.33 (p=0.030, n=29). Post-shock: r = −0.10 (p=0.39, n=73).\n"
+     "Chow F = 8.38 (p=0.0004). QLR break: November 25, 2023 — nineteen days after GPT-4 Turbo.",
      PRE),
     ("Finding 2", "Volume mechanism falsified; readership decline is not",
      "Signal collapses before the AI volume surge. Forum readership fell 36% (88→56 reads/post) "
@@ -734,7 +734,7 @@ sl = add_slide(); bg(sl, NAVY); footer(sl, 25)
 rect(sl, 0, 0, 13.333, 7.5, fill=NAVY)
 rect(sl, 0, 1.8, 13.333, 0.06, fill=BLUE)
 rect(sl, 0, 5.65, 13.333, 0.06, fill=BLUE)
-textbox(sl, "AI and the Market for Governance Lemons",
+textbox(sl, "The Effect of AI Writing on Governance: Evidence from a $3.5 Billion DAO",
         0.6, 0.3, 12.1, 0.65, size=20, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
 textbox(sl,
     "The DAO forum was a genuine public good — a credible aggregator of private information "

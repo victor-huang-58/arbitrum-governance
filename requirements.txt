@@ -1,0 +1,11 @@
+duckdb
+pandas
+numpy
+matplotlib
+scipy
+statsmodels
+scikit-learn
+requests
+pillow
+lxml
+python-pptx

@@ -1,8 +1,8 @@
-# Replication Package: AI and the Market for Governance Lemons
+# Replication Package: The Effect of AI Writing on Governance: Evidence from a $3.5 Billion DAO
 
 **Authors:** Victor Huang, Joseph Hall (Georgia Institute of Technology)
 
-This package contains all code, cached data, and pre-generated output for the paper *AI and the Market for Governance Lemons* (Huang & Hall, 2026).
+This package contains all code, cached data, and pre-generated output for the paper *The Effect of AI Writing on Governance: Evidence from a $3.5 Billion DAO* (Huang & Hall, 2026).
 
 ---
 
@@ -87,7 +87,7 @@ python scripts/fig01_forum_activity.py
 python scripts/fig02_proposals.py
 python scripts/fig03_power_concentration.py
 python scripts/fig04_taxonomy.py
-python scripts/fig05_dip_test.py
+python scripts/fig05_bimodal.py
 python scripts/fig06_lobbyfi.py
 python scripts/fig07_fiscal.py
 python scripts/fig08_main_causal.py   # ← also writes data/matched_proposals.csv
@@ -100,6 +100,8 @@ python scripts/fig13_chow.py          # requires fig08 to have run first
 python scripts/fig14_distraction.py   # requires fig08 to have run first
 python scripts/fig15_reads_decline.py
 python scripts/fig16_distraction_events.py  # requires fig08 to have run first
+python scripts/fig_dao_treasuries.py
+python scripts/fig_ai_post_content.py
 python scripts/tab_ols_structural_break.py
 python scripts/rob01_uniswap_placebo.py
 python scripts/rob02_concentration_control.py
