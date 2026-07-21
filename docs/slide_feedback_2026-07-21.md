@@ -106,6 +106,16 @@ to acknowledge if pressed: no benchmark measures indistinguishability of
 *governance-forum prose* specifically; Arena and the Turing studies are the
 nearest instruments.
 
+**A ready-made figure exists.** For the deck we built a time-series chart of the
+best available AI's Turing-test pass rate across the three Jones & Bergen waves
+(GPT-4 41% → GPT-4 54% → GPT-4.5 73%), with the 50% chance line and the
+Nov 2023–Mar 2024 structural-break window shaded — **the series crosses 50%
+inside the break window**. Figure + generating script (data hard-coded from the
+three papers): `ArbitrumProject/slides/figs_v4/fig_turing_timeline.{png,py}` in
+Dropbox. Candidate for §6.4 as visual support for the capability threshold.
+Caveats stated on the slide: prompts improved across waves; conversational text,
+not governance prose; the crossing date is an interpolation between two waves.
+
 ## 9. Smaller items
 
 - **Dollar denomination:** the deck states token amounts as dollars ("$13B worth
