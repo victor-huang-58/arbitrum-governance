@@ -116,7 +116,17 @@ Dropbox. Candidate for §6.4 as visual support for the capability threshold.
 Caveats stated on the slide: prompts improved across waves; conversational text,
 not governance prose; the crossing date is an interpolation between two waves.
 
-## 9. The Delegate Incentive Program (DIP) is absent from the paper — add it to the concurrent-dynamics discussion
+## 9. The Delegate Incentive Program (DIP) is absent from the paper — and the policy point deserves intro/conclusion billing
+
+**Joseph's framing, now on the deck's conclusion slide:** governance is
+underprovided due to positive externalities, so the naive remedy is to subsidize
+participation — which Arbitrum literally does (DIP pays delegates per posted
+rationale). **The paper explains why this natural policy backfires in the AI
+era:** the subsidy attaches to text, and once text is free, it buys noise, not
+signal. That is a headline contribution, not a robustness footnote — consider
+billing it in the introduction or conclusion, alongside the mechanism result.
+
+Background and the three supporting angles:
 
 The SEEDGov-administered DIP pays delegates monthly in ARB for voting **and
 publicly posting voting rationales** (eligibility >50K ARB voting power, >25%
