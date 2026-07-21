@@ -122,9 +122,14 @@ not governance prose; the crossing date is an interpolation between two waves.
 underprovided due to positive externalities, so the naive remedy is to subsidize
 participation — which Arbitrum literally does (DIP pays delegates per posted
 rationale). **The paper explains why this natural policy backfires in the AI
-era:** the subsidy attaches to text, and once text is free, it buys noise, not
-signal. That is a headline contribution, not a robustness footnote — consider
-billing it in the introduction or conclusion, alongside the mechanism result.
+era — and the failure mode is worse than waste.** The subsidy attaches to text,
+and once text is free, each subsidized zero-content post pushes expected
+contamination toward the tipping point π\*. Past π\* the collapse is discrete
+and total: the subsidy can *finance the destruction of the very forum it exists
+to support*. (Joseph's phrase: it's not wasting money, it's buying a bullet for
+your own head.) That is a headline contribution, not a robustness footnote —
+consider billing it in the introduction or conclusion, alongside the mechanism
+result.
 
 Background and the three supporting angles:
 
