@@ -159,7 +159,48 @@ but it matters three ways:
 test for bimodality, not the Delegate Incentive Program — consider renaming the
 script/label to avoid the collision now that DIP may enter the paper.)
 
-## 10. Smaller items
+## 10. Deepen the Dewatripont–Tirole contextualization — the paper is closer to "Advocates" than the lit section lets on
+
+The related-literature paragraph correctly names D–T (JPE 1999) as the closest
+structural antecedent, but the connection is richer than "advocates pay
+investigation costs to present arguments to a principal," and developing it
+would sharpen the paper's positioning:
+
+- **The forum is a decentralized advocacy mechanism.** D–T's main result: two
+  opposed advocates beat one neutral investigator because partisan mandates
+  restore high-powered incentives that a "find both sides" mission dilutes
+  (multitask moral hazard). The no-AI forum equilibrium — both sides posting in
+  proportion to support, the delegate aggregating — is exactly this structure,
+  arising without design.
+- **The key frame: D–T's mechanism runs on *verifiable* (hard) evidence —
+  advocates can suppress but not fabricate.** Forum posts were never
+  verifiable; their credibility came entirely from being costly to produce.
+  The paper can be positioned as: *what happens to an advocacy mechanism when
+  its discipline device is production cost rather than verifiability, and that
+  cost goes to zero.* Answer: it unravels — consistent with D–T's own logic
+  about why verifiability matters.
+- **The stated contribution (endogenous principal attention) is right and worth
+  foregrounding against D–T specifically:** their principal passively processes
+  whatever advocates bring; ours pays c_r per post, rationally chooses whether
+  to listen, and past π\* stops entirely. The collapse is on the *demand side*
+  of persuasion, which the advocacy literature does not model.
+- **DIP ties in here too:** D–T's insight is that what you pay for determines
+  what gets discovered. DIP pays for posted text irrespective of content — the
+  degenerate limit of an advocacy reward scheme (see item 9).
+- Adjacent citations to consider: Milgrom–Roberts (1986) persuasion games /
+  hard information; Shin (1998) adversarial vs. inquisitorial procedures;
+  Che–Kartik (2009) opinions and incentives; Gentzkow–Kamenica on competition
+  in persuasion. The paper already cites Persico (2004) and Gerardi–Yariv
+  (2008) for committees — the asymmetric-roles distinction (many posters, one
+  reader) is the right one to keep.
+
+Seminar-ready line: "D–T show adversarial advocacy is the efficient way to fund
+information discovery — but their mechanism runs on verifiable evidence. The
+forum ran on costly soft information; when AI removed the cost, there was no
+verifiability to fall back on. Our addition is the demand side: unlike their
+principal, ours can rationally stop listening — and did, discretely."
+
+## 11. Smaller items
 
 - **Dollar denomination:** the deck states token amounts as dollars ("$13B worth
   of ARB at launch," "$3.5B treasury"). Delegate holdings (71K / 1.9M ARB) were
