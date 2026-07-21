@@ -200,7 +200,47 @@ forum ran on costly soft information; when AI removed the cost, there was no
 verifiability to fall back on. Our addition is the demand side: unlike their
 principal, ours can rationally stop listening — and did, discretely."
 
-## 11. Smaller items
+## 11. Poke at the aligned-delegate assumption — and exploit the delegate-level data to test it
+
+The model gives the delegate a ±1 correctness payoff, making them a perfect
+agent of the DAO. Three reasons that's dubious here: (i) **non-pivotality** — a
+majority needs 4 delegates, so the private value of correctness is near zero for
+almost everyone (rational ignorance); (ii) **the delegation market rewards
+observable activity, not decision quality** — delegation is revocable, delegators
+see posts/rationales/participation, and DIP monetizes exactly those observables;
+(iii) **conflicts** (professional delegates, grant ecosystems, LobbyFi).
+
+Consequences — mostly favorable:
+
+- **Reinterprets the fragility finding.** Misalignment predicts a razor-thin
+  private return to reading; c_r/I_H ≈ 0.95 is what a non-pivotal,
+  activity-rewarded delegate market *should* look like. The calibration found
+  fragility; misalignment explains why.
+- **Strengthens the lower bound again.** Reading is a public good (good votes
+  benefit all holders), so private I_H < social I_H. The collapse point then
+  identifies the *private* surplus margin, and the social value destroyed
+  exceeds the calibrated figure. "At least 555 words" survives misalignment and
+  becomes more conservative under it. Corollary: the observed π\* is the
+  private threshold; the socially optimal one is higher — delegates quit
+  reading too early from society's perspective even before AI.
+- Cover-story dynamic worth a sentence: crossing π\* legitimizes disengagement
+  delegates already privately preferred — consistent with fast, non-reversing exit.
+
+Tests feasible with existing or public data:
+
+1. **Readership/engagement decline by VP tier** (panel supports now): stakes
+   alignment predicts high-VP delegates disengage less — sorts the
+   heterogeneity behind the −36%-not−100% reads decline.
+2. **Vote-timing herding** (needs Snapshot timestamps): did small delegates
+   condition more on whales' earlier votes post-break, substituting
+   whale-following for forum-reading?
+3. **DIP eligibility discontinuity** (needs DIP roster): around the 50K ARB
+   cutoff, does eligibility raise rationale posting and AI fraction without
+   changing voting independence?
+4. **Within-delegate AI-adoption timing vs. DIP enrollment** (panel supports
+   now): does adoption cluster at enrollment rather than at model releases?
+
+## 12. Smaller items
 
 - **Dollar denomination:** the deck states token amounts as dollars ("$13B worth
   of ARB at launch," "$3.5B treasury"). Delegate holdings (71K / 1.9M ARB) were
