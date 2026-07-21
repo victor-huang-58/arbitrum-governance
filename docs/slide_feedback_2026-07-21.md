@@ -116,7 +116,35 @@ Dropbox. Candidate for §6.4 as visual support for the capability threshold.
 Caveats stated on the slide: prompts improved across waves; conversational text,
 not governance prose; the crossing date is an interpolation between two waves.
 
-## 9. Smaller items
+## 9. The Delegate Incentive Program (DIP) is absent from the paper — add it to the concurrent-dynamics discussion
+
+The SEEDGov-administered DIP pays delegates monthly in ARB for voting **and
+publicly posting voting rationales** (eligibility >50K ARB voting power, >25%
+participation, KYC; first program month **March 2024**; ~5,000 ARB/month cap in
+later versions; 38 of 40 qualified in month one). The paper never mentions it,
+but it matters three ways:
+
+- **Confounder someone will raise, with a clean timing defense:** the program
+  launched inside the Nov 2023–Mar 2024 break window, and it directly subsidizes
+  forum text production. But the QLR break (Nov 25, 2023) and the readership
+  decline (Nov 2023) both *predate* it — same ruled-out-by-timing structure as
+  the vesting cliff in §8.5. It belongs in that battery explicitly.
+- **Microfoundation for the adoption result:** who has a pecuniary motive to
+  mass-produce rationale posts at minimum cost? Low-power delegates, for whom
+  ~5,000 ARB/month is material — exactly the 27×-gap population in §7. DIP gives
+  the cross-sectional finding an institutional *why*.
+- **A Goodhart framing worth a paragraph:** governance has positive
+  externalities, so subsidizing participation is sensible — but DIP subsidizes
+  the observable proxy (posted text). Once c_p^AI ≈ 0, the subsidy flows to
+  zero-content compliance prose. Paying per rationale while AI makes rationales
+  free is precisely the combination the model says destroys the forum. It also
+  plausibly amplifies the post-2024 volume surge and the posts-per-user tripling.
+
+(Also a naming hazard we tripped on: `fig05_dip_test` refers to Hartigan's dip
+test for bimodality, not the Delegate Incentive Program — consider renaming the
+script/label to avoid the collision now that DIP may enter the paper.)
+
+## 10. Smaller items
 
 - **Dollar denomination:** the deck states token amounts as dollars ("$13B worth
   of ARB at launch," "$3.5B treasury"). Delegate holdings (71K / 1.9M ARB) were
