@@ -81,7 +81,32 @@ Avoid forward references to the volume data inside the model section (the reader
 doesn't have the time series yet); "gradual dilution vs. discrete abandonment is
 an empirical question" is all the setup the timing test needs.
 
-## 8. Smaller items
+## 8. Strengthen the capability-threshold evidence with independent, human-judged sources
+
+The paragraph supporting the indistinguishability threshold currently leans on
+vendor-reported benchmarks (Anthropic/OpenAI model-card figures). Two independent
+lines are stronger and directly on point:
+
+- **Blind human preference (LMSYS Chatbot Arena):** Claude 3 (Mar 4, 2024)
+  almost immediately unseated GPT-4 at the top of the Arena — the first
+  non-OpenAI model ever to outrank the GPT-4 family — on 600k+ blind pairwise
+  human votes. Claude 2 never reached that tier. This is the ordinal claim
+  ("breaks cluster at the first models able to emulate human prose") established
+  by blind human judgment rather than self-reported benchmarks.
+- **Controlled Turing tests:** Jones & Bergen, "People cannot distinguish GPT-4
+  from a human in a Turing test" (arXiv:2405.08007; ACM FAccT 2025) — in a
+  randomized, preregistered interactive test, GPT-4 was judged human 54% of the
+  time (actual humans: 67%; ELIZA: 22%); a follow-up with GPT-4o reached 77%,
+  above the human baseline. Direct evidence that the Nov-2023/Mar-2024
+  capability generation reached near-human indistinguishability in text.
+
+Suggested use: cite both in the §6.4 timing discussion (and/or where the quality
+threshold is introduced), alongside the existing model-card numbers. Honest gap
+to acknowledge if pressed: no benchmark measures indistinguishability of
+*governance-forum prose* specifically; Arena and the Turing studies are the
+nearest instruments.
+
+## 9. Smaller items
 
 - **Dollar denomination:** the deck states token amounts as dollars ("$13B worth
   of ARB at launch," "$3.5B treasury"). Delegate holdings (71K / 1.9M ARB) were
