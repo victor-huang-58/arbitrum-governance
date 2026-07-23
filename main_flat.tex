@@ -1145,6 +1145,9 @@ which is positive for $K \geq 19$. Arbitrum's 62 identified active delegates ($K
 
 At the tipping point, the delegate's net reading value falls from at least 555 words to exactly 0 in a single step, and at least $24{,}000$ words of social surplus per proposal is destroyed. After the break, human contributors still write $\approx 8{,}858$ words per proposal (the post-period average), but delegates no longer read them---a pure transfer of human effort with zero social return. The welfare loss in Section~\ref{sec:welfare} is thus not a continuous erosion but a cliff: a realized AI share as low as $5.3\%$ marks the point at which the forum transitions from a public good worth at least $24{,}000$ words per proposal to a $0$-word-per-proposal waste.
 
+\paragraph{Delegate alignment and the direction of the bound.}
+The model gives the delegate a $\pm 1$ correctness payoff, making it a perfect agent of the DAO. That is a strong assumption here: a simple majority requires only about four delegates, so almost every delegate is non-pivotal and the private return to a correct vote is near zero (rational ignorance); the delegation market rewards \emph{observable activity}---posts, rationales, participation---rather than decision quality; and professional delegates, grant recipients, and vote renters face conflicts. Misalignment does not weaken the calibration---it sharpens its interpretation in two ways. First, a razor-thin private return to reading ($c_r/I_H \ge 0.95$, from $\pi^* \ge 0.053$) is exactly what a non-pivotal, activity-rewarded delegate market \emph{should} generate: the calibration found the fragility, and misalignment explains why it is there. Second, reading is itself a public good---an informed vote benefits every token holder---so the private $I_H$ that governs the reading decision is smaller than the social value of the same post. The collapse therefore reveals the \emph{private} surplus margin, and the social value destroyed \emph{exceeds} the figures above: ``at least 555 words'' becomes more conservative once delegates are misaligned, not less. A corollary is that the socially optimal reading threshold lies above the private $\pi^*$---delegates disengage too early from society's standpoint even before AI, and the AI shock only makes an already-inefficient margin bind.
+
 %% ── 6. Results ────────────────────────────────────────────────────────────────
 \section{Results}
 \label{sec:results}
@@ -1872,6 +1875,21 @@ cost. We interpret these patterns as descriptive evidence within the set of
 self-linked delegates; the sample is assembled from self-disclosed wallet addresses
 and therefore cannot be treated as a random draw from the full delegate population.
 
+\paragraph{An institutional microfoundation.}
+Arbitrum supplies a concrete pecuniary motive for this pattern. The Delegate
+Incentive Program (DIP), administered by SEEDGov, pays eligible delegates up to
+5{,}000 ARB per month for voting and \emph{publicly posting a rationale} for each
+vote. The subsidy attaches to observable text, and its value
+relative to a delegate's stake is largest precisely for lower-power delegates: for a
+delegate holding tens of thousands of ARB in delegated power, 5{,}000 ARB per month
+is a material return to producing rationale posts at minimum cost, whereas for a
+delegate holding millions it is negligible. DIP therefore gives the cross-sectional
+pattern an institutional rationale---it rewards exactly the low-power tail of the
+27$\times$ voting-power gap for generating posted text---and AI lowers the cost of
+manufacturing the subsidized observable (a plausible-sounding rationale) without the
+underlying analysis. We develop the resulting policy failure in
+Sections~\ref{sec:dip} and~\ref{sec:conclusion}.
+
 Two additional features of the evidence bear emphasis. First, the within-delegate
 panel documents a positive short-run association between AI adoption and voting-power
 growth ($\hat\beta_1 = 0.055$, $t = 4.97$). This should not be read as delegators
@@ -2069,7 +2087,39 @@ not predict the margin of victory.
 \input{output/tables/rob02_concentration_control}
 
 
-%% ── 7.6 Small-Sample Robustness ──────────────────────────────────────────────
+%% ── 7.6 Delegate Incentive Program ───────────────────────────────────────────
+\subsection{Ruling Out the Delegate Incentive Program}
+\label{sec:dip}
+
+A distinct 2024 governance development directly subsidizes forum text and so
+warrants separate treatment: the Delegate Incentive Program (DIP), administered by
+SEEDGov, which pays eligible high-participation delegates up to 5{,}000 ARB per
+month for voting and publicly posting a rationale within five days.
+Because DIP rewards posted text, it plausibly inflated post volume and could, in
+principle, shift the posts--margin relationship with no role for AI.
+
+The concern is ruled out by timing, exactly as for the vesting cliff. DIP was
+introduced during 2024---after the QLR endogenous break (November 25, 2023) and the
+onset of the readership decline (November 2023) by many months. Whether one dates
+the program to its early pilots or to its formal launch later that year, it
+postdates the signal collapse; a subsidy that begins after the signal has already
+collapsed cannot be its cause. If anything, DIP works \emph{against} the volume
+mechanism: by paying for rationale posts it raised human post volume in the
+post-shock period---consistent with the more-than-doubling of human posts on
+matched threads documented in Section~\ref{sec:reads}---even as the posts--margin
+correlation stayed at zero. Rising subsidized volume alongside a dead signal is the
+opposite of what a contamination-by-volume story requires.
+
+DIP is nonetheless central to the interpretation rather than a confounder to be
+dismissed. It is the institutional microfoundation for the adoption pattern in
+Section~\ref{sec:mechanism}---the population for which 5{,}000 ARB per month is
+material is the low-power tail that adopts AI---and, as we argue in
+Section~\ref{sec:conclusion}, it is a live instance of the policy failure our
+mechanism predicts: a subsidy that pays for observable text becomes self-defeating
+once text is free to produce.
+
+
+%% ── 7.7 Small-Sample Robustness ──────────────────────────────────────────────
 \subsection{Small-Sample Robustness: Influence Analysis and Bootstrap Chow Test}
 \label{subsec:small_sample_robust}
 
@@ -2192,6 +2242,23 @@ requirements or voting weights based on forum engagement should revisit those
 designs. Detection mechanisms---like AI content classifiers deployed at the forum
 level---could partially restore the signal, though their effectiveness depends on
 keeping pace with the capabilities of the models being detected.
+
+A sharper lesson concerns subsidies for participation. Because governance is a
+public good it tends to be underprovided, so the natural remedy is to pay for
+participation---which Arbitrum does directly, through the Delegate Incentive Program
+(DIP), paying delegates for votes accompanied by publicly posted rationales. Our
+mechanism implies that this natural policy can backfire in the AI era, and that the
+failure is worse than mere waste. The subsidy attaches to observable text; once
+capable AI makes text free to produce ($c_p^{AI} \approx 0$), each subsidized
+zero-content rationale pushes the delegate's expected contamination $\pi$ toward the
+tipping point $\pi^*$, and past $\pi^*$ the collapse is discrete and total. A program
+that pays for the observable proxy of engagement, deployed once that proxy has become
+costless to counterfeit, can therefore \emph{finance the destruction of the very
+forum it exists to support}---a Goodhart failure in which subsidizing the measure
+(posted rationales) degrades the target (informative deliberation). The design
+implication is that participation subsidies must attach to something AI cannot
+cheaply fake---verified identity, staked reputation, or realized outcomes---rather
+than to text.
 
 For the broader literature on information aggregation, our results contribute a
 rare setting in which the information channel can be cleanly separated from the
