@@ -1060,13 +1060,19 @@ This is the theoretical prediction underlying our main empirical test.
 %% ── 5.3 The AI Shock ────────────────────────────────────────────────────────
 \subsection{The AI Shock: Two Mechanisms}
 
-At time $T$, a large language model with writing quality $Q \geq Q^*$ is publicly released. The threshold $Q^*$ is the quality level at which AI-generated governance prose becomes observationally equivalent to human-authored contributions on all features the delegate can inspect. Post-$T$, AI tools allow any agent to post at cost $c_p^{AI} \approx 0$; AI-generated messages are drawn from the prior over $\{h, l\}$ and carry no information about $\theta_i$.
+At a point in time $T$, it becomes possible to emulate a genuine human post---one carrying no information about $\theta_i$---at essentially zero cost: a publicly released language model produces governance prose observationally equivalent to human writing on every feature the delegate can inspect. Post-$T$, any agent can post at cost $c_p^{AI} \approx 0$, and AI-generated messages are drawn from the prior over $\{h, l\}$.\footnote{Nothing in the analysis depends on the \emph{level} of model quality, only on whether this indistinguishability point has been crossed. We therefore treat $T$ as a threshold event rather than modeling a quality index explicitly; empirically, $T$ corresponds to the first models able to emulate human governance prose (GPT-4 Turbo, Claude~3), which is what our breakpoint tests recover.}
 
-Let $\lambda \in [0,1]$ denote the realized fraction of AI posts in a given thread.
+The shock is summarized by two objects---a realized quantity and an expectation:
+\begin{itemize}
+\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
+\item $\lambda \in [0,1]$: the \emph{realized} fraction of posts in a thread that \emph{are} AI-generated---a backward-looking measure of the contamination that has actually accumulated.
+\item $\pi \in [0,1]$: the delegate's \emph{expectation} that the next post read is AI-generated---a forward-looking object. In the long run $\pi$ converges to $\lambda$, but at a capability shock $\pi$ can jump ahead of $\lambda$: a delegate who knows a capable model now exists expects contamination to rise before it visibly has.
+\end{itemize}
+These two objects drive two distinct mechanisms. Whether the forum's signal degrades \emph{gradually} (with realized volume) or \emph{discretely} (with expectation) is an empirical question, and the two mechanisms make opposite timing predictions---which we exploit in Section~\ref{sec:results}.
 
-\paragraph{Volume mechanism.} When $\lambda$ is large, the $n_h$ and $n_l$ counts are diluted by AI noise. The delegate effectively observes only $(1-\lambda) n$ informative posts. Forum signal degrades in proportion to $\lambda$, and posts--margin correlation falls toward zero as $\lambda \to 1$. This mechanism predicts signal degradation is contemporaneous with and proportional to the \emph{realized} AI volume.
+\paragraph{Volume mechanism (via $\lambda$).} When $\lambda$ is large, the $n_h$ and $n_l$ counts are diluted by AI noise. The delegate effectively observes only $(1-\lambda) n$ informative posts. Forum signal degrades in proportion to $\lambda$, and posts--margin correlation falls toward zero as $\lambda \to 1$. This mechanism predicts signal degradation is contemporaneous with and proportional to the \emph{realized} AI volume.
 
-\paragraph{Unverifiability mechanism.} Let $\pi$ be the delegate's prior probability that any given post is AI-generated. The expected net value of reading one post is:
+\paragraph{Unverifiability mechanism (via $\pi$).} The expected net value of reading one post is:
 \begin{equation}
   V(\pi) = (1 - \pi)\,I_H - c_r
   \label{eq:readval}
@@ -1085,7 +1091,7 @@ There exists a threshold $\pi^* \in (0,1)$ such that the delegate ignores the fo
 From equation (\ref{eq:readval}), $V(\pi)$ is linear and strictly decreasing in $\pi$. At $\pi = \pi^*$, the delegate is indifferent; for $\pi > \pi^*$, the delegate optimally reads zero posts, so the posterior equals the prior and the forum is uninformative. The collapse is discrete because the delegate's decision is binary (read or not read), not continuous in $\pi$.
 \end{proof}
 
-The key implication is that $\pi$ can reach $\pi^*$ well before $\lambda$ does: the delegate's \emph{belief} about AI contamination crosses the threshold as soon as a sufficiently capable model is publicly available, even if realized AI posts are few. This is the Akerlof (1970) logic applied to information: adverse selection can unravel a signaling equilibrium when the \emph{expected} fraction of lemons exceeds a threshold, even when most goods are genuine.
+The key implication is that $\pi$ can reach $\pi^*$ well before $\lambda$ does: the delegate's \emph{expectation} of AI contamination crosses the threshold as soon as a sufficiently capable model is publicly available, even if realized AI posts are few. This is the Akerlof (1970) logic applied to information: adverse selection can unravel a signaling equilibrium when the \emph{expected} fraction of lemons exceeds a threshold, even when most goods are genuine.
 
 %% ── 5.4 Welfare and Comparative Statics ─────────────────────────────────────
 \subsection{Welfare and Comparative Statics}
@@ -1106,10 +1112,10 @@ Several comparative statics follow from equation (\ref{eq:pistar}):
 \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
 \item $\partial \pi^*/\partial c_r < 0$: higher reading costs lower the threshold, making the forum more fragile.
 \item $\partial \pi^*/\partial I_H > 0$: higher signal informativeness raises the threshold, making the forum more robust.
-\item The threshold $Q^*$ determines \emph{when} expected contamination $\pi$ crosses $\pi^*$, not the threshold itself. A marginal improvement in AI capability above $Q^*$ thus has a discrete, first-order effect on governance quality, not a second-order effect.
+\item The timing of the shock---the arrival of an indistinguishable model at $T$---determines \emph{when} expected contamination $\pi$ crosses $\pi^*$, not the level of the threshold itself. Crossing the indistinguishability point thus has a discrete, first-order effect on governance quality; further gains in model capability beyond it have none.
 \end{itemize}
 
-This non-monotone structure---AI capability below $Q^*$ has zero effect; AI capability at or above $Q^*$ causes discrete collapse; further increases in AI volume have no additional marginal effect on the already-collapsed signal---matches the timing evidence in Section~\ref{sec:results} and motivates the use of model release dates as breakpoints in our empirical tests.
+This non-monotone structure---capability below the indistinguishability point has no effect; crossing it causes discrete collapse; further increases in AI capability or volume have no additional marginal effect on the already-collapsed signal---motivates the use of model release dates as breakpoints, and is precisely what the timing test in Section~\ref{sec:results} evaluates.
 
 %% ── 5.5 Calibration ─────────────────────────────────────────────────────────
 \subsection{Calibration}
