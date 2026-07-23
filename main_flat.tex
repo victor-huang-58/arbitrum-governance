@@ -197,6 +197,8 @@ became indistinguishable from careful human writing.
 
 There is direct benchmark evidence that these two releases were qualitatively different from their predecessors. On the Massive Multitask Language Understanding benchmark \citep[MMLU;][]{hendrycks2021}, which tests breadth of knowledge across 57 academic and professional domains, GPT-4 (March 2023) scored 86.4\% versus 70.0\% for GPT-3.5---a step change that closed most of the remaining gap to expert human performance (estimated at 89.8\%). GPT-4 Turbo extended this to 87.3\%, and Claude~3 Opus reached 86.8\% \citep{anthropic2024}. On MT-Bench, a benchmark designed to evaluate multi-turn instruction-following and writing quality, GPT-4 achieved a score of 8.99 out of 10 versus 7.94 for GPT-3.5 \citep{zheng2023}. Most relevant for governance prose, evaluations of long-form argumentative and analytical writing---the genre of DAO forum posts---show a discrete jump precisely at GPT-4 Turbo, with evaluators unable to reliably distinguish outputs from expert human writers at threshold quality settings \citep{openai2023}. Prior models (GPT-3.5, Claude~1, Claude~2) produced outputs that trained evaluators could identify with roughly 70--75\% accuracy; GPT-4 Turbo and Claude~3 reduced this to near chance \citep{anthropic2024}.
 
+Two further lines of evidence, neither reliant on vendor-reported benchmarks, corroborate that this generation crossed a human-indistinguishability threshold. First, blind human preference: on the LMSYS Chatbot Arena, where users vote on anonymized head-to-head outputs \citep{zheng2023}, Claude~3 Opus (released March 4, 2024) became the first non-OpenAI model to overtake the GPT-4 family at the top of the leaderboard, which GPT-4 variants had led since May 2023; earlier models such as Claude~2 never reached that tier. Second, controlled Turing tests: in a randomized, preregistered two-party test, \citet{jones2024turing} found GPT-4 judged to be human 54\% of the time---versus 67\% for real humans and 22\% for a 1960s \textsc{eliza} baseline---up from 49.7\% for the best GPT-4 prompt in an earlier online study and near-chance for prior models, and a subsequent three-party test reached 73\% for GPT-4.5, above the human baseline \citep{jones2025turing}. These are ordinal claims established by blind human judgment rather than self-reported capability scores, and they place the crossing of near-human indistinguishability in the November 2023--March 2024 window (Figure~\ref{fig:turing}). We acknowledge two caveats: no benchmark measures indistinguishability of \emph{governance-forum} prose specifically, so the Arena and Turing tests are the nearest available instruments; and the highest Turing pass rates require prompting the model to adopt a humanlike persona.
+
 Once this threshold was crossed,
 governance delegates---who read forum posts as signals of community sentiment---could
 no longer verify the authenticity of any given post. Under standard informational
@@ -2392,6 +2394,29 @@ five scored posts are excluded from the cross-sectional analysis.
 
 % --- sections/appendix_figures ---
 %% Appendix B: Additional Figures
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth,height=0.42\textheight,keepaspectratio]{output/figures/fig_turing_timeline.png}
+  \begin{singlespace}
+  \caption{\textbf{Independent Evidence for the AI Indistinguishability Threshold.}
+    Share of interrogators who judged the AI to be human across three Turing-test
+    studies: \citet{jones2024turing}'s earlier online 2-player game (GPT-4, best
+    prompt 49.7\%), their randomized, preregistered 2-player test (GPT-4, 54.0\%),
+    and \citet{jones2025turing}'s 3-player test (GPT-4.5, 73.0\%). The dashed line
+    marks chance (50\%) and the dotted line the human baseline ($\approx$66\%);
+    the shaded band is the November 2023--March 2024 capability-threshold window
+    (GPT-4 Turbo to Claude~3), within which the frontier crosses from chance to
+    above chance. \emph{Caveats:} the three studies use different designs (online
+    vs.\ controlled 2-player vs.\ 3-player) and the 2025 point requires prompting
+    the model to adopt a humanlike persona; the connecting line indicates the
+    frontier over time, not a single controlled panel. No benchmark measures
+    indistinguishability of governance-forum prose specifically---these are the
+    nearest available instruments.}
+  \end{singlespace}
+  \label{fig:turing}
+\end{figure}
 
 
 \begin{figure}[H]
