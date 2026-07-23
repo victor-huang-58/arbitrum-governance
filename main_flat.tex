@@ -84,7 +84,7 @@ Our setting is Arbitrum DAO, a decentralized organization controlling a \$3.5 bi
 Forum activity predicted vote closeness before March 2024 but became uninformative after, coinciding with language models capable of producing indistinguishable governance prose.
 Interestingly, we observe that the degradation of the forum's signal (the elimination of the correlation between posting volume and margin-of-victory) takes place at a time when relatively few posts are A.I.\ generated, relative to the end of the sample period where A.I.\ posting volume grows rapidly.
 We use a model of endogenous posting and voting to show that this may be a general phenomenon: the signal value of the forum can collapse to zero at a discrete tipping point with a very low volume of A.I.\ posts.
-Calibrating to the data, the forum generated net social benefits equivalent to saving 555 words of delegate research effort per proposal---all destroyed at the tipping point.
+Calibrating to the data, the forum generated net social benefits equivalent to saving at least 555 words of delegate research effort per proposal---all destroyed at the tipping point.
 Delegates who rely on AI hold far less voting power than those who do not, ruling out power capture by insiders.
 Our results suggest that the mere existence of indistinguishable AI writing is sufficient to degrade the governance capabilities of economically important organizations, even if such AI is rarely used in equilibrium.
 \end{abstract}
@@ -201,7 +201,7 @@ Once this threshold was crossed,
 governance delegates---who read forum posts as signals of community sentiment---could
 no longer verify the authenticity of any given post. Under standard informational
 logic \citep{grossman1980}, the expected value of an unverifiable signal falls toward
-its prior: once the perceived probability of AI contamination exceeds a threshold,
+its prior: once the expected probability of AI contamination exceeds a threshold,
 delegates rationally discount the forum even though realized contamination remains
 low. The credible \emph{threat} of AI content is sufficient to destroy the forum's
 information value---even before any flood of AI posts arrives.
@@ -241,8 +241,8 @@ relationship documents that forum activity is not epiphenomenal: it tracks real
 community division in a way that has predictive content for on-chain vote outcomes.
 This connects the DAO literature \citep{yermack2017, kiayias2022, barbereau2023}
 to the social-media-and-markets literature \citep{antweiler2004, chen2014, cookson2020},
-extending both to a setting where the forum is literally the only intermediary
-between information and vote.
+extending both to a setting where the forum is the public, recorded deliberation
+channel between information and vote.
 
 \emph{Second}, we provide the first quasi-experimental evidence on the effect of
 AI-generated content on collective decision mechanisms. The AI shock literature
@@ -400,8 +400,8 @@ posts a proposal to the Arbitrum governance forum
 Discourse platform. The forum post initiates a public discussion period during which
 community members, delegates, and external observers may comment, ask questions, and
 express support or opposition. This discussion period is informal---it produces no
-binding output---but it is the only mechanism through which information about
-community preferences can be publicly aggregated before the vote.
+binding output---but it is the primary public mechanism through which information about
+community preferences is recorded and aggregated before the vote.
 
 In the second stage, the proposer submits a ``temperature check'' to Snapshot, an
 off-chain voting platform that records token-weighted votes without requiring
@@ -1029,14 +1029,14 @@ The empirical strategy rests on a specific theory of how governance forums aggre
 
 \emph{The reading threshold} is drawn from \citet{grossman1980}: the delegate acquires information---reads a forum post---only when the expected informational return $(1-\pi) I_H$ exceeds the reading cost $c_r$. \citet{dewatripont1999} is the closest single structural antecedent: advocates pay investigation costs to present arguments to a principal who uses them to decide. Our contribution on this dimension is that the principal's reading decision is itself endogenous and governed by the contamination prior $\pi$. \citet{persico2004} and \citet{gerardi2008} study costly acquisition and communication in committee settings; our model differs in having asymmetric roles---many posting contributors, one reading delegate---rather than symmetric committee members.
 
-\emph{The AI shock} introduces the feature absent from all antecedents: the collapse of the cost of mimicking authentic participation. Once a sufficiently capable model is released, the perceived contamination fraction $\pi$ can cross the reading threshold $\pi^* = 1 - c_r/I_H$ before the realized AI volume does. This is the \citet{akerlof1970} mechanism applied to the demand side of a forum: adverse selection can unravel the informational value of a signal pool when the \emph{perceived} fraction of uninformative messages exceeds a threshold, even when most messages remain genuine.
+\emph{The AI shock} introduces the feature absent from all antecedents: the collapse of the cost of mimicking authentic participation. Once a sufficiently capable model is released, the expected contamination fraction $\pi$ can cross the reading threshold $\pi^* = 1 - c_r/I_H$ before the realized AI volume does. This is the \citet{akerlof1970} mechanism applied to the demand side of a forum: adverse selection can unravel the informational value of a signal pool when the \emph{expected} fraction of uninformative messages exceeds a threshold, even when most messages remain genuine.
 
 %% ── 5.1 Setup ────────────────────────────────────────────────────────────────
 \subsection{Setup}
 
-A DAO evaluates proposal $i$ with unknown quality $\theta_i \in \{H, L\}$ (high or low value for the DAO). The prior is $\Pr(\theta_i = H) = p \in (0,1)$. There is a continuum of \emph{contributors} indexed $j \in [0,1]$, each holding a private signal $s_j \in \{h, l\}$ about $\theta_i$, with $\Pr(s_j = \theta_i) = q > \tfrac{1}{2}$. Signals are i.i.d.\ conditional on $\theta_i$.
+A DAO evaluates proposal $i$ with unknown quality $\theta_i \in \{G, B\}$ (good or bad value for the DAO). The prior is $\Pr(\theta_i = G) = p \in (0,1)$. There is a continuum of \emph{contributors} indexed $j \in [0,1]$, each holding a private signal $s_j \in \{h, l\}$ about $\theta_i$, correct with probability $\Pr(s_j = h \mid \theta_i = G) = \Pr(s_j = l \mid \theta_i = B) = q > \tfrac{1}{2}$. Signals are i.i.d.\ conditional on $\theta_i$.
 
-A representative \emph{delegate} (the decision-maker) observes all forum posts and votes For or Against the proposal; the proposal passes if the weighted vote share For exceeds threshold $\tau = \tfrac{1}{2}$. The delegate's payoff is $+1$ for a correct vote (For on $H$, Against on $L$) and $-1$ for an incorrect vote. Voting is costless. The delegate's information comes entirely from the forum.
+A representative \emph{delegate} (the decision-maker) observes all forum posts and votes For or Against the proposal; the proposal passes if the weighted vote share For exceeds threshold $\tau = \tfrac{1}{2}$. The delegate's payoff is $+1$ for a correct vote (For on $G$, Against on $B$) and $-1$ for an incorrect vote. Voting is costless. The delegate's information comes entirely from the forum.
 
 \paragraph{Forum mechanics.} Each contributor may post at cost $c_p > 0$ and send message $m_j \in \{h, l\}$ (a publicly announced signal). The delegate pays cost $c_r > 0$ per post to read and interpret it. Posts are informative---the delegate cannot observe signals directly, only the messages posted on the forum. Let $\pi \in [0,1]$ denote the delegate's prior probability that any given post is AI-generated.
 
@@ -1078,14 +1078,14 @@ where $I_H > 0$ is the informational gain from a genuine human post (in units of
 \end{equation}
 
 \begin{proposition}[Unverifiability Threshold]
-There exists a threshold $\pi^* \in (0,1)$ such that the delegate ignores the forum for all $\pi > \pi^*$. At $\pi^*$, the forum signal collapses \emph{discretely}: small increases in perceived AI contamination above $\pi^*$ eliminate the entire informational value of the forum, not just a portion of it.
+There exists a threshold $\pi^* \in (0,1)$ such that the delegate ignores the forum for all $\pi > \pi^*$. At $\pi^*$, the forum signal collapses \emph{discretely}: small increases in expected AI contamination above $\pi^*$ eliminate the entire informational value of the forum, not just a portion of it.
 \end{proposition}
 
 \begin{proof}
 From equation (\ref{eq:readval}), $V(\pi)$ is linear and strictly decreasing in $\pi$. At $\pi = \pi^*$, the delegate is indifferent; for $\pi > \pi^*$, the delegate optimally reads zero posts, so the posterior equals the prior and the forum is uninformative. The collapse is discrete because the delegate's decision is binary (read or not read), not continuous in $\pi$.
 \end{proof}
 
-The key implication is that $\pi$ can reach $\pi^*$ well before $\lambda$ does: the delegate's \emph{belief} about AI contamination crosses the threshold as soon as a sufficiently capable model is publicly available, even if realized AI posts are few. This is the Akerlof (1970) logic applied to information: adverse selection can unravel a signaling equilibrium when the \emph{perceived} fraction of lemons exceeds a threshold, even when most goods are genuine.
+The key implication is that $\pi$ can reach $\pi^*$ well before $\lambda$ does: the delegate's \emph{belief} about AI contamination crosses the threshold as soon as a sufficiently capable model is publicly available, even if realized AI posts are few. This is the Akerlof (1970) logic applied to information: adverse selection can unravel a signaling equilibrium when the \emph{expected} fraction of lemons exceeds a threshold, even when most goods are genuine.
 
 %% ── 5.4 Welfare and Comparative Statics ─────────────────────────────────────
 \subsection{Welfare and Comparative Statics}
@@ -1093,7 +1093,7 @@ The key implication is that $\pi$ can reach $\pi^*$ well before $\lambda$ does: 
 
 Social welfare equals the expected correctness of the vote minus participation costs:
 \[
-  W = p\,\Pr(\text{pass} \mid \theta = H) + (1-p)\,\Pr(\text{reject} \mid \theta = L) - c_p \cdot E[n].
+  W = p\,\Pr(\text{pass} \mid \theta = G) + (1-p)\,\Pr(\text{reject} \mid \theta = B) - c_p \cdot E[n].
 \]
 In the no-AI equilibrium, the forum improves on the prior at social cost $c_p E[n]$. After the AI shock (for $\pi > \pi^*$), delegates vote at the prior: $W^{AI} \approx \tfrac{1}{2}$ when $p = \tfrac{1}{2}$, which is no better than a coin flip. The welfare loss is:
 \[
@@ -1106,7 +1106,7 @@ Several comparative statics follow from equation (\ref{eq:pistar}):
 \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
 \item $\partial \pi^*/\partial c_r < 0$: higher reading costs lower the threshold, making the forum more fragile.
 \item $\partial \pi^*/\partial I_H > 0$: higher signal informativeness raises the threshold, making the forum more robust.
-\item The threshold $Q^*$ determines \emph{when} perceived contamination $\pi$ crosses $\pi^*$, not the threshold itself. A marginal improvement in AI capability above $Q^*$ thus has a discrete, first-order effect on governance quality, not a second-order effect.
+\item The threshold $Q^*$ determines \emph{when} expected contamination $\pi$ crosses $\pi^*$, not the threshold itself. A marginal improvement in AI capability above $Q^*$ thus has a discrete, first-order effect on governance quality, not a second-order effect.
 \end{itemize}
 
 This non-monotone structure---AI capability below $Q^*$ has zero effect; AI capability at or above $Q^*$ causes discrete collapse; further increases in AI volume have no additional marginal effect on the already-collapsed signal---matches the timing evidence in Section~\ref{sec:results} and motivates the use of model release dates as breakpoints in our empirical tests.
@@ -1117,27 +1117,27 @@ This non-monotone structure---AI capability below $Q^*$ has zero effect; AI capa
 
 We calibrate the model to the data using average post length as the unit of writing effort. The average human-authored post in the pre-period (January 2023 -- February 2024) contains 237 words; we set $c_p = 237$ words per post. The pre-period averages $\bar{n} = 44.2$ human posts per proposal (1{,}283 posts across 29 proposals), so the total human writing cost per proposal is $\bar{n} \cdot c_p = 10{,}480$ words.
 
-To calibrate $\pi^*$, we use the QLR endogenous break date (November 25, 2023), at which realized AI posts constitute 5.3\% of forum volume. If we take this as the point at which the delegate's perceived contamination probability $\pi$ first crossed the reading threshold---consistent with the unverifiability mechanism in which $\pi$ tracks the public availability of capable AI---then $\pi^* = 0.053$. Substituting into equation (\ref{eq:pistar}):
+To calibrate $\pi^*$, we use the QLR endogenous break date (November 25, 2023), at which the realized AI share of forum volume is $\lambda_{\text{break}} = 0.053$. Two facts identify $\pi^*$ as a \emph{lower bound}, not a point estimate. First, delegates were still reading up to the break---the posts--margin correlation is intact until then---so by the reading rule (\ref{eq:pistar}) expected contamination had not yet crossed the threshold: $\pi \le \pi^*$ just before the break. Second, under the unverifiability mechanism $\pi$ is the delegate's forward-looking expectation of a still-rising realized share, so $\pi \ge \lambda_{\text{break}}$. Combining, $\pi^* \ge \pi \ge \lambda_{\text{break}} = 0.053$. Equating $\pi^*$ with the realized share as a point estimate would contradict the very mechanism that makes $\pi$ run ahead of $\lambda$; the internally consistent statement is the bound $\pi^* \ge 0.053$. Rearranging the threshold condition (\ref{eq:pistar}) also yields a useful identity,
 \[
-  c_r = I_H (1 - \pi^*) = 0.947 \cdot I_H.
+  \pi^* = 1 - \frac{c_r}{I_H} = \frac{I_H - c_r}{I_H},
 \]
-Normalizing $I_H = c_p = 237$ words (the information value of one genuine post equals the cost of writing one), this gives $c_r = 224$ words of reading and interpretation effort per post.
+so the tipping point \emph{equals the per-post net-surplus share}---the fraction of a genuine post's gross value that survives the reading cost---and the collapse date reveals a lower bound on that margin directly, the way an exit price reveals a firm's margin. The bound $\pi^* \ge 0.053$ implies $c_r = I_H(1-\pi^*) \le 0.947\,I_H$. Normalizing $I_H = c_p = 237$ words (the information value of one genuine post equals the cost of writing one), this gives $c_r \le 224$ words of reading and interpretation effort per post.
 
-The net reading value per delegate per post in the no-AI equilibrium is:
+The net reading value per delegate per post in the no-AI equilibrium is then bounded below:
 \[
-  I_H - c_r = 237 - 224 = 13 \text{ words per post}.
+  I_H - c_r = \pi^* \cdot I_H \ge 0.053 \times 237 = 12.56 \text{ words per post}.
 \]
-The forum is thus fragile by design: each post provides only 13 words' worth of net informational surplus per delegate---just 5.3\% of its gross information value---so that a 5.3\% contamination rate is precisely sufficient to push the expected return on reading to zero. Integrating across the thread, using the unrounded difference $I_H - c_r = 237 - 224.44 = 12.56$ words per post:
+The forum is fragile not because this surplus is provably thin---we bound it only from below---but because what governs reading is \emph{expected} contamination $\pi$, which crossed the threshold while \emph{realized} contamination was only $\approx 5.3\%$. Collapse therefore arrived at a realized AI share far below the level at which AI posts could mechanically dilute the human signal (Section~\ref{sec:results}). Integrating the per-post surplus across the thread:
 \[
-  \bar{n} \cdot (I_H - c_r) = 44.2 \times 12.56 \approx 555 \text{ words per delegate per proposal}.
+  \bar{n} \cdot (I_H - c_r) \ge 44.2 \times 12.56 \approx 555 \text{ words per delegate per proposal}.
 \]
-If $K$ delegates read the forum, the net social surplus per proposal is:
+If $K$ delegates read the forum, the net social surplus per proposal is at least
 \[
   K \cdot 555 - \bar{n} \cdot c_p = 555K - 10{,}480 \text{ words},
 \]
-which is positive for $K \geq 19$. Arbitrum's 62 identified active delegates ($K = 62$) implies net social benefits of approximately $62 \times 555 - 10{,}480 \approx 24{,}000$ words per proposal---about 2.3 times the human writing effort invested in each thread---entirely from the public-good externality of the forum. Because 454 unique community members posted in pre-period proposal threads (and readership exceeds participation), $K \geq 62$ is a lower bound.
+which is positive for $K \geq 19$. Arbitrum's 62 identified active delegates ($K = 62$) imply net social benefits of at least $62 \times 555 - 10{,}480 \approx 24{,}000$ words per proposal---about 2.3 times the human writing effort invested in each thread---entirely from the public-good externality of the forum. Because 454 unique community members posted in pre-period proposal threads (and readership exceeds participation), $K \geq 62$ is itself a lower bound, so the $24{,}000$-word figure compounds two conservative margins.
 
-At the tipping point, the delegate's net reading value falls from 555 to exactly 0 in a single step, and 24{,}000 words of social surplus per proposal is destroyed. After the break, human contributors still write $\approx 8{,}858$ words per proposal (the post-period average), but delegates no longer read them---a pure transfer of human effort with zero social return. The welfare loss in Section~\ref{sec:welfare} is thus not a continuous erosion but a cliff: the 5.3\% AI contamination threshold marks the exact point at which the forum transitions from a $24{,}000$-word-per-proposal public good to a $0$-word-per-proposal waste.
+At the tipping point, the delegate's net reading value falls from at least 555 words to exactly 0 in a single step, and at least $24{,}000$ words of social surplus per proposal is destroyed. After the break, human contributors still write $\approx 8{,}858$ words per proposal (the post-period average), but delegates no longer read them---a pure transfer of human effort with zero social return. The welfare loss in Section~\ref{sec:welfare} is thus not a continuous erosion but a cliff: a realized AI share as low as $5.3\%$ marks the point at which the forum transitions from a public good worth at least $24{,}000$ words per proposal to a $0$-word-per-proposal waste.
 
 %% ── 6. Results ────────────────────────────────────────────────────────────────
 \section{Results}
@@ -1181,7 +1181,7 @@ Constant            & $0.925$\sym{***} & $0.829$\sym{***}  & $0.939$\sym{***} \\
 \midrule
 $N$                 & 102            & 29                  & 73            \\
 $R^2$               & 0.045          & 0.111               & 0.010         \\
-Pearson $r$         & $-0.21$\sym{**}& $-0.33$\sym{*}      & $-0.10$       \\
+Pearson $r$         & $-0.21$        & $-0.33$             & $-0.10$       \\
 \midrule
 \multicolumn{4}{l}{Chow test: $F = 8.38$, $p = 0.0004$\sym{***}} \\
 \bottomrule
@@ -1193,6 +1193,9 @@ The pre--Claude~3 period covers proposals with Snapshot creation dates before Ma
 post--Claude~3 covers March~4, 2024 and later. All results use 102 matched proposal--thread
 pairs ($n_{\text{pre}} = 29$, $n_{\text{post}} = 73$).
 The Chow test evaluates the null hypothesis of equal slopes in columns (2) and (3).
+Pearson $r$ is reported as a descriptive effect size; significance stars apply only to
+the OLS coefficients and Chow statistic, which share the heteroskedasticity-robust
+inference framework.
 \sym{*}~$p < 0.10$; \sym{**}~$p < 0.05$; \sym{***}~$p < 0.01$.
 \end{flushleft}
 \end{singlespace}
@@ -1428,7 +1431,7 @@ dilute the human signal. A mechanism that requires large realized contamination
 cannot explain a collapse that precedes it.
 
 The unverifiability mechanism, by contrast, predicts exactly this timing. When a
-sufficiently capable LLM becomes publicly available, the \emph{perceived} probability
+sufficiently capable LLM becomes publicly available, the \emph{expected} probability
 of AI contamination $\pi$ jumps---not because posts are actually AI-generated, but
 because they could plausibly be. Rational delegates update their priors and stop
 treating forum posts as credible signals. The relevant threshold
@@ -1513,7 +1516,7 @@ welfare-reducing: it eliminates a public good (credible information aggregation)
 through no fault of the participants who continue to write authentic posts.
 
 One important welfare implication follows. The externality in this setting is not
-imposed by forum participants who adopt AI tools---though the selection evidence
+imposed by forum participants who adopt AI tools---though the delegate-adoption evidence
 below speaks to who they are---but by the technology firms whose models cross the
 indistinguishability threshold. Even if no governance participant ever chose to
 deploy AI, the \emph{credible threat} of deployment, once a sufficiently capable
@@ -1525,9 +1528,11 @@ be \emph{verifiable}.
 \paragraph{Calibrating the threshold.}
 The model implies a critical contamination rate $\pi^* = 1 - c_{\text{read}} / I_H$
 below which delegates read and above which they exit. The QLR break occurs when
-AI posts represent approximately 5\% of forum volume---a $\pi$ of roughly 0.05.
-Substituting into the threshold condition gives $c_{\text{read}} / I_H \approx 0.95$:
-reading costs absorb 95\% of the informational value of a perfectly reliable post.
+realized AI posts are approximately 5\% of forum volume; because the delegate's
+expected contamination $\pi$ runs ahead of this realized share, the break implies
+$\pi^* \ge 0.05$ (Section~\ref{sec:calibration}).
+The threshold condition then gives $c_{\text{read}} / I_H = 1 - \pi^* \le 0.95$:
+reading costs absorb at most 95\% of the informational value of a perfectly reliable post.
 This is economically plausible in a setting where (i) each individual post
 contributes modestly to aggregate signal (the forum aggregates across hundreds of
 posts per proposal, so marginal informational value per post is small), (ii) careful
@@ -1615,7 +1620,15 @@ a mixed response: some delegates disengaged from the forum entirely
 (reducing the intensive margin of reading per post), while others---including
 new participants attracted by the busier forum---partially offset the loss.
 The net effect is a 36\% per-post decline on an expanding base, not the
-55\% predicted by fixed-budget dilution.
+55\% predicted by fixed-budget dilution.\footnote{That reads fell by 36\% rather
+than to zero is itself consistent with the model once delegates are heterogeneous.
+A distribution of reading costs and signal values $(c_{r,i}, I_{H,i})$ implies a
+distribution of individual thresholds $\pi^*_i$; the discrete cliff of
+Section~\ref{sec:welfare} is the representative-agent limit, and aggregating over
+heterogeneous thresholds smooths it into exactly the partial, staggered decline
+observed here---delegates cross their own $\pi^*_i$ at different dates. The
+representative-agent collapse and the observed aggregate decline are the same
+mechanism at different levels of aggregation.}
 
 \begin{figure}[H]
   \centering
@@ -1839,11 +1852,11 @@ the period; lagged value is the prior 30-day period.
 \end{singlespace}
 \end{table}
 
-%% ── 6.3 Interpretation: Selection, Not Power Capture ─────────────────────────
-\subsection{Interpretation: Selection, Not Power Capture}
+%% ── 6.3 Interpretation: Low-Power Adoption, Not Power Capture ────────────────
+\subsection{Interpretation: Low-Power Adoption, Not Power Capture}
 
-The cross-sectional and panel evidence together support a \emph{selection}
-interpretation of AI adoption in DAO governance within the linked sample. High-power
+The cross-sectional and panel evidence together indicate that AI adoption in DAO
+governance is concentrated among lower-power delegates within the linked sample. High-power
 delegates---who already hold substantial delegated voting power and have strong
 incentives to maintain credibility with their delegators---do not disproportionately
 adopt AI. Instead, it is lower-tier delegates, for whom the opportunity cost of
