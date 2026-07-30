@@ -4,6 +4,278 @@
 (`ArbitrumProject/slides/FSIL_slides_Hall_Jul21.tex` in Dropbox). Ordered by
 importance.*
 
+*Updated July 30, 2026, after the lab talk (which went well) and after reviewing
+Victor's five revision commits (`407f09d`…`b727f79`). Round 2 below is the agenda
+for our July 31 meeting; the original 12 items follow, unchanged, for reference.*
+
+---
+
+# Round 2 — review of the July 23–28 revisions (July 30, 2026)
+
+## Status of the original 12 items
+
+Victor implemented **all 12** across five commits, and the implementations are
+mostly excellent — in places better than the notes asked for (e.g., §5.5 now
+explains *why* fragility follows from the bound logic, and the Turing-test
+numbers were corrected against the actual papers: the deck's 41% and my "GPT-4o
+77%" were both wrong; the paper's 49.7% (best-prompt, 2023 online study) and
+GPT-4.5 73% are right). I verified against the LaTeX diff (`b3ced28..b727f79`),
+greps for leftover terminology, the figure scripts, and a full `tectonic`
+compile: **the paper compiles cleanly, no undefined citations or references**;
+only cosmetic overfull-hbox warnings.
+
+| Item | Status | Note |
+|---|---|---|
+| 1. π\* lower bound | ✔ done well | ≥ cascaded everywhere incl. abstract; identity π\* = (I_H−c_r)/I_H added — **but see R1 below** |
+| 2. Table 2 stars | ✔ / ✘ | stars dropped on r, note added — **but the note misstates the Chow test, see R2** |
+| 3. perceived → expected | ✔ | clean sweep (the one remaining "perceived" is "perceived legitimacy," different sense) |
+| 4. Q\* demoted | ✔ | Q\* fully gone; threshold-event footnote in §5.3 is exactly right |
+| 5. Sole-channel claim | ✔ mostly | two spots reworded; "the exclusive formal pre-vote deliberation channel" survives in the lit review (~l. 276) — "formal" makes it defensible, but let's decide consciously |
+| 6. "Selection" language | ✔ | §6.3 renamed "Low-Power Adoption, Not Power Capture"; §6.2 (~l. 1800) still says "consistent with selection (…)" — fine there (it contrasts with reverse causation), optional touch-up |
+| 7. Exposition order | ✔ | λ/π defined as a fact/expectation pair before the mechanisms; forward reference replaced by "an empirical question" |
+| 8. Capability evidence | ✔ | Arena + Turing paragraph, appendix Fig. `fig:turing`, script committed with corrected data — see R6 for two small sourcing points |
+| 9. DIP | ✔ | all three angles in (§6.3 microfoundation ¶, new §7.6 `sec:dip`, conclusion Goodhart ¶) — **but see R3 on timing language**, and R5 on the label collision we predicted |
+| 10. D–T deepening | ✔ | new "Persuasion, advocacy, and hard information" paragraph; the 6 broken citations fixed (Milgrom–Roberts, Shin, Che–Kartik, KG all resolve) |
+| 11. Delegate alignment | ✔ / ✘ | §5.5 paragraph has both favorable reinterpretations — **but contains the inequality error in R1**; the four proposed empirical tests are still open (agenda item) |
+| 12. Smaller items | ✔ mostly | θ ∈ {G,B} fixes the notation collision; heterogeneity footnote in; duplicated §6 phrase gone (but a **new** near-duplication appeared in the intro, R4) |
+
+## New items found in the revised draft, ordered by importance
+
+### R1. Inequality-direction error in the new delegate-alignment paragraph (§5.5, ~l. 1153)
+
+The paragraph asserts "a razor-thin private return to reading ($c_r/I_H \ge
+0.95$, from $\pi^* \ge 0.053$)." The bound runs the **other way**: π\* ≥ 0.053
+implies c_r/I_H = 1 − π\* **≤ 0.947** — which is what the paper itself says
+twenty lines earlier ("$c_r \le 224$ words," ~l. 1134) and again in §6.1
+("$c_{\text{read}}/I_H \le 0.95$," ~l. 1547). As written it contradicts the
+paper's own calibration.
+
+The fix is not just flipping the sign — the substantive point needs restating.
+Under the item-1 bound logic, the calibration no longer *establishes* that the
+margin is razor thin; it only says the surplus share is *at least* 5.3%. The
+internally consistent version of the alignment argument is the reverse
+direction: **misalignment (non-pivotality + activity-rewarded delegation
+market) predicts a thin private margin, and the data are consistent with a
+margin as thin as 5.3%** — the misalignment story explains why the private π\*
+should sit low, and the observed collapse at a realized share of only ~5% is
+what a low private threshold looks like. Prediction → consistency, not
+measurement → explanation. (Everything else in the paragraph — private vs.
+social I_H, "at least 555" becoming *more* conservative under misalignment, the
+too-early-exit corollary — survives untouched and is nicely done.)
+
+### R2. The new Table 2 note misstates the Chow test's inference framework
+
+The note added for item 2 says stars "apply only to the OLS coefficients and
+Chow statistic, which share the heteroskedasticity-robust inference framework."
+The slope SEs are HC3, but the Chow F = 8.38 is the **classical RSS-based
+test** (`scripts/fig13_chow.py`, the `((rss_pool − rss_unr)/k)/(rss_unr/(n−2k))`
+formula) — homoskedastic by construction. So the note now claims a uniformity
+that isn't there, which is the same referee-bait item 2 was trying to remove.
+
+Two clean fixes, either works:
+- **Reword the note**: slope SEs robust; Chow F is the classical test, with the
+  distribution-free permutation check (9/10,000 permutations exceed F = 8.38,
+  p_perm = 0.0009) as the assumption-free companion — the paper already has it.
+- **Or report the robust break test**: `scripts/tab_ols_structural_break.py`
+  already fits the interacted specification with HC3 (`cov_type="HC3"`); the
+  robust Wald on the interaction term is the heteroskedasticity-consistent
+  analog of the Chow and could carry the stars honestly.
+
+### R3. §7.6 (DIP) timing language is vague where it should be exact — and doesn't confront the March 2024 coincidence
+
+`sec:dip` says DIP "was introduced during 2024 --- after the QLR endogenous
+break … by many months. Whether one dates the program to its early pilots or to
+its formal launch later that year…". Two problems:
+
+- **The dates are public and checkable, so vagueness is a liability.** My
+  earlier research (item 9 background) has the first program month as **March
+  2024** (38 of 40 applicants qualified in month one). "Many months" after
+  November 2023 is a stretch at 3–4, and "formal launch later that year"
+  invites a referee to look the dates up and find March. We should pin the
+  exact SEEDGov forum dates and state them.
+- **March 2024 is the paper's primary break date** (Claude 3, March 4). A
+  referee will notice that the pre/post split coincides with DIP month one to
+  within days. The defense is exactly the one the section already gestures at,
+  but it should be made head-on: the QLR endogenous break (Nov 25, 2023), the
+  readership decline onset (Nov 2023), and the GPT-4 Turbo results in the break
+  battery all **predate any DIP payment**, so the signal was already dead when
+  the first subsidized rationale was posted. Said crisply, the coincidence
+  becomes a feature (it's why the paper doesn't lean on the March date alone);
+  left vague, it reads like an evasion.
+
+### R4. New near-duplication in the intro (~l. 162–165)
+
+The same passage states both correlations twice within four lines: "The
+correlation falls to r = −0.10 (p = 0.39, n = 73)… the pre-period correlation
+is r = −0.33 (p = 0.08, n = 29) and the post-period correlation is r = −0.10
+(p = 0.39, n = 73)." Same flavor as the §6 duplicated phrase we fixed in PR #1
+— cut one instance. (Related, minor: these intro p-values on r are the
+classical r-test p's that Table 2 now demotes to "descriptive" — either drop
+the p's here or leave them knowingly.)
+
+### R5. The fig:dip label collision we predicted is now live in the paper
+
+The bimodality figure (Hartigan's **dip test**) carries `\label{fig:dip}`
+(~l. 732), and the new Delegate Incentive Program section is `\label{sec:dip}`.
+`\ref{fig:dip}` vs `\ref{sec:dip}` is a mis-reference waiting to happen, and a
+reader of the .tex will assume fig:dip is about the incentive program. Rename
+the figure label (e.g., `fig:bimodal`) and, when convenient,
+`scripts/fig05_dip_test.py` → `fig05_hartigan_bimodality.py` (the header
+comment Victor added to `fig05_bimodal.py` acknowledges the hazard).
+
+### R6. Two small sourcing points on the Turing-test evidence (item 8 follow-through)
+
+- The 49.7% point is from Jones & Bergen's **2023 online study** ("Does GPT-4
+  pass the Turing test?", arXiv:2310.20216), but the text and the fig:turing
+  caption attribute it to `jones2024turing` (the 2024 preregistered study,
+  arXiv:2405.08007) as "an earlier online study." Since the figure plots that
+  point as a separate observation, add the 2023 paper as a third bib entry and
+  cite it directly.
+- Harmonize the human baseline: the text says 67%, the caption says ≈66% (the
+  two studies differ; pick one convention, e.g., "66–67%").
+
+### R7. Grab-bag (one-line decisions)
+
+- Abstract: "saving at least 555 words of delegate research effort per
+  proposal" — 555 is **per delegate** per proposal (DAO-wide is ~24,000).
+  Insert "per delegate" or switch to the DAO-wide figure.
+- Intro (~l. 188): AI share now "approximately 5%… rising to below 8% at the
+  Claude 3 break." "Below 8%" reads like we don't know the number — state the
+  exact λ at March 4, 2024 from the figT01 series.
+- Lit review: `kamenica2011` (Bayesian persuasion, commitment) sits under
+  "biased communication with soft information" — Che–Kartik fits, KG 2011 is a
+  stretch; consider Gentzkow–Kamenica's competition-in-persuasion papers there
+  instead, or drop.
+- Item 5 leftover: "exclusive formal pre-vote deliberation channel" (lit
+  review, ~l. 276) — keep "formal" or soften to match the other two rewrites?
+
+## From the lab-meeting Q&A (July 21, via Xinyue's notes)
+
+Four points from the audience worth acting on; the rest of the Q&A either
+duplicated what the paper already does (posting incentives → §7.6 DIP; AI
+content quality → the genericness/directionality analysis) or isn't
+identifiable (a "second event" at the Dec 2025 agent wave — the correlation is
+already dead by then, so the model's prediction is a non-event; skip or
+footnote).
+
+### L1. AI-assisted posts with a genuine human signal behind them
+
+Sharpest model objection raised: distinguish an autonomous agent posting on its
+own (zero content — the model's assumption holds) from a delegate who *has* a
+real point and prompts AI to write it up. The latter scores 1.0 on Pangram but
+carries the human's information, attacking the assumption that AI posts are
+draws from the prior. We already hold the empirical answer: flagged posts are
+non-directional and uncorrelated with outcomes — in this sample they behave
+like noise regardless of provenance. Suggest a short objection-and-answer
+paragraph in §5 (or where the AI-message assumption is introduced) that states
+the objection and points to that evidence. Cheap inoculation against the most
+natural referee attack on the model. Ties to L2.
+
+### L2. Pangram robustness battery (Victor — your API pipeline)
+
+Someone at the talk reported that mixing half-human/half-AI text yields a
+score of 1.0 — i.e., the detector may *saturate* on hybrids. If so, the fig05
+bimodality is partly a property of the instrument, not the posts, and the
+caption's "either fully human or fully AI, rather than hybrid" interpretation
+overreaches. Nothing load-bearing breaks (score 1.0 still validly means
+"contains substantial AI text"), but we should verify and, if confirmed,
+soften the language. Since the Pangram pipeline is yours, proposed battery:
+
+1. **Mixture gradient:** synthetic posts at 0/25/50/75/100% AI content
+   (splice real pre-2023 human posts with AI-generated governance prose);
+   plot `fraction_ai` against true mixture share. Saturation = a step
+   function rather than a gradient.
+2. **Edit directions:** AI-drafted-then-human-edited and
+   human-drafted-then-AI-polished versions of the same content — which side
+   of the step do they land on?
+3. **Implication for λ:** if post-level scores saturate, our λ (share of
+   posts flagged) is the right object but a *word-level* AI share would be
+   overstated — one sentence in §4 clarifying which object we measure.
+
+If saturation is confirmed, reword the fig05 caption and §4 text to
+"the detector classifies posts containing substantial AI text as AI;
+bimodality reflects this post-level classification" — and note that this
+strengthens, not weakens, L1's answer (some 1.0 posts may be human-signal +
+AI prose, yet they are still empirically directionless).
+
+### L3. Measure π directly: AI-complaint/mention time series (best suggestion of the day)
+
+π (expected contamination) is currently unobserved — the mechanism is inferred
+from timing alone. Build a monthly series of forum posts *complaining about or
+mentioning AI-generated content* ("reads like ChatGPT," "AI slop," accusations
+in thread, etc.) from the corpus we already have. If awareness spikes in the
+Nov 2023–Mar 2024 window — while λ is still ~5% — that is direct evidence that
+beliefs moved before volume, which is the entire unverifiability mechanism.
+Slots naturally into §6.4 next to the readership decline. Needs a decision on
+who builds it (keyword/classifier design is quick; I'm happy to take it).
+
+### L4. Complete the policy menu: restore the posting cost itself
+
+The conclusion's design paragraph says subsidies must attach to what AI cannot
+fake (identity, staked reputation, outcomes). The Q&A added the complementary
+lever: re-impose a floor on c_p directly — a posting bond, fee, or
+proof-of-personhood gate — which restores the screening margin the model says
+was destroyed. One or two sentences in that same paragraph; it also ties back
+to the Lohmann costly-action foundation.
+
+## From a hallway chat with Sharada Sridhar
+
+### S1. Run the proposal text itself through Pangram — is AI writing the *proposals*? (Victor — Pangram pipeline)
+
+We score discussion posts but have never scored the ~102 proposal texts being
+discussed. Two payoffs: (i) a descriptive fact worth having either way; (ii) an
+unclosed confounder — if proposals themselves turned AI-written around the
+break, the posts–margin correlation could have died because the *object under
+debate* changed (boilerplate, harder to evaluate), not because deliberation
+collapsed. Scoring 102 texts through the existing pipeline is trivial. No break
+in proposal AI-share → confounder closed, one sentence in robustness; a break →
+genuinely interesting and needs its own discussion. Pairs with the L2 battery.
+
+### S2. Use aggregate "directional thought" as the activity measure
+
+The model's object is $n_h + n_l$ — stance-bearing posts — but the empirical
+regressor is raw post counts, chatter included. Re-run the main specification
+with *directional-post volume* (posts expressing a clear for/against stance).
+Two payoffs: (i) tightens the model-to-data mapping; (ii) separates supply-side
+from demand-side collapse — if humans still produce directional posts
+post-break that track controversy, while the margin no longer responds, the
+*reading* side died, which is precisely the unverifiability mechanism. We
+likely have stance machinery to build on already: the AI-content analysis
+("AI posts are non-directional") classified direction somehow — extending that
+classifier to human posts may be cheap. Decide at the meeting who runs it and
+whether it's a main-table alternative or robustness.
+
+### S3. Do human posts change direction when they appear next to AI posts? (exploratory only)
+
+A supply-side behavioral margin the model assumes away: humans keep posting
+truthfully regardless of thread contamination. Testable descriptively —
+within-thread, do human posts' stances shift toward (herding) or away from
+(differentiation) co-located AI posts, or change style (length, "I'm a human"
+signaling)? **Identification caveat up front:** thread-level AI share is
+endogenous to contentiousness, so any correlation is confounded by what
+attracted the AI posts. Frame as exploratory/appendix material, not a headline
+test. Rides on S2's stance classifier, so marginal cost is low once S2 exists.
+
+## Carried forward — for the meeting
+
+1. **Item 11's four empirical tests are still open.** Tests 1 (readership
+   decline by VP tier) and 4 (within-delegate AI-adoption timing vs. DIP
+   enrollment) run on the existing panel; tests 2–3 need Snapshot timestamps /
+   the DIP roster. Worth deciding tomorrow who runs which, and whether any make
+   the paper vs. the appendix.
+2. **Intro billing of the DIP policy point** (item 9): the conclusion now has
+   the Goodhart paragraph, but the intro's contribution list doesn't mention
+   it. One sentence in the intro would complete the "headline contribution"
+   promotion — or we decide the conclusion is enough.
+3. **Dollar denomination** (item 12) — decided July 30: dollars throughout,
+   not ARB; conversion date/price convention to be picked at the meeting.
+4. R1–R3 above are the substantive fixes; R4–R7 are mechanical (happy to do
+   them as a PR from my fork if easier).
+
+---
+
+# Original notes (July 21) — all now implemented upstream; kept for reference
+
 ## 1. The §5.5 calibration point-identifies π\* with the wrong object — restate as a lower bound (strengthens the result)
 
 §5.5 sets π\* = 0.053, the **realized AI share (λ)** at the QLR break. But the
