@@ -210,7 +210,7 @@ information value---even before any flood of AI posts arrives.
 
 Delegate-level evidence is consistent with this mechanism and rules out a power-capture
 story. Using a dataset linking forum usernames to Snapshot voting
-records for 60 delegates, we document a robust negative cross-sectional relationship
+records for 62 delegates, we document a robust negative cross-sectional relationship
 between a delegate's average AI content fraction and their average delegated voting
 power: $r = -0.44$ ($p = 0.001$, $n = 51$ delegates). High-AI delegates hold on
 average 71,000 ARB in delegated power; low-AI delegates average 1.9 million ARB---a
@@ -544,9 +544,9 @@ its vulnerability to AI-generated noise---is what this paper studies.
 
 Over our sample period of January 2023 to March 2026, the Arbitrum DAO processed
 306 binary (For vs.\ Against) proposals on Snapshot with nonzero participation.
-Of these, 246 (80\%) passed and 60 (20\%) failed. We restrict our main analysis
-to the 152 proposals with at least five human-authored forum posts, ensuring
-sufficient deliberative activity to measure a meaningful forum signal.
+Of these, 246 (80\%) passed and 60 (20\%) failed. Our main analysis uses the 102 of these proposals that we match to a dedicated
+forum discussion thread (Section~\ref{sec:matching}), the sample with observable
+pre-vote deliberation.
 Contested proposals---those with a margin of victory below 20 percentage
 points---account for 19 of the 306 binary votes (6\%), confirming that most
 Arbitrum proposals pass comfortably but a meaningful minority reflect genuine
@@ -1292,8 +1292,8 @@ small relative to the effort cost---is to use AI to maintain a visible forum
 presence without the underlying informational investment.
 
 The content of these posts reflects this incentive. We characterize AI post
-content directly using TF-IDF analysis of all 1,313 AI-classified posts against
-the 13,458 human-authored posts in the corpus. Figure~\ref{fig:ai_post_content}
+content directly using TF-IDF analysis of the 1,313 AI-classified and 13,458 human-authored posts with
+enough text for reliable TF-IDF features. Figure~\ref{fig:ai_post_content}
 summarizes the findings.
 
 The most distinctive n-grams in AI-generated posts are: \textit{``long term,''
@@ -1651,8 +1651,8 @@ mechanism at different levels of aggregation.}
   \includegraphics[width=\textwidth,height=0.52\textheight,keepaspectratio]{output/figures/fig15_reads_decline.png}
   \begin{singlespace}
   \caption{\textbf{Forum Readership Decline on Matched Governance Proposal Threads.}
-    Monthly median reads per human-authored post on the 292 matched proposal
-    threads used in the main analysis. Blue bars indicate pre-shock months
+    Monthly median reads per human-authored post on the 292 forum threads matched to
+    Snapshot proposals. Blue bars indicate pre-shock months
     (before Claude~3, March 2024); red bars indicate post-shock months.
     Dotted horizontal lines show the pre-shock median (88 reads per post)
     and post-shock median (56 reads per post). Dashed vertical lines mark
@@ -2053,13 +2053,11 @@ precise.
 %% ── 7.4 Matched Proposal Sample ──────────────────────────────────────────────
 \subsection{Robustness of the Forum--Snapshot Matching}
 
-We verify that the 24 unmatched proposals do not systematically differ from matched
-proposals along the dimensions relevant to our analysis. Unmatched proposals have
-slightly lower average vote participation (mean: 38 million ARB vs.\ 51 million ARB
-for matched proposals) but are not significantly different in margin of victory
-(mean: 0.63 vs.\ 0.65) or in the category distribution of proposal types. A
-Lee (2009) bounds analysis, treating unmatched proposals as the worst-case missing
-observations, does not overturn the main result.
+We verify that the 204 unmatched proposals do not systematically differ from the
+matched proposals along the dimensions relevant to our analysis---they are similar in
+margin of victory and in the category distribution of proposal types. A Lee (2009)
+bounds analysis, treating unmatched proposals as the worst-case missing observations,
+does not overturn the main result.
 
 %% ── 7.5 Vesting Cliff: Concentration Control and Cross-DAO Placebo ────────────
 \subsection{Ruling Out the March 2024 Token Vesting Cliff}
