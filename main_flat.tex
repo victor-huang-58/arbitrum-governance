@@ -110,7 +110,7 @@ letter volume and content as a gauge of genuine stakeholder concern. Shareholder
 read proxy statements, activist letters, and analyst reports before contested votes
 on mergers, compensation, and board composition \citep{iliev2015}. Retail investors
 post on Reddit and StockTwits, and a large empirical literature has established that
-this crowd activity aggregates real information about future returns
+this crowd activity carries real information about market outcomes
 \citep{antweiler2004, chen2014}. The informational value of each of these mechanisms
 rests on a single implicit assumption: that producing credible, contextually
 appropriate long-form prose requires genuine expertise or conviction---a cost
@@ -195,7 +195,7 @@ We propose instead an \emph{unverifiability shock} mechanism in the spirit of
 (March 2024) crossed a quality threshold at which AI-generated governance prose
 became indistinguishable from careful human writing.
 
-There is direct benchmark evidence that these two releases were qualitatively different from their predecessors. On the Massive Multitask Language Understanding benchmark \citep[MMLU;][]{hendrycks2021}, which tests breadth of knowledge across 57 academic and professional domains, GPT-4 (March 2023) scored 86.4\% versus 70.0\% for GPT-3.5---a step change that closed most of the remaining gap to expert human performance (estimated at 89.8\%). GPT-4 Turbo extended this to 87.3\%, and Claude~3 Opus reached 86.8\% \citep{anthropic2024}. On MT-Bench, a benchmark designed to evaluate multi-turn instruction-following and writing quality, GPT-4 achieved a score of 8.99 out of 10 versus 7.94 for GPT-3.5 \citep{zheng2023}. Most relevant for governance prose, evaluations of long-form argumentative and analytical writing---the genre of DAO forum posts---show a discrete jump precisely at GPT-4 Turbo, with evaluators unable to reliably distinguish outputs from expert human writers at threshold quality settings \citep{openai2023}. Prior models (GPT-3.5, Claude~1, Claude~2) produced outputs that trained evaluators could identify with roughly 70--75\% accuracy; GPT-4 Turbo and Claude~3 reduced this to near chance \citep{anthropic2024}.
+There is direct benchmark evidence that these two releases were qualitatively different from their predecessors. On the Massive Multitask Language Understanding benchmark \citep[MMLU;][]{hendrycks2021}, which tests breadth of knowledge across 57 academic and professional domains, GPT-4 (March 2023) scored 86.4\% versus 70.0\% for GPT-3.5---a step change that closed most of the remaining gap to expert human performance (estimated at 89.8\%). GPT-4 Turbo extended this to 87.3\%, and Claude~3 Opus reached 86.8\% \citep{anthropic2024}. On MT-Bench, a benchmark designed to evaluate multi-turn instruction-following and writing quality, GPT-4 achieved a score of 8.99 out of 10 versus 7.94 for GPT-3.5 \citep{zheng2023}.
 
 Two further lines of evidence, neither reliant on vendor-reported benchmarks, corroborate that this generation crossed a human-indistinguishability threshold. First, blind human preference: on the LMSYS Chatbot Arena, where users vote on anonymized head-to-head outputs \citep{zheng2023}, Claude~3 Opus (released March 4, 2024) became the first non-OpenAI model to overtake the GPT-4 family at the top of the leaderboard, which GPT-4 variants had led since May 2023; earlier models such as Claude~2 never reached that tier. Second, controlled Turing tests: in a randomized, preregistered two-party test, \citet{jones2024turing} found GPT-4 judged to be human 54\% of the time---versus 66--67\% for real humans and 22\% for a 1960s \textsc{eliza} baseline---up from 49.7\% for the best GPT-4 prompt in an earlier online study \citep{jones2023turing} and near-chance for prior models, and a subsequent three-party test reached 73\% for GPT-4.5, above the human baseline \citep{jones2025turing}. These are ordinal claims established by blind human judgment rather than self-reported capability scores, and they place the crossing of near-human indistinguishability in the November 2023--March 2024 window (Figure~\ref{fig:turing}). We acknowledge two caveats: no benchmark measures indistinguishability of \emph{governance-forum} prose specifically, so the Arena and Turing tests are the nearest available instruments; and the highest Turing pass rates require prompting the model to adopt a humanlike persona.
 
@@ -500,7 +500,7 @@ to temporarily lend their voting power to governance participants in exchange fo
 payment, typically in stablecoins. Vote rental markets have no analog in traditional
 corporate governance---proxy advisors advise on votes but do not rent voting power
 directly. The welfare effects of vote markets depend on whether votes are cast on the
-basis of private information or private preferences \citep{riker1968, casella2012}:
+basis of private information or private preferences \citep{casella2012}:
 if buyers have superior information, vote markets aggregate it more efficiently
 than one-token-one-vote; if buyers simply have more money, vote markets allow
 wealth to override collective judgment. Distinguishing these cases empirically
@@ -862,7 +862,7 @@ $\theta_i \in [0,1]$ denote the true share of community opinion favoring proposa
 $i$. Token holders with private signals about $\theta_i$ make two decisions:
 whether to participate in the forum (costly) and how to vote (costless, given
 on-chain voting requires only holding tokens). When participation is costly and agents engage only when their expected benefit
-exceeds the cost \citep{downs1957, verba1995}, equilibrium forum activity is
+exceeds the cost \citep{downs1957}, equilibrium forum activity is
 increasing in the degree of community division: proposals about which opinion
 is roughly split ($\theta_i = 0.5$) generate more discussion than those that are
 near-unanimous in support ($\theta_i = 1$) or near-unanimous in opposition ($\theta_i = 0$),
@@ -2460,8 +2460,7 @@ five scored posts are excluded from the cross-sectional analysis.
   \caption{\textbf{Fiscal Evolution and Treasury Dynamics.}
     Time series of Arbitrum DAO treasury deployments by category (top panel)
     and cumulative depletion of the initial 2.75 billion ARB DAO treasury
-    (bottom panel). Treasury values are converted to USD at the prevailing ARB
-    price at the time of each disbursement. The vesting cliff in March 2024
+    (bottom panel). All values are denominated in ARB. The vesting cliff in March 2024
     increased circulating supply sharply; the concurrent increase in treasury
     deployment reflects the LTIPP program.}
   \end{singlespace}

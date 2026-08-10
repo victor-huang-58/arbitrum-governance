@@ -29,12 +29,23 @@ session.headers.update({
 })
 
 
-def get(path, params=None):
+def get(path, params=None, retries=6):
     url = f"{BASE_URL}{path}"
-    resp = session.get(url, params=params, timeout=30)
-    resp.raise_for_status()
-    time.sleep(DELAY)
-    return resp.json()
+    for attempt in range(retries):
+        try:
+            resp = session.get(url, params=params, timeout=60)
+            resp.raise_for_status()
+            time.sleep(DELAY)
+            return resp.json()
+        except (requests.exceptions.Timeout,
+                requests.exceptions.ConnectionError,
+                requests.exceptions.ChunkedEncodingError) as e:
+            if attempt == retries - 1:
+                raise
+            wait = min(90, 5 * 2 ** attempt)
+            print(f"    [retry {attempt+1}/{retries}] {type(e).__name__} on {path}; waiting {wait}s",
+                  flush=True)
+            time.sleep(wait)
 
 
 def setup_db(con):
