@@ -17,6 +17,7 @@ Refine (#1–3) says the model as written does **not derive** Proposition 1, the
 
 - **Recommendation:** *reframe as a stylized/illustrative framework* — state the key relationships as assumptions, downgrade "Proposition 1" to a stated prediction, and keep the model as scaffolding for the two mechanisms and the calibration. Deriving it properly is effectively a separate theory paper, and adding formal machinery is where new errors come from. **The sign error (#77) is already fixed** regardless.
 - **Alternative:** derive it fully (higher reward, much more work/risk).
+- **What deriving it fully would take** (researched Aug 2026): the three gaps share one root — a single representative delegate can't produce a *population* margin or *aggregate* posting volume. The fix is a three-part rebuild: (i) **two-tier structure** — informed contributors/delegates post; a continuum of uninformed voters read the forum aggregate and vote, so the For-share Φ and the margin become *derived* (Feddersen–Pesendorfer aggregation, already cited); (ii) **reputation / career-concern posting** — delegates post to attract and retain delegated voting power, which resolves the pivotality problem, matches our own delegate cross-section, and ties to DIP; from this Prop 1 follows (posts ∝ p(1−p), margin ∝ |2p−1| ⟹ negative covariance); (iii) the welfare loss as the **decision-theoretic value of information** (closeness × informativeness), though the exact 4p(1−p)(q−½)² form may need adjusting. Realistically ~2–4 weeks of careful theory work, with the risk the welfare form shifts — which is why the recommendation is to reframe as illustrative.
 
 ### 2. Welfare / calibration — "empirical lower bound" or "sensitivity calculation"?
 The ≥858-words-per-delegate / ~43,000-words-per-proposal figures rest on assumptions (π ≥ λ, and the normalization I_H = c_p), not identification (#12, #18, #74).
@@ -47,7 +48,7 @@ Several descriptive scripts (`fig01/02/03/04/06/07/09`) fetch Snapshot/price **l
 
 | Item | Status |
 |---|---|
-| Citations (1 fabricated + miscites) | ✅ fixed & web-verified |
+| Citations — **~25% of refs had errors** (1 fabricated, 5 wrong-paper incl. `kim2024`/`eisfeldt2023`, ~6 miscited claims) | ✅ fixed & web-verified; `nabben2021` venue + `andrews1993` CV still noted |
 | Sample-count reconciliation (102/29/73; delegate funnel 62→54→52→51) | ✅ fixed |
 | Sign error #77 (reading condition) | ✅ fixed |
 | Overclaims (A3) — high-value ones | ✅ softened |
@@ -57,9 +58,27 @@ Several descriptive scripts (`fig01/02/03/04/06/07/09`) fetch Snapshot/price **l
 | USD conversion + title (Decision 3) | ⏳ price pending |
 | Reproducibility freeze + recompute (Decision 4) | ⏳ blocked on Decision 3 |
 | Convention picks (Decision 5) | ⏳ quick, need calls |
-| Figure captions | 🔶 fig07 fixed; `.tex` mapping verified sound (Refine's "wrong figures" #16 looks like a PDF-parse artifact); a few internal-title/number checks remain |
+| Figure captions | 🔴 **systematic mismatch confirmed** — captions describe older figures than the PNGs show (7 figures, main body + appendix); needs a rewrite (see below). *Correction: this is NOT a PDF-parse artifact, as first assumed.* |
 
 ---
+
+## Figure-caption rewrite needed (pass-3 audit finding)
+
+Opening every flagged figure confirmed the captions describe **different/older figures than the PNGs actually plot** — the figures were regenerated but captions never updated:
+
+| Fig | Caption claims | PNG shows |
+|---|---|---|
+| Fig 3 (fig02) | 4 categories, one panel | 3 categories + a 2nd margin panel |
+| A3 (fig06) | distribution by proposal/vote-size | LobbyFi VP **time series** |
+| A5 (fig09) | scatter (posts × duration) | **timeline/Gantt** of proposals |
+| A6 (fig10) | 3 dims; incl. Optimism/Uniswap | **4-panel** bars; Aave/ENS/Lido/Compound |
+| A7 (fig10b) | Arbitrum bar+line | **5-DAO scatter** of median voters |
+| A8 (fig12) | 2-panel coeff plots by quarter | single **rolling-correlation** series |
+| A4 (fig07) | USD | ARB (already fixed) |
+
+Also: fig12 shows **N=5,354 / 52 delegates** vs Table 5's **1,832 / 54** (reconcile); and figures use a **3-category** taxonomy (Treasury Spend / Rules Change / Institution Building) while the text uses **4** (Treasury Allocation / Protocol Governance / Ecosystem Programs / Procedural) — pick one.
+
+Draft corrected captions exist (matched to the current PNGs). **Do the caption rewrite *with* the freeze/USD figure regeneration** (Decisions 3–4) — the figures change again there, so finalize captions in that same pass.
 
 ## What unblocks once we decide
 
