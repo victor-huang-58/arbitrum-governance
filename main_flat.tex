@@ -85,8 +85,8 @@ Forum activity predicted vote closeness before March 2024 but became uninformati
 Interestingly, we observe that the degradation of the forum's signal (the elimination of the correlation between posting volume and margin-of-victory) takes place at a time when relatively few posts are A.I.\ generated, relative to the end of the sample period where A.I.\ posting volume grows rapidly.
 We use a model of endogenous posting and voting to show that this may be a general phenomenon: the signal value of the forum can collapse to zero at a discrete tipping point with a very low volume of A.I.\ posts.
 Calibrating to the data, the forum generated net social benefits equivalent to saving at least 858 words of research effort per delegate per proposal---all destroyed at the tipping point.
-Delegates who rely on AI hold far less voting power than those who do not, ruling out power capture by insiders.
-Our results suggest that the mere existence of indistinguishable AI writing is sufficient to degrade the governance capabilities of economically important organizations, even if such AI is rarely used in equilibrium.
+Delegates who rely on AI hold far less voting power than those who do not, which is inconsistent with power capture by insiders.
+Our results suggest that the mere availability of indistinguishable AI writing can degrade the governance capabilities of economically important organizations, even when such AI is rarely used in equilibrium.
 \end{abstract}
 
 \vspace{0.3em}
@@ -208,7 +208,7 @@ delegates rationally discount the forum even though realized contamination remai
 low. The credible \emph{threat} of AI content is sufficient to destroy the forum's
 information value---even before any flood of AI posts arrives.
 
-Delegate-level evidence is consistent with this mechanism and rules out a power-capture
+Delegate-level evidence is consistent with this mechanism and points away from a power-capture
 story. Using a dataset linking forum usernames to Snapshot voting
 records for 62 delegates, we document a robust negative cross-sectional relationship
 between a delegate's average AI content fraction and their average delegated voting
@@ -275,7 +275,7 @@ This paper connects several strands of research.
 
 \emph{Online deliberation and democratic governance.} A growing literature studies whether online forums support genuine deliberation \citep{luskin2002, wright2012}. In political science, the question of whether public discourse aggregates preferences or merely amplifies noise has been central since \citet{habermas1984}. Our DAO setting provides a cleaner test than most: the forum is the primary formal pre-vote deliberation channel, the outcome is a binding quantitative vote, and both forum and vote data are complete. We find the first direct evidence that a real-money governance forum aggregates information, and that this aggregation can be destroyed by a change in the verifiable authenticity of participation.
 
-\emph{Text-based financial signaling.} Textual analysis in finance has documented that the \emph{content} of corporate communications carries information: \citet{li2008} shows that more readable annual reports forecast better earnings; \citet{loughran2011} construct a finance-specific word list that predicts stock market reactions; \citet{cookson2020} find that disagreement among social-media investors predicts subsequent trading volume. These papers treat authorship as unambiguous. Our paper is, to our knowledge, the first to study what happens when the link between authorship and authentic opinion is broken by AI, and to show that this break destroys the informational content of text-based signals even when the text is observationally unchanged.
+\emph{Text-based financial signaling.} Textual analysis in finance has documented that the \emph{content} of corporate communications carries information: \citet{li2008} shows that more readable annual reports forecast better earnings; \citet{loughran2011} construct a finance-specific word list that predicts stock market reactions; \citet{cookson2020} find that disagreement among social-media investors predicts subsequent trading volume. These papers treat authorship as unambiguous. Our paper is, to our knowledge, the first to study what happens when the link between authorship and authentic opinion is broken by AI, and to show that this break destroys the informational content of text-based signals even when individual posts remain superficially unchanged.
 
 \emph{AI and financial markets.} Recent work documents that AI affects labor market outcomes \citep{brynjolfsson2023, eisfeldt2023}, financial analysis quality \citep{cao2023, kim2024}, and stock-return predictability from news \citep{lopezlira2023}. These papers study AI as a productivity tool for human agents. Our contribution is distinct: we study AI as an adversarial technology that degrades information channels by collapsing the cost of producing credible-seeming but uninformative content.
 
@@ -504,7 +504,7 @@ basis of private information or private preferences \citep{casella2012}:
 if buyers have superior information, vote markets aggregate it more efficiently
 than one-token-one-vote; if buyers simply have more money, vote markets allow
 wealth to override collective judgment. Distinguishing these cases empirically
-is the central challenge in interpreting our results.
+is a central challenge in interpreting the vote-rental market's effects.
 
 We describe the LobbyFi market in Figure~\ref{fig:lobbyfi} and discuss its
 implications for the interpretation of our forum-signal results in
@@ -548,7 +548,7 @@ Of these, 246 (80\%) passed and 60 (20\%) failed. Our main analysis uses the 102
 forum discussion thread (Section~\ref{sec:matching}), the sample with observable
 pre-vote deliberation.
 Contested proposals---those with a margin of victory below 20 percentage
-points---account for 19 of the 306 binary votes (6\%), confirming that most
+points---account for 16 of the 306 binary votes (5\%), confirming that most
 Arbitrum proposals pass comfortably but a meaningful minority reflect genuine
 community division. We classify these proposals into four economic categories, following a
 classification algorithm applied to proposal titles and body text:
@@ -889,7 +889,7 @@ observed post is AI-generated. When $\pi$ is near zero, forum posts are informat
 signals. When a sufficiently capable LLM is publicly released, AI-generated posts
 become indistinguishable from human-authored contributions on all observable features.
 Bayesian updating on observables can no longer resolve $\pi$ below a positive lower
-bound $\underline{\pi} > 0$. If $\underline{\pi} \cdot I_H < c_{\text{read}}$
+bound $\underline{\pi} > 0$. If $(1 - \underline{\pi}) \cdot I_H < c_{\text{read}}$
 (the informational gain from a post falls below the cost of reading), delegates
 rationally discount the forum. The credible \emph{possibility} of unverifiable
 low-quality entries is sufficient to destroy the information value of high-quality
@@ -1148,7 +1148,7 @@ If $K$ delegates read the forum, the net social surplus per proposal is at least
 \]
 which is positive for $K \geq 13$. Arbitrum's 62 identified active delegates ($K = 62$) imply net social benefits of at least $62 \times 858 - 10{,}480 \approx 43{,}000$ words per proposal---about four times the human writing effort invested in each thread---entirely from the public-good externality of the forum. Because 454 unique community members posted in pre-period proposal threads (and readership exceeds participation), $K \geq 62$ is itself a lower bound, so the $43{,}000$-word figure compounds two conservative margins.
 
-At the tipping point, the delegate's net reading value falls from at least 858 words to exactly 0 in a single step, and at least $43{,}000$ words of social surplus per proposal is destroyed. After the break, human contributors still write $\approx 8{,}858$ words per proposal (the post-period average), but delegates no longer read them---a pure transfer of human effort with zero social return. The welfare loss in Section~\ref{sec:welfare} is thus not a continuous erosion but a cliff: a realized AI share as low as $8\%$ marks the point at which the forum transitions from a public good worth at least $43{,}000$ words per proposal to a $0$-word-per-proposal waste.
+At the tipping point, the representative delegate's net reading value falls toward zero, and on the order of $43{,}000$ words of social surplus per proposal is lost. After the break, human contributors still write $\approx 8{,}858$ words per proposal (the post-period average), but these posts are read far less---Section~\ref{sec:reads} documents a 36\% decline in reads per post---an increasingly unrewarded transfer of human effort. The welfare loss in Section~\ref{sec:welfare} is thus not a continuous erosion but a sharp drop: a realized AI share as low as $8\%$ marks the point at which the forum's value as a public good collapses.
 
 \paragraph{Delegate alignment and the direction of the bound.}
 The model gives the delegate a $\pm 1$ correctness payoff, making it a perfect agent of the DAO. That is a strong assumption here: a simple majority requires only about four delegates, so almost every delegate is non-pivotal and the private return to a correct vote is near zero (rational ignorance); the delegation market rewards \emph{observable activity}---posts, rationales, participation---rather than decision quality; and professional delegates, grant recipients, and vote renters face conflicts. Misalignment does not weaken the calibration---it sharpens its interpretation in two ways. First, misalignment \emph{predicts} this thin private margin rather than merely rationalizing it: for a non-pivotal delegate in an activity-rewarded market the private return to a correct vote is small, so reading costs should absorb nearly all of a post's informational value ($c_r/I_H = 1-\pi^* \le 0.92$). The calibration is consistent with a net surplus share as thin as $8\%$; misalignment explains why the private threshold $\pi^*$ sits so low. Second, reading is itself a public good---an informed vote benefits every token holder---so the private $I_H$ that governs the reading decision is smaller than the social value of the same post. The collapse therefore reveals the \emph{private} surplus margin, and the social value destroyed \emph{exceeds} the figures above: ``at least 858 words'' becomes more conservative once delegates are misaligned, not less. A corollary is that the socially optimal reading threshold lies above the private $\pi^*$---delegates disengage too early from society's standpoint even before AI, and the AI shock only makes an already-inefficient margin bind.
@@ -1473,7 +1473,7 @@ than it tracks any measure of realized AI adoption in the Arbitrum ecosystem.
 %% ── 6.1 The Lemons Mechanism: Rational Discounting Under Verifiability Uncertainty
 \subsection{Rational Discounting Under Verifiability Uncertainty}
 
-The timing evidence in Section~\ref{sec:results} rules out the volume mechanism
+The timing evidence in Section~\ref{sec:results} weighs against the volume mechanism
 and points to rational discounting by delegates as the proximate cause of the
 signal collapse. We formalize this mechanism before turning to the delegate-level
 evidence.
@@ -1587,7 +1587,7 @@ real time.
 The unverifiability mechanism requires not that verification be impossible, but that it be
 \emph{sufficiently costly} relative to the expected informational return. Once the
 prior probability of AI contamination $\underline{\pi}$ crossed the threshold at
-which $\underline{\pi} \cdot I_H < c_{\text{read}}$---which the QLR evidence pins
+which $(1 - \underline{\pi}) \cdot I_H < c_{\text{read}}$---which the QLR evidence pins
 to late November 2023, nineteen days after GPT-4 Turbo---rational delegates ceased
 conditioning their votes on forum activity even for posts that appeared human-
 authored. Rather than attempting to discriminate among individual posts, delegates
@@ -1705,7 +1705,7 @@ for reasons unrelated to AI. Against this: the QLR break date is November 25,
 (non-exceptional) proposals. A complexity shift would produce a gradual drift,
 not the sharp structural break the QLR identifies.
 
-\emph{Token vesting cliff.} Section~\ref{sec:vesting} rules out the March 2024
+\emph{Token vesting cliff.} Section~\ref{sec:vesting} addresses the March 2024
 token vesting cliff as the driver of the break; the QLR identifies November
 2023 as the endogenous break date, four months before the cliff.
 
@@ -2229,7 +2229,7 @@ structural break is confirmed by Chow tests at multiple AI model release dates, 
 strongest evidence at GPT-4 Turbo ($F = 15.05$, $p < 0.001$) and Claude~3
 ($F = 8.38$, $p = 0.0004$).
 
-The mechanism is unverifiability, not manipulation. The signal collapses not because
+The evidence points to unverifiability rather than manipulation. The signal collapses not because
 AI posts flood the forum---they were in the single digits (about 8\%) of volume at the break---but
 because the \emph{credible possibility} of indistinguishable AI content is sufficient
 to destroy delegates' incentive to condition their votes on forum activity. This is
@@ -2272,7 +2272,7 @@ rare setting in which the information channel can be cleanly separated from the
 decision channel: Snapshot votes are independent of the forum, so the forum's
 predictive content for vote outcomes is a pure measure of its informational value
 rather than a mechanical link. The collapse of this predictive content after AI
-shocks is perhaps the cleanest available evidence that generative AI degrades a
+shocks is among the cleanest available evidence that generative AI degrades a
 specific form of collective intelligence.
 
 For the AI economics literature, our contribution is to identify a channel---the
