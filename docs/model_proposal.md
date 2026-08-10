@@ -86,19 +86,6 @@ credibility, not a cost.
 
 ---
 
-## Positioning (honest scoring)
-
-| Tier | Now | With ①②⑤ integrated |
-|---|---|---|
-| Top-3 finance (JF/JFE/RFS) | reject (~48) | reject (~50) — *empirical design is the wall* |
-| Strong field (Mgmt Sci, RoF, JLEO) | — | **credible R&R (~65)** |
-| Fintech / econ-of-AI outlet | — | **R&R, plausible accept (~70)** |
-
-The model work lifts the *field-journal* ceiling from ~60 to ~68. It does **not**
-move top finance — that ceiling is set by the data (one DAO, one shock), and the next
-investment to break past it is **a second DAO or within-DAO cross-sectional variation
-in the AI shock**, not more theory.
-
 ## Bottom line
 
 Derive (1) and fix the welfare formula (2) — both are clear wins and the paper needs
