@@ -29,31 +29,49 @@ price. Built so the USD decision is a **one-line edit**. Infra lives in
 | Script | Pulls live | Cache name | Status |
 |---|---|---|---|
 | `fig02_proposals.py` | Snapshot (all proposals) | `fig02_proposals` | ✅ **converted + frozen (415)** |
-| `fig01_forum_activity.py` | Snapshot | `fig01_forum` | ⬜ template ready |
-| `fig03_power_concentration.py` | Snapshot | `fig03_power` | ⬜ |
-| `fig04_taxonomy.py` | Snapshot | `fig04_taxonomy` | ⬜ |
-| `fig09_amendments.py` | Snapshot | `fig09_amend` | ⬜ |
-| `fig10_crossdao.py` | Snapshot (multi-DAO) | `fig10_crossdao` | ⬜ |
-| `fig10b_participation.py` | Snapshot | `fig10b_part` | ⬜ |
-| `fig05_dip_test.py` | Snapshot | `fig05_dip` | ⬜ |
-| `fig15_distraction_first.py` | Snapshot | `fig15_first` | ⬜ |
-| `rob01_uniswap_placebo.py` | Snapshot (Uniswap) | `rob01_uniswap` | ⬜ |
-| `rob02_concentration_control.py` | Snapshot | `rob02_conc` | ⬜ |
-| `rob03_cooks_bootstrap.py` | Snapshot | `rob03_cooks` | ⬜ |
-| `02_fetch_delegates.py` | Tally/Snapshot | `delegates_raw` | ⬜ (already has a cache; standardize) |
+| `fig04_taxonomy.py` | Snapshot | `fig04_taxonomy` | ✅ **converted + frozen (415)** |
+| `fig03_power_concentration.py` | Snapshot (per-proposal VP) | `fig03_vp_distributions` | ✅ **converted + frozen (6)** |
+| `fig09_amendments.py` | Snapshot + forum search | `fig09_snapshot_props`, `fig09_forum_starts` | ✅ **converted + frozen (415 / 18)** |
+| `fig01_forum_activity.py` | **ARB price (CryptoCompare)** | `fig01_arb_price_daily` | 🔴 **BLOCKED — see Finding 1** (wrapper in place; no price source) |
+| `fig10_crossdao.py` | Snapshot (multi-DAO) | already caches | ✔ already cache-if-missing (Group B) |
+| `fig10b_participation.py` | Snapshot | already caches | ✔ Group B |
+| `fig05_dip_test.py` | Snapshot | already caches | ✔ Group B |
+| `fig15_distraction_first.py` | ETH price + caches | already caches | ✔ Group B (reads `eth_price_cache`) |
+| `rob01_uniswap_placebo.py` | Snapshot (Uniswap) | already caches | ✔ Group B |
+| `rob02_concentration_control.py` | reads caches only | — | ✔ no live fetch |
+| `rob03_cooks_bootstrap.py` | reads caches only | — | ✔ no live fetch |
 
-**Freeze + USD (wire `to_value` / `money_label` at the plot points):**
+**Freeze + USD (frozen now; `to_value`/`money_label` wiring pending price):**
 
 | Script | Native unit | USD touch point | Status |
 |---|---|---|---|
-| `fig07_fiscal.py` | ARB millions (ANCHORS, `GENESIS_M`) | disbursement + balance axes | ⬜ freeze + wire |
-| `fig06_lobbyfi.py` | ARB voting power | `lobbyfi_vp` axis | ⬜ freeze + wire |
-| `fig11_delegates.py` | ARB voting power | delegate VP axis | ⬜ freeze + wire |
+| `fig07_fiscal.py` | ARB millions (ANCHORS, `GENESIS_M`) | disbursement + balance axes | ✅ **frozen** (`fig07_fiscal_props`); wire on price |
+| `fig06_lobbyfi.py` | ARB voting power | `lobbyfi_vp` axis | ✅ **frozen** (`fig06_lobbyfi_votes`); wire on price |
+| `fig11_delegates.py` | ARB voting power | delegate VP axis | ✔ Group B cache; wire on price |
 
 **Already fine (skip):**
 - `fig08_main_causal.py`, `fig12_panel.py`, `tab_ols_structural_break.py`, etc. —
-  core-result scripts already read frozen caches (`figure8_*cache.json`).
+  core-result scripts already read caches (`figure8_*cache.json`).
 - `fig_dao_treasuries.py` — already in USD (DeFiLlama snapshot).
+
+## ⚠ Findings surfaced by the freeze pass (need a call)
+
+**Finding 1 — `fig01` ARB price source is dead.** CryptoCompare now 401s (needs a
+key) and CoinGecko's public tier refuses full history (`error 10012`). So `fig01`
+(the forum-activity-vs-ARB-price figure) cannot run until we supply a price source:
+a free **CoinGecko demo key** (extends the range) or a **CryptoCompare key**, or we
+redraw `fig01` against a single decision-date price. This is the *same* ARB-price
+question the USD decision must answer — fold it in.
+
+**Finding 2 — the repo is not self-reproducing for the CORE figures.** These caches
+are in `.gitignore` (size): `figure5_votes_cache.json` (31M), `figure8_forum_cache.json`
+(24M), `figure10_voter_cache.json` (missing). `figure8_forum` feeds the **core `fig08`
+result** and `figure5_votes` feeds fig05/10/11/rob02 — so a fresh clone cannot
+reproduce the headline figures. **Decision needed:** commit them (repo +~55M),
+move to **Git LFS**, or host them as a **release/Zenodo artifact** with a documented
+regeneration script. Standard for replication packages is LFS or an external archive.
+For a paper *about verifiability*, having a documented, runnable path to every number
+is not optional — but the mechanism is a choice.
 
 ## Text touch points (USD flip, in `main_flat.tex`)
 

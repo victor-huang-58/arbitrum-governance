@@ -20,6 +20,7 @@ import matplotlib.pyplot as plt
 import sys as _sys
 _sys.path.insert(0, __import__('os').path.dirname(__import__('os').path.abspath(__file__)))
 from aer_style import apply_aer_style, despine, COLORS, C_HUMAN, C_AI, C_TOTAL, C_SHOCK, savefig as aer_savefig
+import freeze
 apply_aer_style()
 import matplotlib.dates as mdates
 import matplotlib.ticker as mticker
@@ -107,22 +108,22 @@ batch_ends = [
     int(pd.Timestamp("2026-04-02").timestamp()),
 ]
 
-price_frames = []
-for ts in batch_ends:
-    df = fetch_crypto_history(ts, limit=400)
-    price_frames.append(df)
-    print(f"  Fetched batch ending {pd.to_datetime(ts, unit='s').date()}: {len(df)} rows")
-    time.sleep(1)
+def _fetch_price_daily():
+    frames = []
+    for ts in batch_ends:
+        df = fetch_crypto_history(ts, limit=400)
+        frames.append(df)
+        print(f"  Fetched batch ending {pd.to_datetime(ts, unit='s').date()}: {len(df)} rows")
+        time.sleep(1)
+    out = (pd.concat(frames)
+             .drop_duplicates("date")
+             .sort_values("date")
+             .reset_index(drop=True))
+    out = out[out["close"] > 0]
+    return out.assign(date=out["date"].dt.strftime("%Y-%m-%d")).to_dict("records")
 
-price_daily = (
-    pd.concat(price_frames)
-    .drop_duplicates("date")
-    .sort_values("date")
-    .reset_index(drop=True)
-)
-
-# Drop days where close == 0 (pre-launch placeholders the API sometimes returns)
-price_daily = price_daily[price_daily["close"] > 0]
+price_daily = pd.DataFrame(freeze.frozen_json("fig01_arb_price_daily", _fetch_price_daily))
+price_daily["date"] = pd.to_datetime(price_daily["date"])
 print(f"  Daily price rows after dedup: {len(price_daily)}, "
       f"range: {price_daily['date'].min().date()} – {price_daily['date'].max().date()}")
 

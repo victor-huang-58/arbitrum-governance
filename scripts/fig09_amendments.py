@@ -42,6 +42,7 @@ import matplotlib.pyplot as plt
 import sys as _sys
 _sys.path.insert(0, __import__('os').path.dirname(__import__('os').path.abspath(__file__)))
 from aer_style import apply_aer_style, despine, COLORS, C_HUMAN, C_AI, C_TOTAL, C_SHOCK, savefig as aer_savefig
+import freeze
 apply_aer_style()
 import matplotlib.ticker as mticker
 import matplotlib.dates as mdates
@@ -161,9 +162,11 @@ QUERY = """
 }
 """
 
-print("Step 1: Fetching Snapshot proposals...")
-r = requests.post(SNAPSHOT_URL, json={"query": QUERY}, timeout=30)
-props = r.json()["data"]["proposals"]
+print("Step 1: Fetching Snapshot proposals (frozen; --refresh to re-pull)...")
+props = freeze.frozen_json(
+    "fig09_snapshot_props",
+    lambda: requests.post(SNAPSHOT_URL, json={"query": QUERY}, timeout=30).json()["data"]["proposals"],
+)
 print(f"  {len(props)} proposals")
 
 CONST_RE = re.compile(r'\[constitutional\]', re.I)
@@ -212,6 +215,17 @@ def forum_discussion_start(title):
     except Exception:
         return None
 
+print("  (forum discussion dates are frozen; --refresh to re-pull)")
+def _fetch_forum_starts():
+    out = {}
+    for _p in const_list:
+        _fs = forum_discussion_start(_p["title"])
+        out[_p["id"]] = _fs.isoformat() if _fs is not None else None
+        time.sleep(0.4)
+    return out
+
+_forum_starts = freeze.frozen_json("fig09_forum_starts", _fetch_forum_starts)
+
 const_records = []
 for p in const_list:
     snap_vote_start = pd.to_datetime(p["created"], unit="s")
@@ -238,9 +252,9 @@ for p in const_list:
     if meta is None:
         meta = {"short": p["title"][:20], "category": "Protocol Upgrade", "barrier": None}
 
-    # Forum search
-    forum_start = forum_discussion_start(p["title"])
-    time.sleep(0.4)
+    # Forum search (frozen)
+    _fs = _forum_starts.get(p["id"])
+    forum_start = pd.to_datetime(_fs) if _fs else None
 
     days_discussion = (
         (snap_vote_start - forum_start).days
