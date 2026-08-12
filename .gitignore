@@ -14,3 +14,5 @@ __pycache__/
 *.fls
 *.fdb_latexmk
 presentation.pptx
+.env
+.env.*

@@ -27,6 +27,7 @@ import matplotlib.pyplot as plt
 import sys as _sys
 _sys.path.insert(0, __import__('os').path.dirname(__import__('os').path.abspath(__file__)))
 from aer_style import apply_aer_style, despine, COLORS, C_HUMAN, C_AI, C_TOTAL, C_SHOCK, savefig as aer_savefig
+import freeze
 apply_aer_style()
 import matplotlib.ticker as mticker
 import matplotlib.dates as mdates
@@ -96,9 +97,11 @@ VOTES_QUERY = """
 }
 """ % LOBBYFI_ADDR
 
-print("Fetching LobbyFi voting history...")
-resp = requests.post(SNAPSHOT_URL, json={"query": VOTES_QUERY}, timeout=30)
-raw_votes = resp.json().get("data", {}).get("votes", [])
+print("Fetching LobbyFi voting history (frozen; --refresh to re-pull)...")
+raw_votes = freeze.frozen_json(
+    "fig06_lobbyfi_votes",
+    lambda: requests.post(SNAPSHOT_URL, json={"query": VOTES_QUERY}, timeout=30).json().get("data", {}).get("votes", []),
+)
 print(f"  {len(raw_votes)} votes found")
 
 records = []

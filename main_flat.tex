@@ -84,9 +84,9 @@ Our setting is Arbitrum DAO, a decentralized organization controlling a \$3.5 bi
 Forum activity predicted vote closeness before March 2024 but became uninformative after, coinciding with language models capable of producing indistinguishable governance prose.
 Interestingly, we observe that the degradation of the forum's signal (the elimination of the correlation between posting volume and margin-of-victory) takes place at a time when relatively few posts are A.I.\ generated, relative to the end of the sample period where A.I.\ posting volume grows rapidly.
 We use a model of endogenous posting and voting to show that this may be a general phenomenon: the signal value of the forum can collapse to zero at a discrete tipping point with a very low volume of A.I.\ posts.
-Calibrating to the data, the forum generated net social benefits equivalent to saving at least 555 words of delegate research effort per proposal---all destroyed at the tipping point.
-Delegates who rely on AI hold far less voting power than those who do not, ruling out power capture by insiders.
-Our results suggest that the mere existence of indistinguishable AI writing is sufficient to degrade the governance capabilities of economically important organizations, even if such AI is rarely used in equilibrium.
+Calibrating to the data, the forum generated net social benefits equivalent to saving at least 858 words of research effort per delegate per proposal---all destroyed at the tipping point.
+Delegates who rely on AI hold far less voting power than those who do not, which is inconsistent with power capture by insiders.
+Our results suggest that the mere availability of indistinguishable AI writing can degrade the governance capabilities of economically important organizations, even when such AI is rarely used in equilibrium.
 \end{abstract}
 
 \vspace{0.3em}
@@ -110,7 +110,7 @@ letter volume and content as a gauge of genuine stakeholder concern. Shareholder
 read proxy statements, activist letters, and analyst reports before contested votes
 on mergers, compensation, and board composition \citep{iliev2015}. Retail investors
 post on Reddit and StockTwits, and a large empirical literature has established that
-this crowd activity aggregates real information about future returns
+this crowd activity carries real information about market outcomes
 \citep{antweiler2004, chen2014}. The informational value of each of these mechanisms
 rests on a single implicit assumption: that producing credible, contextually
 appropriate long-form prose requires genuine expertise or conviction---a cost
@@ -162,7 +162,7 @@ division.
 After Claude~3, this relationship vanishes. The correlation falls to $r = -0.10$
 ($p = 0.39$, $n = 73$) in the post-shock period. The change in the correlation
 coefficient, $\Delta r = +0.23$, is confirmed by a
-Chow test that rejects parameter stability at $F = 8.38$ ($p = 0.0004$). We use Claude~3 (March 2024) as our primary break date: the pre-period correlation is $r = -0.33$ ($p = 0.08$, $n = 29$) and the post-period correlation is $r = -0.10$ ($p = 0.39$, $n = 73$), which provides a clean before-and-after contrast. All substantive conclusions hold at any candidate break date from November 2023 onward (Table~\ref{tab:chow_battery}).
+Chow test that rejects parameter stability at $F = 8.38$ ($p = 0.0004$). We use Claude~3 (March 2024) as our primary break date, which provides a clean before-and-after contrast. All substantive conclusions hold at any candidate break date from November 2023 onward (Table~\ref{tab:chow_battery}).
 
 The identification logic rests on the exogeneity of AI capability releases. AI model
 releases are global events determined by the research roadmaps of Anthropic, OpenAI,
@@ -188,16 +188,16 @@ physical flood of AI-generated posts numerically overwhelmed the human signal---
 falsified by timing. To be precise: AI-generated posts are detectable on the forum
 well before the structural break---a small but measurable share appear as early as
 early 2023---but at negligible volume. At the date of the QLR break (November 2023),
-AI posts constituted approximately 5\% of forum volume, rising to below 8\% at the Claude~3 break (March 2024). The large-scale volume surge did not arrive until late 2024, reaching 15--20\% of forum traffic nine to twelve months after the signal collapsed. A volume mechanism requires contamination to precede collapse; the data show the reverse.
+AI posts constituted approximately 8\% of forum volume, and approximately 6\% at the Claude~3 break (March 2024)---remaining in the single digits throughout, and dipping below 3\% in between. The large-scale volume surge did not arrive until late 2024, reaching 15--20\% of forum traffic nine to twelve months after the signal collapsed. A volume mechanism requires contamination to precede collapse; the data show the reverse.
 
 We propose instead an \emph{unverifiability shock} mechanism in the spirit of
 \citet{akerlof1970}. The releases of GPT-4 Turbo (November 2023) and Claude~3
 (March 2024) crossed a quality threshold at which AI-generated governance prose
 became indistinguishable from careful human writing.
 
-There is direct benchmark evidence that these two releases were qualitatively different from their predecessors. On the Massive Multitask Language Understanding benchmark \citep[MMLU;][]{hendrycks2021}, which tests breadth of knowledge across 57 academic and professional domains, GPT-4 (March 2023) scored 86.4\% versus 70.0\% for GPT-3.5---a step change that closed most of the remaining gap to expert human performance (estimated at 89.8\%). GPT-4 Turbo extended this to 87.3\%, and Claude~3 Opus reached 86.8\% \citep{anthropic2024}. On MT-Bench, a benchmark designed to evaluate multi-turn instruction-following and writing quality, GPT-4 achieved a score of 8.99 out of 10 versus 7.94 for GPT-3.5 \citep{zheng2023}. Most relevant for governance prose, evaluations of long-form argumentative and analytical writing---the genre of DAO forum posts---show a discrete jump precisely at GPT-4 Turbo, with evaluators unable to reliably distinguish outputs from expert human writers at threshold quality settings \citep{openai2023}. Prior models (GPT-3.5, Claude~1, Claude~2) produced outputs that trained evaluators could identify with roughly 70--75\% accuracy; GPT-4 Turbo and Claude~3 reduced this to near chance \citep{anthropic2024}.
+There is direct benchmark evidence that these two releases were qualitatively different from their predecessors. On the Massive Multitask Language Understanding benchmark \citep[MMLU;][]{hendrycks2021}, which tests breadth of knowledge across 57 academic and professional domains, GPT-4 (March 2023) scored 86.4\% versus 70.0\% for GPT-3.5---a step change that closed most of the remaining gap to expert human performance (estimated at 89.8\%). GPT-4 Turbo extended this to 87.3\%, and Claude~3 Opus reached 86.8\% \citep{anthropic2024}. On MT-Bench, a benchmark designed to evaluate multi-turn instruction-following and writing quality, GPT-4 achieved a score of 8.99 out of 10 versus 7.94 for GPT-3.5 \citep{zheng2023}.
 
-Two further lines of evidence, neither reliant on vendor-reported benchmarks, corroborate that this generation crossed a human-indistinguishability threshold. First, blind human preference: on the LMSYS Chatbot Arena, where users vote on anonymized head-to-head outputs \citep{zheng2023}, Claude~3 Opus (released March 4, 2024) became the first non-OpenAI model to overtake the GPT-4 family at the top of the leaderboard, which GPT-4 variants had led since May 2023; earlier models such as Claude~2 never reached that tier. Second, controlled Turing tests: in a randomized, preregistered two-party test, \citet{jones2024turing} found GPT-4 judged to be human 54\% of the time---versus 67\% for real humans and 22\% for a 1960s \textsc{eliza} baseline---up from 49.7\% for the best GPT-4 prompt in an earlier online study and near-chance for prior models, and a subsequent three-party test reached 73\% for GPT-4.5, above the human baseline \citep{jones2025turing}. These are ordinal claims established by blind human judgment rather than self-reported capability scores, and they place the crossing of near-human indistinguishability in the November 2023--March 2024 window (Figure~\ref{fig:turing}). We acknowledge two caveats: no benchmark measures indistinguishability of \emph{governance-forum} prose specifically, so the Arena and Turing tests are the nearest available instruments; and the highest Turing pass rates require prompting the model to adopt a humanlike persona.
+Two further lines of evidence, neither reliant on vendor-reported benchmarks, corroborate that this generation crossed a human-indistinguishability threshold. First, blind human preference: on the LMSYS Chatbot Arena, where users vote on anonymized head-to-head outputs \citep{zheng2023}, Claude~3 Opus (released March 4, 2024) became the first non-OpenAI model to overtake the GPT-4 family at the top of the leaderboard, which GPT-4 variants had led since May 2023; earlier models such as Claude~2 never reached that tier. Second, controlled Turing tests: in a randomized, preregistered two-party test, \citet{jones2024turing} found GPT-4 judged to be human 54\% of the time---versus 66--67\% for real humans and 22\% for a 1960s \textsc{eliza} baseline---up from 49.7\% for the best GPT-4 prompt in an earlier online study \citep{jones2023turing} and near-chance for prior models, and a subsequent three-party test reached 73\% for GPT-4.5, above the human baseline \citep{jones2025turing}. These are ordinal claims established by blind human judgment rather than self-reported capability scores, and they place the crossing of near-human indistinguishability in the November 2023--March 2024 window (Figure~\ref{fig:turing}). We acknowledge two caveats: no benchmark measures indistinguishability of \emph{governance-forum} prose specifically, so the Arena and Turing tests are the nearest available instruments; and the highest Turing pass rates require prompting the model to adopt a humanlike persona.
 
 Once this threshold was crossed,
 governance delegates---who read forum posts as signals of community sentiment---could
@@ -208,9 +208,9 @@ delegates rationally discount the forum even though realized contamination remai
 low. The credible \emph{threat} of AI content is sufficient to destroy the forum's
 information value---even before any flood of AI posts arrives.
 
-Delegate-level evidence is consistent with this mechanism and rules out a power-capture
+Delegate-level evidence is consistent with this mechanism and points away from a power-capture
 story. Using a dataset linking forum usernames to Snapshot voting
-records for 60 delegates, we document a robust negative cross-sectional relationship
+records for 62 delegates, we document a robust negative cross-sectional relationship
 between a delegate's average AI content fraction and their average delegated voting
 power: $r = -0.44$ ($p = 0.001$, $n = 51$ delegates). High-AI delegates hold on
 average 71,000 ARB in delegated power; low-AI delegates average 1.9 million ARB---a
@@ -271,13 +271,13 @@ This paper connects several strands of research.
 
 \emph{Information aggregation through costly action.} The theoretical foundation for our forum-signal hypothesis is the class of models in which agents pay participation costs to transmit private information to a collective decision-maker. \citet{lohmann1994} shows that costly political action---rallies, petitions, demonstrations---aggregates dispersed information about policy payoffs, with participation equilibria predicated on the relative cost of action; the companion paper \citet{lohmann1993} extends the framework to allow strategic noise injection by motivated actors, anticipating the adverse-selection mechanism we study. \citet{dewatripont1999} model advocates who pay investigation costs to present arguments to a principal; the adversarial structure ensures information is credibly transmitted, but at a cost that limits participation. \citet{austensmith1990} provides the political-science antecedent to our main empirical prediction: legislative debate intensity is highest precisely when the chamber is most evenly divided. In the voting literature, \citet{feddersen1996} and \citet{feddersen1997} show that endogenous abstention aggregates private information through the selection of who participates---the same logic our model applies to forum posting. On the receiver side, the delegate's reading threshold mirrors the information-acquisition condition of \citet{grossman1980}: an agent acquires information only when the expected return exceeds cost; \citet{persico2004} and \citet{gerardi2008} develop related models in which committee members pay to acquire signals before voting. Our setting features the same costly-participation structure: posting on a public forum is a costly signal of genuine engagement, and the forum aggregates these signals into a collective indicator of community division. The AI shock is, in the language of these models, a reduction in the cost of mimicking a high-quality signal---an event with no analog in the prior literature, which opens the empirical question this paper addresses.
 
-\emph{Persuasion, advocacy, and hard information.} Our forum is, in effect, a decentralized advocacy mechanism. \citet{dewatripont1999} show that two opposed advocates can dominate a single neutral investigator, because partisan mandates restore the high-powered incentives a ``find both sides'' mission dilutes; the no-AI forum equilibrium---both sides posting in proportion to their support, the delegate aggregating---reproduces this structure without any designer imposing it. The decisive difference is the discipline device. In the persuasion and disclosure literature \citep{milgrom1986, shin1998}, credibility rests on \emph{hard} information: interested parties can suppress evidence but cannot fabricate it, so competition among them reveals the truth. Forum posts are \emph{soft}---their credibility never came from verifiability but entirely from being costly to produce. Our paper can thus be read as asking what becomes of an advocacy mechanism whose discipline device is production cost rather than hard evidence once that cost falls to zero: it unravels, precisely because there is no verifiability to fall back on. Relative to this literature, and to models of biased communication with soft information \citep{chekartik2009, kamenica2011}, our contribution is on the \emph{demand} side of persuasion---the principal is not a passive processor of whatever advocates submit but pays $c_r$ per post and rationally chooses whether to listen at all, ceasing entirely past $\pi^*$. Seen this way, the Delegate Incentive Program is the degenerate limit of an advocacy reward scheme: it pays for submitted text irrespective of content, so once text is free to produce, what it elicits carries no information (Section~\ref{sec:dip}).
+\emph{Persuasion, advocacy, and hard information.} Our forum is, in effect, a decentralized advocacy mechanism. \citet{dewatripont1999} show that two opposed advocates can dominate a single neutral investigator, because partisan mandates restore the high-powered incentives a ``find both sides'' mission dilutes; the no-AI forum equilibrium---both sides posting in proportion to their support, the delegate aggregating---reproduces this structure without any designer imposing it. The decisive difference is the discipline device. In the persuasion and disclosure literature \citep{milgrom1986, shin1998}, credibility rests on \emph{hard} information: interested parties can suppress evidence but cannot fabricate it, so competition among them reveals the truth. Forum posts are \emph{soft}---their credibility never came from verifiability but entirely from being costly to produce. Our paper can thus be read as asking what becomes of an advocacy mechanism whose discipline device is production cost rather than hard evidence once that cost falls to zero: it unravels, precisely because there is no verifiability to fall back on. Relative to this literature, and to models of strategic information provision \citep{chekartik2009, kamenica2011}, our contribution is on the \emph{demand} side of persuasion---the principal is not a passive processor of whatever advocates submit but pays $c_r$ per post and rationally chooses whether to listen at all, ceasing entirely past $\pi^*$. Seen this way, the Delegate Incentive Program is the degenerate limit of an advocacy reward scheme: it pays for submitted text irrespective of content, so once text is free to produce, what it elicits carries no information (Section~\ref{sec:dip}).
 
-\emph{Online deliberation and democratic governance.} A growing literature studies whether online forums support genuine deliberation \citep{luskin2002, wright2012}. In political science, the question of whether public discourse aggregates preferences or merely amplifies noise has been central since \citet{habermas1984}. Our DAO setting provides a cleaner test than most: the forum is the exclusive formal pre-vote deliberation channel, the outcome is a binding quantitative vote, and both forum and vote data are complete. We find the first direct evidence that a real-money governance forum aggregates information, and that this aggregation can be destroyed by a change in the verifiable authenticity of participation.
+\emph{Online deliberation and democratic governance.} A growing literature studies whether structured deliberation improves collective decisions, from in-person deliberative polls \citep{luskin2002} to online forums \citep{wright2012}. In political science, the question of whether public discourse aggregates preferences or merely amplifies noise has been central since \citet{habermas1984}. Our DAO setting provides a cleaner test than most: the forum is the primary formal pre-vote deliberation channel, the outcome is a binding quantitative vote, and both forum and vote data are complete. We find the first direct evidence that a real-money governance forum aggregates information, and that this aggregation can be destroyed by a change in the verifiable authenticity of participation.
 
-\emph{Text-based financial signaling.} Textual analysis in finance has documented that the \emph{content} of corporate communications carries information: \citet{li2008} shows that more readable annual reports forecast better earnings; \citet{loughran2011} construct a finance-specific word list that predicts stock market reactions; \citet{cookson2020} find that disagreement among social-media investors predicts subsequent trading volume. These papers treat authorship as unambiguous. Our paper is, to our knowledge, the first to study what happens when the link between authorship and authentic opinion is broken by AI, and to show that this break destroys the informational content of text-based signals even when the text is observationally unchanged.
+\emph{Text-based financial signaling.} Textual analysis in finance has documented that the \emph{content} of corporate communications carries information: \citet{li2008} shows that more readable annual reports forecast better earnings; \citet{loughran2011} construct a finance-specific word list that predicts stock market reactions; \citet{cookson2020} find that disagreement among social-media investors predicts subsequent trading volume. These papers treat authorship as unambiguous. Our paper is, to our knowledge, the first to study what happens when the link between authorship and authentic opinion is broken by AI, and to show that this break destroys the informational content of text-based signals even when individual posts remain superficially unchanged.
 
-\emph{AI and financial markets.} Recent work documents that AI affects labor market outcomes \citep{brynjolfsson2023, eisfeldt2023}, financial analysis quality \citep{cao2023, kim2024}, and earnings call dynamics \citep{lopezlira2023}. These papers study AI as a productivity tool for human agents. Our contribution is distinct: we study AI as an adversarial technology that degrades information channels by collapsing the cost of producing credible-seeming but uninformative content.
+\emph{AI and financial markets.} Recent work documents that AI affects labor market outcomes \citep{brynjolfsson2023, eisfeldt2023}, financial analysis quality \citep{cao2023, kim2024}, and stock-return predictability from news \citep{lopezlira2023}. These papers study AI as a productivity tool for human agents. Our contribution is distinct: we study AI as an adversarial technology that degrades information channels by collapsing the cost of producing credible-seeming but uninformative content.
 
 \paragraph{Road map.} Section~\ref{sec:background} describes the Arbitrum DAO,
 its governance architecture, and the economic environment in which proposals are
@@ -309,7 +309,7 @@ voting power is proportional to token holdings; and (iii) the outcomes of votes 
 implemented deterministically by the protocol, not by human managers who retain the
 discretion to deviate. DAOs differ from traditional firms in that there is no board
 of directors, no CEO, and no legal person behind the organization---only code and
-the community of token holders who govern it.\footnote{For an overview of DAOs and their relationship to traditional corporate law, see \citet{frankenreiter2022}; for the economics of decentralized finance, see \citet{harvey2021} and \citet{jensen2021}.}
+the community of token holders who govern it.\footnote{On the legal limits of the smart contracts that underlie DAOs, see \citet{frankenreiter2019}; for the economics of decentralized finance, see \citet{harvey2021} and \citet{jensen2021}.}
 
 By mid-2024, the aggregate treasury assets controlled by the ten largest DAOs
 exceeded \$8 billion, with Arbitrum, Uniswap, Optimism, Aave, and MakerDAO
@@ -500,11 +500,11 @@ to temporarily lend their voting power to governance participants in exchange fo
 payment, typically in stablecoins. Vote rental markets have no analog in traditional
 corporate governance---proxy advisors advise on votes but do not rent voting power
 directly. The welfare effects of vote markets depend on whether votes are cast on the
-basis of private information or private preferences \citep{riker1968, casella2012}:
+basis of private information or private preferences \citep{casella2012}:
 if buyers have superior information, vote markets aggregate it more efficiently
 than one-token-one-vote; if buyers simply have more money, vote markets allow
 wealth to override collective judgment. Distinguishing these cases empirically
-is the central challenge in interpreting our results.
+is a central challenge in interpreting the vote-rental market's effects.
 
 We describe the LobbyFi market in Figure~\ref{fig:lobbyfi} and discuss its
 implications for the interpretation of our forum-signal results in
@@ -544,11 +544,11 @@ its vulnerability to AI-generated noise---is what this paper studies.
 
 Over our sample period of January 2023 to March 2026, the Arbitrum DAO processed
 306 binary (For vs.\ Against) proposals on Snapshot with nonzero participation.
-Of these, 246 (80\%) passed and 60 (20\%) failed. We restrict our main analysis
-to the 152 proposals with at least five human-authored forum posts, ensuring
-sufficient deliberative activity to measure a meaningful forum signal.
+Of these, 246 (80\%) passed and 60 (20\%) failed. Our main analysis uses the 102 of these proposals that we match to a dedicated
+forum discussion thread (Section~\ref{sec:matching}), the sample with observable
+pre-vote deliberation.
 Contested proposals---those with a margin of victory below 20 percentage
-points---account for 19 of the 306 binary votes (6\%), confirming that most
+points---account for 16 of the 306 binary votes (5\%), confirming that most
 Arbitrum proposals pass comfortably but a meaningful minority reflect genuine
 community division. We classify these proposals into four economic categories, following a
 classification algorithm applied to proposal titles and body text:
@@ -682,9 +682,10 @@ all other scored posts.
 
 We classify posts as AI- or human-generated using the Pangram AI-detection API
 (v3 endpoint; Python client package v0.1.11). Not all AI detectors perform
-equally well: \citet{imas2024} audit a range of commercial AI-text detectors and
-find that most fail to reliably distinguish AI-generated from human-written text,
-while Pangram achieves materially higher accuracy. Accurate detection is feasible,
+equally well: \citet{jabarian2025} audit leading detectors and find that commercial
+tools reliably distinguish AI-generated from human-written text---with Pangram the
+strongest, maintaining near-zero error rates across models, ultra-short passages, and
+evasion attempts---while open-source detectors do not. Accurate detection is feasible,
 but requires a paid commercial API; free or open-source detectors are not reliable
 substitutes.\footnote{The v3 model designation
 refers to the underlying detection model served by the Pangram API at the time
@@ -705,7 +706,7 @@ We score all posts with at least 20 words, yielding scored coverage of 15,891 po
 analysis; their omission does not materially affect results, as they are
 concentrated in short acknowledgment posts (``+1'', ``agree'', ``thanks'').
 
-Figure~\ref{fig:dip} shows the distribution of \textit{fraction\_ai}
+Figure~\ref{fig:bimodal} shows the distribution of \textit{fraction\_ai}
 scores across the full sample. The distribution is strongly bimodal: 90\% of
 posts score below 0.10 and 8\% score above 0.85, with negligible
 mass in the intermediate range. This bimodality supports the credibility of the
@@ -729,7 +730,7 @@ human-written or predominantly AI-generated, rather than hybrid.
     (suggesting mixed-authorship documents). The dashed line marks the
     classification threshold at 0.70.}
   \end{singlespace}
-  \label{fig:dip}
+  \label{fig:bimodal}
 \end{figure}
 
 \paragraph{Threshold robustness.}
@@ -861,7 +862,7 @@ $\theta_i \in [0,1]$ denote the true share of community opinion favoring proposa
 $i$. Token holders with private signals about $\theta_i$ make two decisions:
 whether to participate in the forum (costly) and how to vote (costless, given
 on-chain voting requires only holding tokens). When participation is costly and agents engage only when their expected benefit
-exceeds the cost \citep{downs1957, verba1995}, equilibrium forum activity is
+exceeds the cost \citep{downs1957}, equilibrium forum activity is
 increasing in the degree of community division: proposals about which opinion
 is roughly split ($\theta_i = 0.5$) generate more discussion than those that are
 near-unanimous in support ($\theta_i = 1$) or near-unanimous in opposition ($\theta_i = 0$),
@@ -888,7 +889,7 @@ observed post is AI-generated. When $\pi$ is near zero, forum posts are informat
 signals. When a sufficiently capable LLM is publicly released, AI-generated posts
 become indistinguishable from human-authored contributions on all observable features.
 Bayesian updating on observables can no longer resolve $\pi$ below a positive lower
-bound $\underline{\pi} > 0$. If $\underline{\pi} \cdot I_H < c_{\text{read}}$
+bound $\underline{\pi} > 0$. If $(1 - \underline{\pi}) \cdot I_H < c_{\text{read}}$
 (the informational gain from a post falls below the cost of reading), delegates
 rationally discount the forum. The credible \emph{possibility} of unverifiable
 low-quality entries is sufficient to destroy the information value of high-quality
@@ -976,7 +977,7 @@ forum.
 
 \emph{Second} (relevance), AI model releases cause a meaningful increase in the
 share of AI-generated content in the forum. Figure~\ref{fig:main_causal} (Panel~A)
-confirms this: the monthly AI post count, as measured by Pangram, rises from under 5\% of forum volume at the QLR break date to above 8\% by the Claude~3 release, and continues rising through 2024.
+confirms this: the monthly AI post count, as measured by Pangram, is in the single digits through the break window---about 8\% at the QLR break date and 6\% by the Claude~3 release---and rises sharply to 15--20\% only in late 2024.
 
 \emph{Third} (exclusion restriction), the AI shock affects the margin of victory
 \emph{only} through its effect on the informational content of the forum, not
@@ -1127,30 +1128,30 @@ This non-monotone structure---capability below the indistinguishability point ha
 
 We calibrate the model to the data using average post length as the unit of writing effort. The average human-authored post in the pre-period (January 2023 -- February 2024) contains 237 words; we set $c_p = 237$ words per post. The pre-period averages $\bar{n} = 44.2$ human posts per proposal (1{,}283 posts across 29 proposals), so the total human writing cost per proposal is $\bar{n} \cdot c_p = 10{,}480$ words.
 
-To calibrate $\pi^*$, we use the QLR endogenous break date (November 25, 2023), at which the realized AI share of forum volume is $\lambda_{\text{break}} = 0.053$. Two facts identify $\pi^*$ as a \emph{lower bound}, not a point estimate. First, delegates were still reading up to the break---the posts--margin correlation is intact until then---so by the reading rule (\ref{eq:pistar}) expected contamination had not yet crossed the threshold: $\pi \le \pi^*$ just before the break. Second, under the unverifiability mechanism $\pi$ is the delegate's forward-looking expectation of a still-rising realized share, so $\pi \ge \lambda_{\text{break}}$. Combining, $\pi^* \ge \pi \ge \lambda_{\text{break}} = 0.053$. Equating $\pi^*$ with the realized share as a point estimate would contradict the very mechanism that makes $\pi$ run ahead of $\lambda$; the internally consistent statement is the bound $\pi^* \ge 0.053$. Rearranging the threshold condition (\ref{eq:pistar}) also yields a useful identity,
+To calibrate $\pi^*$, we use the QLR endogenous break date (November 25, 2023), at which the realized AI share of forum volume is $\lambda_{\text{break}} = 0.082$. Two facts identify $\pi^*$ as a \emph{lower bound}, not a point estimate. First, delegates were still reading up to the break---the posts--margin correlation is intact until then---so by the reading rule (\ref{eq:pistar}) expected contamination had not yet crossed the threshold: $\pi \le \pi^*$ just before the break. Second, under the unverifiability mechanism $\pi$ is the delegate's forward-looking expectation of a still-rising realized share, so $\pi \ge \lambda_{\text{break}}$. Combining, $\pi^* \ge \pi \ge \lambda_{\text{break}} = 0.082$. Equating $\pi^*$ with the realized share as a point estimate would contradict the very mechanism that makes $\pi$ run ahead of $\lambda$; the internally consistent statement is the bound $\pi^* \ge 0.082$. Rearranging the threshold condition (\ref{eq:pistar}) also yields a useful identity,
 \[
   \pi^* = 1 - \frac{c_r}{I_H} = \frac{I_H - c_r}{I_H},
 \]
-so the tipping point \emph{equals the per-post net-surplus share}---the fraction of a genuine post's gross value that survives the reading cost---and the collapse date reveals a lower bound on that margin directly, the way an exit price reveals a firm's margin. The bound $\pi^* \ge 0.053$ implies $c_r = I_H(1-\pi^*) \le 0.947\,I_H$. Normalizing $I_H = c_p = 237$ words (the information value of one genuine post equals the cost of writing one), this gives $c_r \le 224$ words of reading and interpretation effort per post.
+so the tipping point \emph{equals the per-post net-surplus share}---the fraction of a genuine post's gross value that survives the reading cost---and the collapse date reveals a lower bound on that margin directly, the way an exit price reveals a firm's margin. The bound $\pi^* \ge 0.082$ implies $c_r = I_H(1-\pi^*) \le 0.918\,I_H$. Normalizing $I_H = c_p = 237$ words (the information value of one genuine post equals the cost of writing one), this gives $c_r \le 218$ words of reading and interpretation effort per post.
 
 The net reading value per delegate per post in the no-AI equilibrium is then bounded below:
 \[
-  I_H - c_r = \pi^* \cdot I_H \ge 0.053 \times 237 = 12.56 \text{ words per post}.
+  I_H - c_r = \pi^* \cdot I_H \ge 0.082 \times 237 = 19.4 \text{ words per post}.
 \]
-The forum is fragile not because this surplus is provably thin---we bound it only from below---but because what governs reading is \emph{expected} contamination $\pi$, which crossed the threshold while \emph{realized} contamination was only $\approx 5.3\%$. Collapse therefore arrived at a realized AI share far below the level at which AI posts could mechanically dilute the human signal (Section~\ref{sec:results}). Integrating the per-post surplus across the thread:
+The forum is fragile not because this surplus is provably thin---we bound it only from below---but because what governs reading is \emph{expected} contamination $\pi$, which crossed the threshold while \emph{realized} contamination was only $\approx 8\%$. Collapse therefore arrived at a realized AI share far below the level at which AI posts could mechanically dilute the human signal (Section~\ref{sec:results}). Integrating the per-post surplus across the thread:
 \[
-  \bar{n} \cdot (I_H - c_r) \ge 44.2 \times 12.56 \approx 555 \text{ words per delegate per proposal}.
+  \bar{n} \cdot (I_H - c_r) \ge 44.2 \times 19.4 \approx 858 \text{ words per delegate per proposal}.
 \]
 If $K$ delegates read the forum, the net social surplus per proposal is at least
 \[
-  K \cdot 555 - \bar{n} \cdot c_p = 555K - 10{,}480 \text{ words},
+  K \cdot 858 - \bar{n} \cdot c_p = 858K - 10{,}480 \text{ words},
 \]
-which is positive for $K \geq 19$. Arbitrum's 62 identified active delegates ($K = 62$) imply net social benefits of at least $62 \times 555 - 10{,}480 \approx 24{,}000$ words per proposal---about 2.3 times the human writing effort invested in each thread---entirely from the public-good externality of the forum. Because 454 unique community members posted in pre-period proposal threads (and readership exceeds participation), $K \geq 62$ is itself a lower bound, so the $24{,}000$-word figure compounds two conservative margins.
+which is positive for $K \geq 13$. Arbitrum's 62 identified active delegates ($K = 62$) imply net social benefits of at least $62 \times 858 - 10{,}480 \approx 43{,}000$ words per proposal---about four times the human writing effort invested in each thread---entirely from the public-good externality of the forum. Because 454 unique community members posted in pre-period proposal threads (and readership exceeds participation), $K \geq 62$ is itself a lower bound, so the $43{,}000$-word figure compounds two conservative margins.
 
-At the tipping point, the delegate's net reading value falls from at least 555 words to exactly 0 in a single step, and at least $24{,}000$ words of social surplus per proposal is destroyed. After the break, human contributors still write $\approx 8{,}858$ words per proposal (the post-period average), but delegates no longer read them---a pure transfer of human effort with zero social return. The welfare loss in Section~\ref{sec:welfare} is thus not a continuous erosion but a cliff: a realized AI share as low as $5.3\%$ marks the point at which the forum transitions from a public good worth at least $24{,}000$ words per proposal to a $0$-word-per-proposal waste.
+At the tipping point, the representative delegate's net reading value falls toward zero, and on the order of $43{,}000$ words of social surplus per proposal is lost. After the break, human contributors still write $\approx 8{,}858$ words per proposal (the post-period average), but these posts are read far less---Section~\ref{sec:reads} documents a 36\% decline in reads per post---an increasingly unrewarded transfer of human effort. The welfare loss in Section~\ref{sec:welfare} is thus not a continuous erosion but a sharp drop: a realized AI share as low as $8\%$ marks the point at which the forum's value as a public good collapses.
 
 \paragraph{Delegate alignment and the direction of the bound.}
-The model gives the delegate a $\pm 1$ correctness payoff, making it a perfect agent of the DAO. That is a strong assumption here: a simple majority requires only about four delegates, so almost every delegate is non-pivotal and the private return to a correct vote is near zero (rational ignorance); the delegation market rewards \emph{observable activity}---posts, rationales, participation---rather than decision quality; and professional delegates, grant recipients, and vote renters face conflicts. Misalignment does not weaken the calibration---it sharpens its interpretation in two ways. First, a razor-thin private return to reading ($c_r/I_H \ge 0.95$, from $\pi^* \ge 0.053$) is exactly what a non-pivotal, activity-rewarded delegate market \emph{should} generate: the calibration found the fragility, and misalignment explains why it is there. Second, reading is itself a public good---an informed vote benefits every token holder---so the private $I_H$ that governs the reading decision is smaller than the social value of the same post. The collapse therefore reveals the \emph{private} surplus margin, and the social value destroyed \emph{exceeds} the figures above: ``at least 555 words'' becomes more conservative once delegates are misaligned, not less. A corollary is that the socially optimal reading threshold lies above the private $\pi^*$---delegates disengage too early from society's standpoint even before AI, and the AI shock only makes an already-inefficient margin bind.
+The model gives the delegate a $\pm 1$ correctness payoff, making it a perfect agent of the DAO. That is a strong assumption here: a simple majority requires only about four delegates, so almost every delegate is non-pivotal and the private return to a correct vote is near zero (rational ignorance); the delegation market rewards \emph{observable activity}---posts, rationales, participation---rather than decision quality; and professional delegates, grant recipients, and vote renters face conflicts. Misalignment does not weaken the calibration---it sharpens its interpretation in two ways. First, misalignment \emph{predicts} this thin private margin rather than merely rationalizing it: for a non-pivotal delegate in an activity-rewarded market the private return to a correct vote is small, so reading costs should absorb nearly all of a post's informational value ($c_r/I_H = 1-\pi^* \le 0.92$). The calibration is consistent with a net surplus share as thin as $8\%$; misalignment explains why the private threshold $\pi^*$ sits so low. Second, reading is itself a public good---an informed vote benefits every token holder---so the private $I_H$ that governs the reading decision is smaller than the social value of the same post. The collapse therefore reveals the \emph{private} surplus margin, and the social value destroyed \emph{exceeds} the figures above: ``at least 858 words'' becomes more conservative once delegates are misaligned, not less. A corollary is that the socially optimal reading threshold lies above the private $\pi^*$---delegates disengage too early from society's standpoint even before AI, and the AI shock only makes an already-inefficient margin bind.
 
 %% ── 6. Results ────────────────────────────────────────────────────────────────
 \section{Results}
@@ -1206,9 +1207,10 @@ The pre--Claude~3 period covers proposals with Snapshot creation dates before Ma
 post--Claude~3 covers March~4, 2024 and later. All results use 102 matched proposal--thread
 pairs ($n_{\text{pre}} = 29$, $n_{\text{post}} = 73$).
 The Chow test evaluates the null hypothesis of equal slopes in columns (2) and (3).
-Pearson $r$ is reported as a descriptive effect size; significance stars apply only to
-the OLS coefficients and Chow statistic, which share the heteroskedasticity-robust
-inference framework.
+Pearson $r$ is reported as a descriptive effect size. Significance stars apply to the
+OLS coefficients (heteroskedasticity-robust SEs); the Chow statistic is the classical
+RSS-based test, with the distribution-free permutation test in
+Section~\ref{subsec:small_sample_robust} as its assumption-free companion.
 \sym{*}~$p < 0.10$; \sym{**}~$p < 0.05$; \sym{***}~$p < 0.01$.
 \end{flushleft}
 \end{singlespace}
@@ -1290,8 +1292,8 @@ small relative to the effort cost---is to use AI to maintain a visible forum
 presence without the underlying informational investment.
 
 The content of these posts reflects this incentive. We characterize AI post
-content directly using TF-IDF analysis of all 1,313 AI-classified posts against
-the 13,458 human-authored posts in the corpus. Figure~\ref{fig:ai_post_content}
+content directly using TF-IDF analysis of the 1,313 AI-classified and 13,458 human-authored posts with
+enough text for reliable TF-IDF features. Figure~\ref{fig:ai_post_content}
 summarizes the findings.
 
 The most distinctive n-grams in AI-generated posts are: \textit{``long term,''
@@ -1433,8 +1435,9 @@ volume surge.
 Panel~A of Figure~\ref{fig:main_causal} shows the monthly count of AI-generated
 posts (Pangram \textit{fraction\_ai}~$> 0.70$). AI posts are detectable from the
 start of the sample---a small number of AI-assisted posts predate any large-scale
-adoption---but at negligible volume: less than 5\% of forum posts at the QLR break
-date (November 25, 2023) and below 8\% at the Claude~3 break date (March 4, 2024).
+adoption---but at single-digit volume: approximately 8\% of forum posts at the QLR break
+date (November 25, 2023) and approximately 6\% at the Claude~3 break date (March 4, 2024),
+dipping below 3\% in between.
 The large-scale volume surge arrives later: the AI share rises to roughly 10--15\%
 through mid-2024 and above 20\% only in late 2024, approximately nine to twelve
 months after the signal collapsed. We are not claiming the breakdown happens
@@ -1470,7 +1473,7 @@ than it tracks any measure of realized AI adoption in the Arbitrum ecosystem.
 %% ── 6.1 The Lemons Mechanism: Rational Discounting Under Verifiability Uncertainty
 \subsection{Rational Discounting Under Verifiability Uncertainty}
 
-The timing evidence in Section~\ref{sec:results} rules out the volume mechanism
+The timing evidence in Section~\ref{sec:results} weighs against the volume mechanism
 and points to rational discounting by delegates as the proximate cause of the
 signal collapse. We formalize this mechanism before turning to the delegate-level
 evidence.
@@ -1541,11 +1544,11 @@ be \emph{verifiable}.
 \paragraph{Calibrating the threshold.}
 The model implies a critical contamination rate $\pi^* = 1 - c_{\text{read}} / I_H$
 below which delegates read and above which they exit. The QLR break occurs when
-realized AI posts are approximately 5\% of forum volume; because the delegate's
+realized AI posts are approximately 8\% of forum volume; because the delegate's
 expected contamination $\pi$ runs ahead of this realized share, the break implies
-$\pi^* \ge 0.05$ (Section~\ref{sec:calibration}).
-The threshold condition then gives $c_{\text{read}} / I_H = 1 - \pi^* \le 0.95$:
-reading costs absorb at most 95\% of the informational value of a perfectly reliable post.
+$\pi^* \ge 0.08$ (Section~\ref{sec:calibration}).
+The threshold condition then gives $c_{\text{read}} / I_H = 1 - \pi^* \le 0.92$:
+reading costs absorb at most 92\% of the informational value of a perfectly reliable post.
 This is economically plausible in a setting where (i) each individual post
 contributes modestly to aggregate signal (the forum aggregates across hundreds of
 posts per proposal, so marginal informational value per post is small), (ii) careful
@@ -1584,7 +1587,7 @@ real time.
 The unverifiability mechanism requires not that verification be impossible, but that it be
 \emph{sufficiently costly} relative to the expected informational return. Once the
 prior probability of AI contamination $\underline{\pi}$ crossed the threshold at
-which $\underline{\pi} \cdot I_H < c_{\text{read}}$---which the QLR evidence pins
+which $(1 - \underline{\pi}) \cdot I_H < c_{\text{read}}$---which the QLR evidence pins
 to late November 2023, nineteen days after GPT-4 Turbo---rational delegates ceased
 conditioning their votes on forum activity even for posts that appeared human-
 authored. Rather than attempting to discriminate among individual posts, delegates
@@ -1648,8 +1651,8 @@ mechanism at different levels of aggregation.}
   \includegraphics[width=\textwidth,height=0.52\textheight,keepaspectratio]{output/figures/fig15_reads_decline.png}
   \begin{singlespace}
   \caption{\textbf{Forum Readership Decline on Matched Governance Proposal Threads.}
-    Monthly median reads per human-authored post on the 292 matched proposal
-    threads used in the main analysis. Blue bars indicate pre-shock months
+    Monthly median reads per human-authored post on the 292 forum threads matched to
+    Snapshot proposals. Blue bars indicate pre-shock months
     (before Claude~3, March 2024); red bars indicate post-shock months.
     Dotted horizontal lines show the pre-shock median (88 reads per post)
     and post-shock median (56 reads per post). Dashed vertical lines mark
@@ -1702,7 +1705,7 @@ for reasons unrelated to AI. Against this: the QLR break date is November 25,
 (non-exceptional) proposals. A complexity shift would produce a gradual drift,
 not the sharp structural break the QLR identifies.
 
-\emph{Token vesting cliff.} Section~\ref{sec:vesting} rules out the March 2024
+\emph{Token vesting cliff.} Section~\ref{sec:vesting} addresses the March 2024
 token vesting cliff as the driver of the break; the QLR identifies November
 2023 as the endogenous break date, four months before the cliff.
 
@@ -2050,13 +2053,11 @@ precise.
 %% ── 7.4 Matched Proposal Sample ──────────────────────────────────────────────
 \subsection{Robustness of the Forum--Snapshot Matching}
 
-We verify that the 24 unmatched proposals do not systematically differ from matched
-proposals along the dimensions relevant to our analysis. Unmatched proposals have
-slightly lower average vote participation (mean: 38 million ARB vs.\ 51 million ARB
-for matched proposals) but are not significantly different in margin of victory
-(mean: 0.63 vs.\ 0.65) or in the category distribution of proposal types. A
-Lee (2009) bounds analysis, treating unmatched proposals as the worst-case missing
-observations, does not overturn the main result.
+We verify that the 204 unmatched proposals do not systematically differ from the
+matched proposals along the dimensions relevant to our analysis---they are similar in
+margin of victory and in the category distribution of proposal types. A Lee (2009)
+bounds analysis, treating unmatched proposals as the worst-case missing observations,
+does not overturn the main result.
 
 %% ── 7.5 Vesting Cliff: Concentration Control and Cross-DAO Placebo ────────────
 \subsection{Ruling Out the March 2024 Token Vesting Cliff}
@@ -2102,12 +2103,14 @@ month for voting and publicly posting a rationale within five days.
 Because DIP rewards posted text, it plausibly inflated post volume and could, in
 principle, shift the posts--margin relationship with no role for AI.
 
-The concern is ruled out by timing, exactly as for the vesting cliff. DIP was
-introduced during 2024---after the QLR endogenous break (November 25, 2023) and the
-onset of the readership decline (November 2023) by many months. Whether one dates
-the program to its early pilots or to its formal launch later that year, it
-postdates the signal collapse; a subsidy that begins after the signal has already
-collapsed cannot be its cause. If anything, DIP works \emph{against} the volume
+The concern is ruled out by timing. DIP's first program month was March 2024---the
+same month as the Claude~3 release, so a referee will notice that the pre/post split
+coincides with DIP month one to within days. But the identifying variation predates
+it: the QLR endogenous break (November 25, 2023), the onset of the readership decline
+(November 2023), and the GPT-4 Turbo results in the break battery all fall three to
+four months \emph{before} the first subsidized rationale was posted. The signal was
+already dead when DIP began paying; a subsidy that starts after the collapse cannot
+have caused it---which is precisely why we do not lean on the March break date alone. If anything, DIP works \emph{against} the volume
 mechanism: by paying for rationale posts it raised human post volume in the
 post-shock period---consistent with the more-than-doubling of human posts on
 matched threads documented in Section~\ref{sec:reads}---even as the posts--margin
@@ -2226,8 +2229,8 @@ structural break is confirmed by Chow tests at multiple AI model release dates, 
 strongest evidence at GPT-4 Turbo ($F = 15.05$, $p < 0.001$) and Claude~3
 ($F = 8.38$, $p = 0.0004$).
 
-The mechanism is unverifiability, not manipulation. The signal collapses not because
-AI posts flood the forum---they remained below 8\% of volume at the break---but
+The evidence points to unverifiability rather than manipulation. The signal collapses not because
+AI posts flood the forum---they were in the single digits (about 8\%) of volume at the break---but
 because the \emph{credible possibility} of indistinguishable AI content is sufficient
 to destroy delegates' incentive to condition their votes on forum activity. This is
 precisely the Akerlof (1970) mechanism: market exit precedes the accumulation of
@@ -2269,7 +2272,7 @@ rare setting in which the information channel can be cleanly separated from the
 decision channel: Snapshot votes are independent of the forum, so the forum's
 predictive content for vote outcomes is a pure measure of its informational value
 rather than a mechanical link. The collapse of this predictive content after AI
-shocks is perhaps the cleanest available evidence that generative AI degrades a
+shocks is among the cleanest available evidence that generative AI degrades a
 specific form of collective intelligence.
 
 For the AI economics literature, our contribution is to identify a channel---the
@@ -2405,7 +2408,7 @@ five scored posts are excluded from the cross-sectional analysis.
     studies: \citet{jones2024turing}'s earlier online 2-player game (GPT-4, best
     prompt 49.7\%), their randomized, preregistered 2-player test (GPT-4, 54.0\%),
     and \citet{jones2025turing}'s 3-player test (GPT-4.5, 73.0\%). The dashed line
-    marks chance (50\%) and the dotted line the human baseline ($\approx$66\%);
+    marks chance (50\%) and the dotted line the human baseline (66--67\%);
     the shaded band is the November 2023--March 2024 capability-threshold window
     (GPT-4 Turbo to Claude~3), within which the frontier crosses from chance to
     above chance. \emph{Caveats:} the three studies use different designs (online
@@ -2457,8 +2460,7 @@ five scored posts are excluded from the cross-sectional analysis.
   \caption{\textbf{Fiscal Evolution and Treasury Dynamics.}
     Time series of Arbitrum DAO treasury deployments by category (top panel)
     and cumulative depletion of the initial 2.75 billion ARB DAO treasury
-    (bottom panel). Treasury values are converted to USD at the prevailing ARB
-    price at the time of each disbursement. The vesting cliff in March 2024
+    (bottom panel). All values are denominated in ARB. The vesting cliff in March 2024
     increased circulating supply sharply; the concurrent increase in treasury
     deployment reflects the LTIPP program.}
   \end{singlespace}

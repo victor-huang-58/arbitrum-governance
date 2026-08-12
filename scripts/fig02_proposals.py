@@ -26,6 +26,7 @@ import matplotlib.pyplot as plt
 import sys as _sys
 _sys.path.insert(0, __import__('os').path.dirname(__import__('os').path.abspath(__file__)))
 from aer_style import apply_aer_style, despine, COLORS, C_HUMAN, C_AI, C_TOTAL, C_SHOCK, savefig as aer_savefig
+import freeze
 apply_aer_style()
 import matplotlib.ticker as mticker
 import numpy as np
@@ -69,28 +70,30 @@ QUERY = """
 }
 """
 
-print("Step 1: Fetching all closed proposals from Snapshot (with body + type)...")
-all_proposals = []
-skip = 0
+print("Step 1: Fetching all closed proposals from Snapshot (frozen; --refresh to re-pull)...")
 
-while True:
-    resp = requests.post(
-        SNAPSHOT_URL,
-        json={"query": QUERY % (skip, SPACE)},
-        timeout=30
-    )
-    resp.raise_for_status()
-    batch = resp.json().get("data", {}).get("proposals", [])
-    if not batch:
-        break
-    all_proposals.extend(batch)
-    print(f"  Fetched {len(batch)} proposals (total so far: {len(all_proposals)})")
-    if len(batch) < 1000:
-        break
-    skip += 1000
-    time.sleep(0.5)
+def _fetch_proposals():
+    out, skip = [], 0
+    while True:
+        resp = requests.post(
+            SNAPSHOT_URL,
+            json={"query": QUERY % (skip, SPACE)},
+            timeout=30,
+        )
+        resp.raise_for_status()
+        batch = resp.json().get("data", {}).get("proposals", [])
+        if not batch:
+            break
+        out.extend(batch)
+        print(f"  Fetched {len(batch)} proposals (total so far: {len(out)})")
+        if len(batch) < 1000:
+            break
+        skip += 1000
+        time.sleep(0.5)
+    return out
 
-print(f"  Total proposals fetched: {len(all_proposals)}")
+all_proposals = freeze.frozen_json("fig02_proposals", _fetch_proposals)
+print(f"  Total proposals: {len(all_proposals)}")
 
 
 # ── Step 2: Economic classifier ───────────────────────────────────────────────

@@ -24,6 +24,7 @@ import matplotlib.pyplot as plt
 import sys as _sys
 _sys.path.insert(0, __import__('os').path.dirname(__import__('os').path.abspath(__file__)))
 from aer_style import apply_aer_style, despine, COLORS, C_HUMAN, C_AI, C_TOTAL, C_SHOCK, savefig as aer_savefig
+import freeze
 apply_aer_style()
 import matplotlib.ticker as mticker
 
@@ -86,13 +87,21 @@ def fetch_vp(proposal_id):
         return np.concatenate([tail, top_vp])
     return top_vp
 
-print("Step 1: Fetching VP distributions...")
-distributions = []
-for p in PROPOSALS:
-    vp = fetch_vp(p["id"])
-    distributions.append(vp)
+print("Step 1: Fetching VP distributions (frozen; --refresh to re-pull)...")
+
+def _fetch_distributions():
+    out = []
+    for p in PROPOSALS:
+        vp = fetch_vp(p["id"])
+        out.append(vp.tolist())
+        print(f"  fetched {p['label']}: {len(vp):,} voters")
+        time.sleep(0.4)
+    return out
+
+distributions = [np.array(v, dtype=float) for v in
+                 freeze.frozen_json("fig03_vp_distributions", _fetch_distributions)]
+for p, vp in zip(PROPOSALS, distributions):
     print(f"  {p['label']}: {len(vp):,} voters, total VP = {vp.sum()/1e6:.1f}M ARB")
-    time.sleep(0.4)
 
 
 # ── Step 2: Compute metrics ───────────────────────────────────────────────────
