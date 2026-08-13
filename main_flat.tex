@@ -17,6 +17,15 @@
 
 \newtheorem{proposition}{Proposition}
 \newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+\newtheorem{assumption}{Assumption}
+\newtheorem{remark}{Remark}
+\usepackage{enumitem}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Pro}{\Pr}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\ind}[1]{\mathbf{1}\{#1\}}
 \renewcommand{\qedsymbol}{}
 % Compact captions: small font, bold label, tighter vertical spacing
 \setlength{\abovecaptionskip}{5pt}
@@ -83,8 +92,8 @@ We study the extent to which online deliberation aggregates information before c
 Our setting is Arbitrum DAO, a decentralized organization controlling a \$3.5 billion treasury, where token holders debate proposals on a public forum before each binding vote.
 Forum activity predicted vote closeness before March 2024 but became uninformative after, coinciding with language models capable of producing indistinguishable governance prose.
 Interestingly, we observe that the degradation of the forum's signal (the elimination of the correlation between posting volume and margin-of-victory) takes place at a time when relatively few posts are A.I.\ generated, relative to the end of the sample period where A.I.\ posting volume grows rapidly.
-We use a model of endogenous posting and voting to show that this may be a general phenomenon: the signal value of the forum can collapse to zero at a discrete tipping point with a very low volume of A.I.\ posts.
-Calibrating to the data, the forum generated net social benefits equivalent to saving at least 858 words of research effort per delegate per proposal---all destroyed at the tipping point.
+A model of endogenous posting, reading, and voting---derived from primitives---shows this is a general phenomenon: the signal value of a forum collapses at a discrete tipping point at a realized A.I.\ share strictly below the level that would mechanically destroy reading value, and the collapse is hysteretic: reducing A.I.\ volume afterward does not restore the forum.
+Calibrating to the data, the forum generated net social benefits equivalent to saving at least 858 words of research effort per delegate per proposal (under a stated non-redundancy assumption)---all destroyed at the tipping point.
 Delegates who rely on AI hold far less voting power than those who do not, which is inconsistent with power capture by insiders.
 Our results suggest that the mere availability of indistinguishable AI writing can degrade the governance capabilities of economically important organizations, even when such AI is rarely used in equilibrium.
 \end{abstract}
@@ -1028,130 +1037,138 @@ concurrent force.
 \section{A Model of Governance Deliberation}
 \label{sec:model}
 
-The empirical strategy rests on a specific theory of how governance forums aggregate information and how AI disrupts this aggregation. This section formalizes that theory. The model is built from three strands of prior work, each of which contributes one element of the overall structure.
+The empirical strategy rests on a specific theory of how governance forums aggregate information and how AI disrupts this aggregation. This section presents that theory as a unified two-tier model in which readership, posting volume, vote margins, decision quality, and the collapse point are all derived from one set of primitives; complete proofs are in Appendix~\ref{app:theory}.
 
-\emph{The posting equilibrium} follows \citet{lohmann1994} and \citet{lohmann1993}: privately-informed agents bear a participation cost, so equilibrium posting volume reflects the degree of community division. This is also the structure of \citet{austensmith1990}, who shows that legislative debate is most intense when the chamber is most evenly divided, and connects to \citet{feddersen1996} and \citet{feddersen1997}, who show that endogenous abstention in elections aggregates private information through the selection of who chooses to participate. Together these papers establish the empirical regularity we formalize as Proposition~1: more discussion arises on closer calls.
-
-\emph{The reading threshold} is drawn from \citet{grossman1980}: the delegate acquires information---reads a forum post---only when the expected informational return $(1-\pi) I_H$ exceeds the reading cost $c_r$. \citet{dewatripont1999} is the closest single structural antecedent: advocates pay investigation costs to present arguments to a principal who uses them to decide. Our contribution on this dimension is that the principal's reading decision is itself endogenous and governed by the contamination prior $\pi$. \citet{persico2004} and \citet{gerardi2008} study costly acquisition and communication in committee settings; our model differs in having asymmetric roles---many posting contributors, one reading delegate---rather than symmetric committee members.
-
-\emph{The AI shock} introduces the feature absent from all antecedents: the collapse of the cost of mimicking authentic participation. Once a sufficiently capable model is released, the expected contamination fraction $\pi$ can cross the reading threshold $\pi^* = 1 - c_r/I_H$ before the realized AI volume does. This is the \citet{akerlof1970} mechanism applied to the demand side of a forum: adverse selection can unravel the informational value of a signal pool when the \emph{expected} fraction of uninformative messages exceeds a threshold, even when most messages remain genuine.
+The model draws on three strands of prior work. \emph{The posting margin} connects to \citet{lohmann1994}, \citet{lohmann1993}, and \citet{austensmith1990}: participation is costly, so equilibrium volume reflects the state of the debate; here the reward to participation is the \emph{audience} itself, which resolves the pivotality problem that afflicts costly participation in a continuum. \emph{The reading threshold} follows \citet{grossman1980} and \citet{dewatripont1999}: information is acquired only when its expected return exceeds its cost; our contribution is that the reader's threshold is governed by the contamination prior and is derived, not assumed. \emph{The voting tier} uses the sincere (decision-theoretic) voting device standard in large-election models \citep{feddersen1996,feddersen1997}, with information aggregation across a continuum of readers in the spirit of Feddersen--Pesendorfer. \emph{The AI shock} is the \citet{akerlof1970} mechanism applied to the demand side of a forum: adverse selection in the pool of messages can unravel the value of reading before contamination is realized.
 
 %% ── 5.1 Setup ────────────────────────────────────────────────────────────────
 \subsection{Setup}
+\label{sec:setup}
 
-A DAO evaluates proposal $i$ with unknown quality $\theta_i \in \{G, B\}$ (good or bad value for the DAO). The prior is $\Pr(\theta_i = G) = p \in (0,1)$. There is a continuum of \emph{contributors} indexed $j \in [0,1]$, each holding a private signal $s_j \in \{h, l\}$ about $\theta_i$, correct with probability $\Pr(s_j = h \mid \theta_i = G) = \Pr(s_j = l \mid \theta_i = B) = q > \tfrac{1}{2}$. Signals are i.i.d.\ conditional on $\theta_i$.
+A DAO evaluates proposal $i$ with unknown quality $\theta_i \in \{G, B\}$ and prior $p \equiv \Pr(\theta_i = G) \in (0,1)$; write $x \equiv p(1-p)$ for contestedness and $d \equiv |p - \tfrac12|$ for consensus. There are two tiers of agents.
 
-A representative \emph{delegate} (the decision-maker) observes all forum posts and votes For or Against the proposal; the proposal passes if the weighted vote share For exceeds threshold $\tau = \tfrac{1}{2}$. The delegate's payoff is $+1$ for a correct vote (For on $G$, Against on $B$) and $-1$ for an incorrect vote. Voting is costless. The delegate's information comes entirely from the forum.
+\emph{Contributors} (a continuum) hold conditionally i.i.d.\ private signals $s_j \in \{h, l\}$ with precision $\Pr(s_j = h \mid G) = \Pr(s_j = l \mid B) = q > \tfrac12$. Contributor $j$ may post her signal at private cost $c_j$, drawn from a continuous distribution $F$. In addition, a mass $z \ge 0$ of AI-generated posts may be present; an AI post is drawn uninformatively from $\{h,l\}$ and is observationally indistinguishable from a human post. If human posting mass is $n$, the AI fraction of the thread is $\pi = z/(z+n)$.
 
-\paragraph{Forum mechanics.} Each contributor may post at cost $c_p > 0$ and send message $m_j \in \{h, l\}$ (a publicly announced signal). The delegate pays cost $c_r > 0$ per post to read and interpret it. Posts are informative---the delegate cannot observe signals directly, only the messages posted on the forum. Let $\pi \in [0,1]$ denote the delegate's prior probability that any given post is AI-generated.
+\emph{Voters} (a continuum of mass one; in the application, delegates weighted by voting power) have private tastes $b_j \sim \mathrm{Unif}[-a, a]$, orthogonal to $\theta$---idiosyncratic value from the proposal passing: exposure, vested interest, ideology. Common values are $v(G) = +1$, $v(B) = -1$. Before voting, a voter may pay reading cost $c_r > 0$ to read one post sampled at random from the thread. The proposal passes if the For-share exceeds $\tfrac12$.
+
+Four assumptions close the model; we state them plainly because they are where the modeling work happens. \emph{(A1, exact law of large numbers)}: conditional on $\theta$, cross-sectional averages equal conditional means. \emph{(A2, decision-theoretic voting)}: each voter votes---and values pre-vote information---as if her vote determined the outcome for her own payoff: For iff $\mathbb{E}[v(\theta) \mid \text{information}] + b_j \ge 0$. This is the standard sincere-voting device for large elections \citep[e.g.,][]{feddersen1996}; it \emph{bypasses} rather than solves voter-side pivotality, and it is what disciplines everything that follows---fully instrumental voters would make reading and voting worthless for every atomless agent and could generate none of the observed cross-sectional structure. \emph{(A3, truthful posting)}: a post reveals the contributor's signal; justifiable by reputational cheap-talk arguments since $\theta$ is eventually public. \emph{(A4, attention rewards)}: a contributor who posts receives $R \cdot A$, where $A$ is the mass of readers and $R > 0$ converts audience into utility. Attention is a positive \emph{mass} even though each poster is measure zero, so costly posting survives the continuum without pivotality. This motive is institutionally grounded in our setting: Arbitrum's Delegate Incentive Program compensates visible participation directly, and posting attracts delegated voting power from readers (Section~\ref{sec:mechanism}). What A4 deliberately does \emph{not} assume is that posting signals ability: Appendix~\ref{app:theory} proves that a career-concerns motive---posting to build a reputation for being right---concentrates posting on foregone conclusions for \emph{any} increasing reputation payoff (vindication is most likely when everyone already agrees) and would therefore generate the \emph{opposite} of the posts--margin pattern in the data.
 
 %% ── 5.2 Equilibrium Without AI ───────────────────────────────────────────────
-\subsection{Equilibrium Without AI}
+\subsection{Equilibrium}
+\label{sec:equilibrium}
 
-When $\pi = 0$ (all posts are human), contributors post if and only if the expected benefit from influencing the delegate's vote exceeds $c_p$. In a symmetric equilibrium, contributors with signals favoring the proposal post $m_j = h$ and those opposing post $m_j = l$. Let $n_h$ and $n_l$ denote the numbers of pro- and con-posts. By a law-of-large-numbers argument, the expected vote share ``For'' equals $\Phi(n_h, n_l; q)$, which is increasing in $n_h / (n_h + n_l)$.
+Fix contamination $\pi$ for now (the next subsection makes it move; Section~\ref{sec:tippingmodel} makes it an equilibrium object). A sampled post is informative with probability $1-\pi$, so its effective precision is $Q - \tfrac12 = (1-\pi)(q - \tfrac12)$: contamination dilutes the signal linearly. Equilibrium unwinds in three steps, each with a closed form in Appendix~\ref{app:theory}.
 
-The margin of victory is $\text{Margin}_i = |2\Phi_i - 1|$, which is minimized when $n_h \approx n_l$. Community division ($p$ near $\tfrac{1}{2}$) produces roughly equal numbers of pro- and con-posts, so total volume is high and margins are low. Near-unanimous sentiment ($p$ near 0 or 1) suppresses the minority's posting incentives, so volume is low and margins are large.
+\emph{Reading.} The value of reading one post is a tent over tastes: it is zero for voters whose tastes are decided regardless of the message, and peaks at the ex-ante indifferent voter, whose gross value of information is exactly $2p(1-p)(2Q-1)$. Voters read iff this value exceeds $c_r$, so the reading audience $A(p;\pi)$ is single-peaked in contestedness and---for the peak reader---the net value of reading is \emph{exactly}
+\begin{equation}
+  V(\pi) = (1 - \pi)\,I_H - c_r, \qquad I_H = 2p(1-p)(2q-1),
+  \label{eq:readval}
+\end{equation}
+with reading threshold
+\begin{equation}
+  \pi \le \pi^* \equiv 1 - \frac{c_r}{I_H}.
+  \label{eq:pistar}
+\end{equation}
+Equations \eqref{eq:readval}--\eqref{eq:pistar} were the primitives of earlier drafts of this model; here they are theorems, with the informational gain $I_H$ pinned to primitives rather than free. Because $I_H$ depends on $p$, the threshold is proposal-specific: consensus proposals stop being read first, and the forum dies from the tails inward.
+
+\emph{Posting.} By A4, contributor $j$ posts iff $c_j \le R\,A(p;\pi)$, so human posting mass is $n(p) = F(R\,A(p))$---posting chases the audience, and the audience sits where information is valuable. To first order, $n(p) \propto p(1-p)$: volume peaks on contested proposals, with the exact closed form available for structural work.
+
+\emph{Voting.} Non-readers vote on prior and taste; readers vote on posterior and taste. By A1, the For-share is deterministic conditional on $\theta$, and the expected margin $\mathbb{E}[M \mid p]$ has a closed form that is \emph{strictly increasing} in consensus $d$ for all parameter values, with floor $|2p-1|/a$ (Appendix~\ref{app:theory}, Theorem~\ref{app:thm:margin}). Margins are interior because voters disagree about \emph{values}, not only facts; they are informative about contestedness because the expected margin rises with consensus. The shorthand ``margin $\propto |2p-1|$'' holds exactly outside a contested window and as the leading term inside it.
+
+The paper's central empirical prediction is then a theorem rather than a calibration:
 
 \begin{proposition}[Signal Content]
-In the no-AI equilibrium, forum post count is negatively correlated with the ex-post margin of victory: $\mathrm{Cov}(\text{Posts}_i, \,\text{Margin}_i) < 0$.
+\label{prop:signal}
+Let proposals draw priors $p_i$ from any nondegenerate distribution. In equilibrium, forum post volume is negatively correlated with the ex-post margin of victory: $\mathrm{Cov}(\text{Posts}_i, \,\text{Margin}_i) < 0$.
 \end{proposition}
 
 \begin{proof}[Sketch]
-For proposal $i$ with prior $p_i$, total posts $E[n_i] \propto p_i(1-p_i)$, maximized at $p_i = \tfrac{1}{2}$. Expected margin $E[\text{Margin}_i] \propto |2p_i - 1|$, minimized at $p_i = \tfrac{1}{2}$. These are negatively correlated across proposals, since both are monotone functions of $|p_i - \tfrac{1}{2}|$ in opposite directions.
+Volume $n(p_i)$ is a nonincreasing function of consensus $d_i$ (posting follows the audience, which follows the value of information); the expected margin is a strictly increasing function of $d_i$ (Theorem~\ref{app:thm:margin}). Two monotone transforms of a single latent variable, moving in opposite directions, covary negatively. Full proof: Appendix~\ref{app:theory}, Theorem~\ref{app:thm:cov}.
 \end{proof}
 
-This is the theoretical prediction underlying our main empirical test.
+Both conditional moments are monotone transforms of the single latent $d_i$, which is what licenses our practice of reading margins as inverse measures of contestedness throughout the empirical work.
 
 %% ── 5.3 The AI Shock ────────────────────────────────────────────────────────
 \subsection{The AI Shock: Two Mechanisms}
 
-At a point in time $T$, it becomes possible to emulate a genuine human post---one carrying no information about $\theta_i$---at essentially zero cost: a publicly released language model produces governance prose observationally equivalent to human writing on every feature the delegate can inspect. Post-$T$, any agent can post at cost $c_p^{AI} \approx 0$, and AI-generated messages are drawn from the prior over $\{h, l\}$.\footnote{Nothing in the analysis depends on the \emph{level} of model quality, only on whether this indistinguishability point has been crossed. We therefore treat $T$ as a threshold event rather than modeling a quality index explicitly; empirically, $T$ corresponds to the first models able to emulate human governance prose (GPT-4 Turbo, Claude~3), which is what our breakpoint tests recover.}
+At a point in time $T$, it becomes possible to emulate a genuine human post---one carrying no information about $\theta_i$---at essentially zero cost: a publicly released language model produces governance prose observationally equivalent to human writing on every feature a reader can inspect.\footnote{Nothing in the analysis depends on the \emph{level} of model quality, only on whether this indistinguishability point has been crossed. We therefore treat $T$ as a threshold event rather than modeling a quality index explicitly; empirically, $T$ corresponds to the first models able to emulate human governance prose (GPT-4 Turbo, Claude~3), which is what our breakpoint tests recover.}
 
 The shock is summarized by two objects---a realized quantity and an expectation:
 \begin{itemize}
 \setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}
 \item $\lambda \in [0,1]$: the \emph{realized} fraction of posts in a thread that \emph{are} AI-generated---a backward-looking measure of the contamination that has actually accumulated.
-\item $\pi \in [0,1]$: the delegate's \emph{expectation} that the next post read is AI-generated---a forward-looking object. In the long run $\pi$ converges to $\lambda$, but at a capability shock $\pi$ can jump ahead of $\lambda$: a delegate who knows a capable model now exists expects contamination to rise before it visibly has.
+\item $\pi \in [0,1]$: a reader's \emph{expectation} that the next post read is AI-generated---a forward-looking object. In the long run $\pi$ converges to $\lambda$, but at a capability shock $\pi$ can jump ahead of $\lambda$: a reader who knows a capable model now exists expects contamination to rise before it visibly has.
 \end{itemize}
-These two objects drive two distinct mechanisms. Whether the forum's signal degrades \emph{gradually} (with realized volume) or \emph{discretely} (with expectation) is an empirical question, and the two mechanisms make opposite timing predictions---which we exploit in Section~\ref{sec:results}.
+These two objects drive two distinct mechanisms with opposite timing predictions---which we exploit in Section~\ref{sec:results}.
 
-\paragraph{Volume mechanism (via $\lambda$).} When $\lambda$ is large, the $n_h$ and $n_l$ counts are diluted by AI noise. The delegate effectively observes only $(1-\lambda) n$ informative posts. Forum signal degrades in proportion to $\lambda$, and posts--margin correlation falls toward zero as $\lambda \to 1$. This mechanism predicts signal degradation is contemporaneous with and proportional to the \emph{realized} AI volume.
+\paragraph{Volume mechanism (via $\lambda$).} Realized contamination dilutes the sampled-post precision, $Q - \tfrac12 = (1-\lambda)(q-\tfrac12)$, and the equilibrium responds on every margin (Appendix~\ref{app:theory}, Proposition~\ref{app:prop:shock}): the reading audience falls, reaching \emph{exactly zero} at an interior contamination level $\pi^*(p) < 1$; posting falls with its audience---AI does not need to out-argue humans, it only needs to thin the readership that pays for human effort; and margins compress toward the no-forum floor $|2p-1|/a$. This mechanism predicts degradation contemporaneous with, and proportional to, realized AI volume.
 
-\paragraph{Unverifiability mechanism (via $\pi$).} The expected net value of reading one post is:
-\begin{equation}
-  V(\pi) = (1 - \pi)\,I_H - c_r
-  \label{eq:readval}
-\end{equation}
-where $I_H > 0$ is the informational gain from a genuine human post (in units of the voting payoff). The delegate reads posts if and only if $V(\pi) \geq 0$, i.e., if and only if
-\begin{equation}
-  \pi \leq \pi^* \equiv 1 - \frac{c_r}{I_H}.
-  \label{eq:pistar}
-\end{equation}
+\paragraph{Unverifiability mechanism (via $\pi$).} The reading rule \eqref{eq:readval}--\eqref{eq:pistar} operates on the \emph{expectation} $\pi$, not the realization.
 
 \begin{proposition}[Unverifiability Threshold]
-There exists a threshold $\pi^* \in (0,1)$ such that the delegate ignores the forum for all $\pi > \pi^*$. At $\pi^*$, the forum signal collapses \emph{discretely}: small increases in expected AI contamination above $\pi^*$ eliminate the entire informational value of the forum, not just a portion of it.
+\label{prop:threshold}
+Each reader's problem is binary, with a hard threshold: she reads iff $\pi \le \pi^*(p) = 1 - c_r/I_H(p)$. Aggregate readership declines in $\pi$ and reaches exactly zero at the interior level $\pi^*(p) < 1$, at which point the posterior equals the prior and the forum is uninformative---the entire informational value of the forum is eliminated at finite contamination, even though a fraction $1 - \pi^*$ of posts remain genuine.
 \end{proposition}
 
-\begin{proof}
-From equation (\ref{eq:readval}), $V(\pi)$ is linear and strictly decreasing in $\pi$. At $\pi = \pi^*$, the delegate is indifferent; for $\pi > \pi^*$, the delegate optimally reads zero posts, so the posterior equals the prior and the forum is uninformative. The collapse is discrete because the delegate's decision is binary (read or not read), not continuous in $\pi$.
-\end{proof}
+The key implication is that $\pi$ can reach $\pi^*$ well before $\lambda$ does: expectations cross the threshold as soon as a sufficiently capable model is publicly available, even while realized AI posts are few. This is the \citet{akerlof1970} logic applied to information: adverse selection can unravel a signaling equilibrium when the \emph{expected} fraction of lemons exceeds a threshold, even when most goods are genuine.
 
-The key implication is that $\pi$ can reach $\pi^*$ well before $\lambda$ does: the delegate's \emph{expectation} of AI contamination crosses the threshold as soon as a sufficiently capable model is publicly available, even if realized AI posts are few. This is the Akerlof (1970) logic applied to information: adverse selection can unravel a signaling equilibrium when the \emph{expected} fraction of lemons exceeds a threshold, even when most goods are genuine.
-
-%% ── 5.4 Welfare and Comparative Statics ─────────────────────────────────────
-\subsection{Welfare and Comparative Statics}
+%% ── 5.4 Welfare ─────────────────────────────────────────────────────────────
+\subsection{Welfare}
 \label{sec:welfare}
 
-Social welfare equals the expected correctness of the vote minus participation costs:
-\[
-  W = p\,\Pr(\text{pass} \mid \theta = G) + (1-p)\,\Pr(\text{reject} \mid \theta = B) - c_p \cdot E[n].
-\]
-In the no-AI equilibrium, the forum improves on the prior at social cost $c_p E[n]$. After the AI shock (for $\pi > \pi^*$), delegates vote at the prior: $W^{AI} \approx \tfrac{1}{2}$ when $p = \tfrac{1}{2}$, which is no better than a coin flip. The welfare loss is:
-\[
-  W^* - W^{AI} = 4p(1-p)(q - \tfrac{1}{2})^2 > 0.
-\]
-This is maximized when $p = \tfrac{1}{2}$ (the most contested governance decisions) and when $q$ is large (signals are informative). AI destroys the most welfare precisely where good governance matters most.
+What does the DAO lose when the forum dies? Without a forum, the vote follows the prior action and is correct with probability $\max(p, 1-p)$. In equilibrium with a functioning forum, there is an interior \emph{flip window} of contested priors---a symmetric interval around $p = \tfrac12$ whose width increases in signal precision and decreases in reading costs---inside which the aggregated votes of informed readers flip the outcome to match $\theta$ with probability one (the Feddersen--Pesendorfer aggregation property, delivered by A1 across readers). The forum's gross decision value is therefore
+\begin{equation}
+  V(p) \;=\; \min(p,\,1-p) \cdot \mathbf{1}\{p \in \Omega\},
+  \label{eq:welfareV}
+\end{equation}
+where $\Omega$ is the flip window (Appendix~\ref{app:theory}, Proposition~\ref{app:prop:welfare}): \emph{closeness enters as the level, informativeness as the width}. Contamination destroys value by narrowing the window---consensus proposals fall out first---until it vanishes entirely at $\pi^*(\tfrac12)$, at which point $\min(p,1-p)$ of decision quality is lost on every proposal, maximal ($=\tfrac12$) on the most contested ones. AI destroys the most welfare precisely where good governance matters most.\footnote{Earlier drafts summarized the welfare loss with the smooth kernel $4p(1-p)(q-\tfrac12)^2$. That expression has the right single-peakedness and precision scaling but is not the value of the forum in the derived model; equation \eqref{eq:welfareV} replaces it. None of the calibration in Section~\ref{sec:calibration} used the old kernel, so nothing quantitative changes.}
 
-Several comparative statics follow from equation (\ref{eq:pistar}):
-\begin{itemize}
-\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
-\item $\partial \pi^*/\partial c_r < 0$: higher reading costs lower the threshold, making the forum more fragile.
-\item $\partial \pi^*/\partial I_H > 0$: higher signal informativeness raises the threshold, making the forum more robust.
-\item The timing of the shock---the arrival of an indistinguishable model at $T$---determines \emph{when} expected contamination $\pi$ crosses $\pi^*$, not the level of the threshold itself. Crossing the indistinguishability point thus has a discrete, first-order effect on governance quality; further gains in model capability beyond it have none.
-\end{itemize}
+Comparative statics of the threshold follow directly from \eqref{eq:pistar}: higher reading costs lower $\pi^*$ (a more fragile forum); higher signal informativeness raises it (more robust); and the arrival of an indistinguishable model at $T$ determines \emph{when} expectations cross the threshold, not the threshold itself. Capability below the indistinguishability point has no effect; crossing it causes collapse; further capability gains have no additional marginal effect on an already-collapsed signal. This non-monotone structure motivates using model release dates as breakpoints, and is what the timing test in Section~\ref{sec:results} evaluates.
 
-This non-monotone structure---capability below the indistinguishability point has no effect; crossing it causes discrete collapse; further increases in AI capability or volume have no additional marginal effect on the already-collapsed signal---motivates the use of model release dates as breakpoints, and is precisely what the timing test in Section~\ref{sec:results} evaluates.
+%% ── 5.5 Tipping ─────────────────────────────────────────────────────────────
+\subsection{Endogenous Contamination: A Tipping Theorem}
+\label{sec:tippingmodel}
 
-%% ── 5.5 Calibration ─────────────────────────────────────────────────────────
+The mechanisms above treat contamination as given. Closing the loop---contamination depends on human posting, which depends on the audience, which depends on contamination---delivers the paper's headline mechanism as a theorem. Fix a representative contested proposal and AI post mass $z$; an equilibrium is a fixed point of the audience map $A \mapsto \mathcal{A}\!\left(z/(z + F(RA))\right)$.
+
+\begin{proposition}[Discontinuous, hysteretic collapse]
+\label{prop:tipping}
+For any reading cost $c_r \in (0, I_H)$ and any continuous, strictly increasing posting-cost distribution $F$: (i) the collapsed forum ($A = n = 0$) is an equilibrium for every $z > 0$; (ii) there is a tipping point $z^*$ such that healthy and collapsed equilibria coexist for $z < z^*$ and only collapse survives beyond it; (iii) at $z^*$ the audience \emph{jumps} to zero---never a continuous fade-out---because audiences below a positive dead-zone threshold cannot sustain enough human posting to keep expected reading value positive; (iv) the collapse is \emph{hysteretic}: after tipping, reducing AI volume even nearly to zero does not restore the forum, which requires coordinated re-entry of readers, not merely undoing the shock; and (v) at any healthy equilibrium, realized contamination is \emph{strictly below} the reading threshold $\pi^*$---the forum always tips before contamination reaches the level at which reading value would mechanically hit zero. (Appendix~\ref{app:theory}, Theorem~\ref{app:thm:tipping}.)
+\end{proposition}
+
+The positive reading cost that generates the unverifiability threshold is the same primitive that makes collapse discontinuous and irreversible. In a numerical benchmark (contested proposal, $q = 0.75$, thin reading margins), the forum tips at realized contamination near $0.7$ against a reading threshold of $0.92$; thinner margins tip far lower. Matching the \emph{observed} collapse at a realized AI share of only $8\%$ (Section~\ref{sec:results}) still requires the expectations channel---$\pi$ jumping ahead of $\lambda$ at the capability release---exactly as argued above; the theorem's contribution is that collapse at partial contamination is an equilibrium property rather than an artifact of one calibration.
+
+%% ── 5.6 Calibration ─────────────────────────────────────────────────────────
 \subsection{Calibration}
 \label{sec:calibration}
 
-We calibrate the model to the data using average post length as the unit of writing effort. The average human-authored post in the pre-period (January 2023 -- February 2024) contains 237 words; we set $c_p = 237$ words per post. The pre-period averages $\bar{n} = 44.2$ human posts per proposal (1{,}283 posts across 29 proposals), so the total human writing cost per proposal is $\bar{n} \cdot c_p = 10{,}480$ words.
+The calibration is an illustrative calculation under stated assumptions; we flag the derivation status of each step. We use average post length as the unit of writing effort. The average human-authored post in the pre-period (January 2023 -- February 2024) contains 237 words; we set $c_p = 237$ words per post. The pre-period averages $\bar{n} = 44.2$ human posts per proposal (1{,}283 posts across 29 proposals), so the total human writing cost per proposal is $\bar{n} \cdot c_p = 10{,}480$ words.
 
-To calibrate $\pi^*$, we use the QLR endogenous break date (November 25, 2023), at which the realized AI share of forum volume is $\lambda_{\text{break}} = 0.082$. Two facts identify $\pi^*$ as a \emph{lower bound}, not a point estimate. First, delegates were still reading up to the break---the posts--margin correlation is intact until then---so by the reading rule (\ref{eq:pistar}) expected contamination had not yet crossed the threshold: $\pi \le \pi^*$ just before the break. Second, under the unverifiability mechanism $\pi$ is the delegate's forward-looking expectation of a still-rising realized share, so $\pi \ge \lambda_{\text{break}}$. Combining, $\pi^* \ge \pi \ge \lambda_{\text{break}} = 0.082$. Equating $\pi^*$ with the realized share as a point estimate would contradict the very mechanism that makes $\pi$ run ahead of $\lambda$; the internally consistent statement is the bound $\pi^* \ge 0.082$. Rearranging the threshold condition (\ref{eq:pistar}) also yields a useful identity,
+To calibrate $\pi^*$, we use the QLR endogenous break date (November 25, 2023), at which the realized AI share of forum volume is $\lambda_{\text{break}} = 0.082$. Two facts identify $\pi^*$ as a \emph{lower bound}, not a point estimate. First, delegates were still reading up to the break---the posts--margin correlation is intact until then---so by the reading rule \eqref{eq:pistar} expected contamination had not yet crossed the threshold: $\pi \le \pi^*$ just before the break. Second, under the unverifiability mechanism $\pi$ is the forward-looking expectation of a still-rising realized share, so $\pi \ge \lambda_{\text{break}}$. Combining, $\pi^* \ge 0.082$. Both steps use only the derived threshold rule (the $\pi \ge \lambda$ step is an assumption about expectations, as flagged above); Proposition~\ref{prop:tipping}(v) supplies an independent equilibrium reason that collapse precedes saturation. Rearranging \eqref{eq:pistar} also yields a useful identity,
 \[
   \pi^* = 1 - \frac{c_r}{I_H} = \frac{I_H - c_r}{I_H},
 \]
-so the tipping point \emph{equals the per-post net-surplus share}---the fraction of a genuine post's gross value that survives the reading cost---and the collapse date reveals a lower bound on that margin directly, the way an exit price reveals a firm's margin. The bound $\pi^* \ge 0.082$ implies $c_r = I_H(1-\pi^*) \le 0.918\,I_H$. Normalizing $I_H = c_p = 237$ words (the information value of one genuine post equals the cost of writing one), this gives $c_r \le 218$ words of reading and interpretation effort per post.
-
-The net reading value per delegate per post in the no-AI equilibrium is then bounded below:
+so the tipping point \emph{equals the per-post net-surplus share}---the fraction of a genuine post's gross value that survives the reading cost---and the collapse date reveals a lower bound on that margin directly, the way an exit price reveals a firm's margin. Normalizing $I_H = c_p = 237$ words (the information value of one genuine post equals the cost of writing one), the bound implies $c_r \le 218$ words of reading effort per post, and a per-post net reading surplus bounded below:
 \[
   I_H - c_r = \pi^* \cdot I_H \ge 0.082 \times 237 = 19.4 \text{ words per post}.
 \]
-The forum is fragile not because this surplus is provably thin---we bound it only from below---but because what governs reading is \emph{expected} contamination $\pi$, which crossed the threshold while \emph{realized} contamination was only $\approx 8\%$. Collapse therefore arrived at a realized AI share far below the level at which AI posts could mechanically dilute the human signal (Section~\ref{sec:results}). Integrating the per-post surplus across the thread:
-\[
-  \bar{n} \cdot (I_H - c_r) \ge 44.2 \times 19.4 \approx 858 \text{ words per delegate per proposal}.
-\]
-If $K$ delegates read the forum, the net social surplus per proposal is at least
-\[
-  K \cdot 858 - \bar{n} \cdot c_p = 858K - 10{,}480 \text{ words},
-\]
-which is positive for $K \geq 13$. Arbitrum's 62 identified active delegates ($K = 62$) imply net social benefits of at least $62 \times 858 - 10{,}480 \approx 43{,}000$ words per proposal---about four times the human writing effort invested in each thread---entirely from the public-good externality of the forum. Because 454 unique community members posted in pre-period proposal threads (and readership exceeds participation), $K \geq 62$ is itself a lower bound, so the $43{,}000$-word figure compounds two conservative margins.
+The identity, the bound, and the 19.4-word floor follow from the derived reading rule (plus the normalization).
 
-At the tipping point, the representative delegate's net reading value falls toward zero, and on the order of $43{,}000$ words of social surplus per proposal is lost. After the break, human contributors still write $\approx 8{,}858$ words per proposal (the post-period average), but these posts are read far less---Section~\ref{sec:reads} documents a 36\% decline in reads per post---an increasingly unrewarded transfer of human effort. The welfare loss in Section~\ref{sec:welfare} is thus not a continuous erosion but a sharp drop: a realized AI share as low as $8\%$ marks the point at which the forum's value as a public good collapses.
+Aggregating across the thread requires one further, explicitly stated assumption:
+
+\begin{assumption}[Non-redundancy]
+\label{ass:nr}
+Posts address approximately distinct payoff-relevant aspects of a proposal, so the informational value of successive posts is undiminished and the threshold calculus \eqref{eq:readval} applies post-by-post.
+\end{assumption}
+
+Non-redundancy is defensible for governance threads---posts flag distinct risks, precedents, and technical issues---but it is an assumption, not a theorem: with redundant signals, only the first-post floor of 19.4 words is fully derived. Under it, the per-delegate surplus integrates to $\bar{n} \cdot (I_H - c_r) \ge 44.2 \times 19.4 \approx 858$ words per proposal, and with $K$ delegates reading, net social surplus per proposal is at least $858K - 10{,}480$ words---positive for $K \ge 13$. Arbitrum's 62 identified active delegates imply net social benefits of at least $\approx 43{,}000$ words per proposal, about four times the writing effort invested in each thread, entirely from the public-good externality of the forum; since 454 unique community members posted in pre-period threads, $K \ge 62$ is itself conservative. These headline magnitudes carry Assumption~\ref{ass:nr} (and the whole-thread reading protocol) wherever they are quoted; the units, the bound logic, and the 19.4-word floor do not.
+
+At the tipping point, the marginal reader's net value falls to zero and this surplus is destroyed. After the break, human contributors still write $\approx 8{,}858$ words per proposal, but these posts are read far less---Section~\ref{sec:reads} documents a 36\% decline in reads per post---an increasingly unrewarded transfer of human effort.\footnote{The model sends human posting to zero at full collapse; the residual observed volume is consistent with a small intrinsic (non-audience) posting motive, which leaves every result above unchanged.}
 
 \paragraph{Delegate alignment and the direction of the bound.}
-The model gives the delegate a $\pm 1$ correctness payoff, making it a perfect agent of the DAO. That is a strong assumption here: a simple majority requires only about four delegates, so almost every delegate is non-pivotal and the private return to a correct vote is near zero (rational ignorance); the delegation market rewards \emph{observable activity}---posts, rationales, participation---rather than decision quality; and professional delegates, grant recipients, and vote renters face conflicts. Misalignment does not weaken the calibration---it sharpens its interpretation in two ways. First, misalignment \emph{predicts} this thin private margin rather than merely rationalizing it: for a non-pivotal delegate in an activity-rewarded market the private return to a correct vote is small, so reading costs should absorb nearly all of a post's informational value ($c_r/I_H = 1-\pi^* \le 0.92$). The calibration is consistent with a net surplus share as thin as $8\%$; misalignment explains why the private threshold $\pi^*$ sits so low. Second, reading is itself a public good---an informed vote benefits every token holder---so the private $I_H$ that governs the reading decision is smaller than the social value of the same post. The collapse therefore reveals the \emph{private} surplus margin, and the social value destroyed \emph{exceeds} the figures above: ``at least 858 words'' becomes more conservative once delegates are misaligned, not less. A corollary is that the socially optimal reading threshold lies above the private $\pi^*$---delegates disengage too early from society's standpoint even before AI, and the AI shock only makes an already-inefficient margin bind.
+The voters in the model value correct outcomes directly. That is a strong assumption here: a simple majority requires only about four delegates, so almost every delegate is non-pivotal and the private return to a correct vote is near zero (rational ignorance); the delegation market rewards \emph{observable activity}---posts, rationales, participation---rather than decision quality (this is precisely the attention motive A4); and professional delegates, grant recipients, and vote renters face conflicts. Misalignment does not weaken the calibration---it sharpens its interpretation in two ways. First, misalignment \emph{predicts} the thin private reading margin rather than merely rationalizing it: for a non-pivotal delegate in an activity-rewarded market, reading costs should absorb nearly all of a post's informational value ($c_r/I_H \le 0.92$). Second, reading is itself a public good---an informed vote benefits every token holder---so the private $I_H$ that governs the reading decision is smaller than the social value of the same post. The collapse therefore reveals the \emph{private} surplus margin, and the social value destroyed \emph{exceeds} the figures above: ``at least 858 words'' becomes more conservative once delegates are misaligned, not less. A corollary is that the socially optimal reading threshold lies above the private $\pi^*$---delegates disengage too early from society's standpoint even before AI, and the AI shock only makes an already-inefficient margin bind.
+
+\paragraph{Model and data: two honest discrepancies.} First, the model predicts margin \emph{compression} after the shock (margins fall to the no-forum floor), while post-break margins in the data \emph{rose}. The natural reconciliation is compositional---fewer contested proposals reach a vote once the forum cannot resolve disagreement---which is outside the model; we flag it rather than claim it. Second, as noted above, residual human posting after collapse requires a small intrinsic posting motive. Neither discrepancy affects the pre-break equilibrium predictions that the empirical work tests.
 
 %% ── 6. Results ────────────────────────────────────────────────────────────────
 \section{Results}
@@ -2258,7 +2275,7 @@ mechanism implies that this natural policy can backfire in the AI era, and that 
 failure is worse than mere waste. The subsidy attaches to observable text; once
 capable AI makes text free to produce ($c_p^{AI} \approx 0$), each subsidized
 zero-content rationale pushes the delegate's expected contamination $\pi$ toward the
-tipping point $\pi^*$, and past $\pi^*$ the collapse is discrete and total. A program
+tipping point $\pi^*$, and past $\pi^*$ the collapse is discrete, total, and---because a collapsed audience does not re-coordinate merely because the shock recedes---irreversible. A program
 that pays for the observable proxy of engagement, deployed once that proxy has become
 costless to counterfeit, can therefore \emph{finance the destruction of the very
 forum it exists to support}---a Goodhart failure in which subsidizing the measure
@@ -2311,10 +2328,720 @@ We thank Max Spero for generously providing access to Pangram AI detection API c
 %% ── Appendix ──────────────────────────────────────────────────────────────────
 \clearpage
 \appendix
+
+\section{Model Appendix: Derivations and Proofs}
+\label{app:theory}
+
+This appendix derives every result stated in Section~\ref{sec:model} from the model's primitives, in the order: primitives and assumptions; the reading stage; the posting stage (including the failure of the career-concerns alternative); the voting stage and interior margins; the posts--margin covariance; welfare; comparative statics in contamination; and the tipping theorem. Closed forms are verified against direct numerical integration in the replication file \texttt{docs/check\_model.py}.
+
+\subsection{Primitives and assumptions}
+\label{app:sec:model}
+
+\subsubsection{Primitives}
+
+A DAO evaluates one proposal. Its unknown quality is $\theta\in\{G,B\}$ with
+common prior $p\equiv\Pro(\theta=G)\in(0,1)$. Write $x\equiv p(1-p)$ and
+$d\equiv|p-\tfrac12|$; $d$ measures ex-ante \emph{consensus} ($d$ large) versus
+\emph{contestedness} ($d$ small).
+
+\textbf{Contributors.} A continuum of mass $1$ of potential posters. Contributor
+$i$ observes a private signal $s_i\in\{g,b\}$ with symmetric precision
+$q\equiv\Pro(s_i=g\mid G)=\Pro(s_i=b\mid B)\in(\tfrac12,1)$, i.i.d.\ conditional
+on $\theta$, and draws a posting cost $c_i\sim F$ on $[0,\bar c]$, independent of
+$s_i$, where $F$ is continuous and strictly increasing with $F(0)=0$. Posting
+publishes a message that reveals $s_i$.
+
+\textbf{AI content.} A mass $z\ge 0$ of AI-generated posts is present in the
+thread; an AI post's message is uninformative
+($\Pro(\text{message}=g\mid\theta)=\tfrac12$ for both $\theta$) and is
+observationally indistinguishable from a human post. If human posting mass is
+$n$, the fraction of AI posts is $\pi=z/(z+n)$. Sections
+\ref{app:sec:read}--\ref{app:sec:welfare} treat $\pi$ as a parameter;
+Section~\ref{app:sec:tipping} makes it an equilibrium object.
+
+\textbf{Voters.} A continuum of mass $1$. Voter $j$ has a private taste
+$b_j\sim\mathrm{Unif}[-a,a]$, i.i.d., orthogonal to $\theta$ (idiosyncratic
+value from the proposal passing: exposure, vested interests, ideology). Common
+values are $v(G)=+1$, $v(B)=-1$: voting \emph{For} a proposal that passes yields
+$v(\theta)+b_j$, \emph{Against} yields $0$. Before voting, a voter may pay
+$c_r\ge 0$ to read one post sampled uniformly at random from the thread
+(Remark~\ref{app:rem:kpost} discusses multi-post reading).
+
+\textbf{Timing.} (1) Nature draws $\theta$, signals, costs, tastes. (2)
+Contributors post or not; AI mass $z$ is posted. (3) Each voter chooses to read
+or not; readers sample one post each, independently. (4) All voters vote For or
+Against; the proposal passes iff the For-share $\Phi$ exceeds $\tfrac12$.
+(5) Payoffs realize.
+
+\subsubsection{Assumptions, stated honestly}
+
+\begin{assumption}[Exact LLN]\label{app:ass:lln}
+Conditional on $\theta$, cross-sectional averages of i.i.d.\ individual
+quantities equal their conditional means (the usual continuum convention; see
+Judd 1985 for the measurability caveat). All ``deterministic'' aggregates below
+are exact in this convention and hold up to $O(N^{-1/2})$ noise with $N$ finite
+agents.
+\end{assumption}
+
+\begin{assumption}[Decision-theoretic voting and reading]\label{app:ass:sincere}
+Each voter votes --- and values pre-vote information --- \emph{as if her vote
+determined the outcome for her own payoff}: she votes For iff
+$\E[v(\theta)\mid\text{her information}]+b_j\ge 0$, and values reading by the
+improvement in this decision.
+\end{assumption}
+
+This is the standard sincere/expressive-voting device for large elections
+(e.g., ethical-voter models in the spirit of Feddersen and Sandroni 2006). It
+must be said plainly: \emph{the pivotality problem on the voter side is bypassed
+by this assumption, not solved}. What the assumption buys is discipline: given
+it, everything else (who reads, how vote shares move, when the forum dies) is
+derived. The alternative --- fully instrumental voters --- makes reading and
+voting trivially worthless for every atomless agent and cannot generate any of
+the observed cross-sectional structure.
+
+\begin{assumption}[Truthful posting]\label{app:ass:truth}
+A post reveals the contributor's signal truthfully.
+\end{assumption}
+
+Justifiable by reputational cheap-talk arguments (posts are public and
+$\theta$ is eventually revealed; systematic misreporting is detectable ex post,
+cf.\ Ottaviani and S{\o}rensen 2006), but in this note it is an assumption.
+
+\begin{assumption}[Attention rewards]\label{app:ass:attention}
+A contributor who posts receives $R\cdot A$, where $A$ is the mass of readers of
+the thread and $R>0$ converts audience into utility.
+\end{assumption}
+
+This is the posting motive that survives the continuum: audience is a positive
+\emph{mass} even though any single poster is measure zero, so no pivotality is
+needed. Microfoundations consistent with the setting: delegate incentive
+programs that compensate visible participation; attracting delegated voting
+power from readers; direct attention utility. What Assumption~\ref{app:ass:attention}
+deliberately does \emph{not} assume is that posting signals ability ---
+Theorem~\ref{app:thm:career} shows that motive predicts the wrong sign.
+Remark~\ref{app:rem:congestion} shows the results are robust to rewarding
+\emph{per-post} rather than per-thread attention.
+
+\begin{assumption}[Interior tastes]\label{app:ass:interior}
+$a\ge 1$, so every posterior-based voting threshold lies inside $[-a,a]$ and
+vote shares are interior.
+\end{assumption}
+
+\begin{assumption}[Pre-AI viability]\label{app:ass:viable}
+$c_r< I_H(p)\equiv 2p(1-p)(2q-1)$ for the proposals under study: absent AI,
+reading has positive net value for at least the most contested proposals.
+\end{assumption}
+
+\subsubsection{Notation and two identities}
+
+A sampled post is human with probability $1-\pi$; hence its message has
+effective precision
+\begin{equation}\label{app:eq:Qeff}
+Q \;\equiv\; \Pro(\text{message}=g\mid G)\;=\;(1-\pi)\,q+\pi\cdot\tfrac12,
+\qquad\text{so}\qquad Q-\tfrac12=(1-\pi)\bigl(q-\tfrac12\bigr).
+\end{equation}
+This is the signal-dilution relation used throughout the text, here \emph{derived}
+from the sampling protocol rather than posited. Write
+\[
+D_1=\Pro(g)=pQ+(1-p)(1-Q),\quad D_2=\Pro(b)=p(1-Q)+(1-p)Q,\quad
+\mu_G=\tfrac{pQ}{D_1},\quad \mu_B=\tfrac{p(1-Q)}{D_2},
+\]
+for the message probabilities and posteriors ($\mu_m=\Pro(G\mid m)$), and
+$D\equiv D_1D_2$.
+
+\begin{lemma}[Bayesian identities]\label{app:lem:identities}
+\begin{align}
+\textup{(I1)}\quad & D_1(\mu_G-p)=D_2(p-\mu_B)=p(1-p)(2Q-1),\\
+\textup{(I2)}\quad & \mu_G-\mu_B=\frac{p(1-p)(2Q-1)}{D_1D_2},\\
+\textup{(I3)}\quad & D_1D_2=Q(1-Q)+p(1-p)(2Q-1)^2.
+\end{align}
+\end{lemma}
+
+\begin{proof}
+(I1): $D_1\mu_G=pQ$, so $D_1(\mu_G-p)=pQ-pD_1=p[(1-p)Q-(1-p)(1-Q)]=x(2Q-1)$;
+symmetrically for $D_2$. (I2): $\mu_G-\mu_B=(\mu_G-p)+(p-\mu_B)
+=x(2Q-1)(D_1^{-1}+D_2^{-1})$ and $D_1+D_2=1$. (I3): expand
+$D_1D_2=Q(1-Q)[p^2+(1-p)^2]+x[Q^2+(1-Q)^2]=Q(1-Q)(1-2x)+x[1-2Q(1-Q)]$ and
+collect terms.
+\end{proof}
+
+Note $D\in(0,\tfrac14]$, with $D=\tfrac14$ at $p=\tfrac12$.
+
+\subsection{The reading stage}
+\label{app:sec:read}
+
+Voters differ in how useful the forum is to them. A voter who does not read
+votes on the prior: For iff $b_j\ge t_0\equiv 1-2p$. A reader who sees message
+$m$ votes For iff $b_j\ge t_m\equiv 1-2\mu_m$; note $t_G<t_0<t_B$.
+
+\begin{lemma}[Value of reading is a tent]\label{app:lem:tent}
+The value of information from reading one post for a voter with taste $b$ is
+\[
+\mathrm{VOI}(b)=
+\begin{cases}
+D_1\,(b-t_G), & b\in[t_G,t_0],\\[2pt]
+D_2\,(t_B-b), & b\in[t_0,t_B],\\[2pt]
+0,& \text{otherwise:}
+\end{cases}
+\]
+a tent on the swing band $[t_G,t_B]$ (base $2(\mu_G-\mu_B)$), with peak at the
+ex-ante indifferent voter $b=t_0$ of height
+\begin{equation}\label{app:eq:peak}
+h(p,Q)\;=\;2p(1-p)(2Q-1).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Reading changes the action only for $b\in[t_G,t_B)$. For $b\in[t_G,t_0)$ the
+voter switches to For only on $m=g$, gaining $D_1[(2\mu_G-1)+b]=D_1(b-t_G)\ge0$;
+for $b\in[t_0,t_B)$ she switches to Against only on $m=b$, gaining
+$D_2[-(2\mu_B-1)-b]=D_2(t_B-b)\ge0$. Both pieces vanish at the band edges and
+meet at $b=t_0$, where by (I1) each equals $2D_1(\mu_G-p)=2x(2Q-1)=h$.
+\end{proof}
+
+\begin{proposition}[Readership]\label{app:prop:readership}
+A voter reads iff $\mathrm{VOI}(b_j)\ge c_r$. The reading set is the band
+$[\ell,u]$ with $\ell=t_G+c_r/D_1$, $u=t_B-c_r/D_2$ (empty iff $h\le c_r$), and
+its mass is
+\begin{equation}\label{app:eq:A}
+A(p;Q,c_r)\;=\;\frac{\bigl(2p(1-p)(2Q-1)-c_r\bigr)_+}{2a\,D_1D_2}
+\;=\;\frac{\mu_G-\mu_B}{a}\Bigl(1-\frac{c_r}{h}\Bigr)_+ .
+\end{equation}
+$A$ is symmetric in $p$ about $\tfrac12$ and strictly increasing in $x=p(1-p)$
+wherever positive; hence single-peaked at $p=\tfrac12$ and zero for consensus
+proposals. Moreover, for the peak (ex-ante indifferent) voter, the net value of
+reading is \emph{exactly}
+\begin{equation}\label{app:eq:readrule}
+V(\pi)\;=\;(1-\pi)\,I_H\;-\;c_r,\qquad I_H\equiv h(p,q)=2p(1-p)(2q-1),
+\end{equation}
+so she reads iff $\pi\le \bar\pi(p)\equiv 1-c_r/I_H(p)$.
+\end{proposition}
+
+\begin{proof}
+The set $\{\mathrm{VOI}\ge c_r\}$ is the tent's cross-section at height $c_r$;
+for a triangle of peak $h$, each side's width scales by $(1-c_r/h)$, giving mass
+$(t_B-t_G)(1-c_r/h)_+/(2a)$; apply (I2), and (I1)+(I3) for the first form.
+Monotonicity in $x$: differentiating \eqref{app:eq:A} with $D=Q(1-Q)+x(2Q-1)^2$,
+\[
+\frac{\partial A}{\partial x}
+=\frac{2(2Q-1)\,Q(1-Q)+c_r(2Q-1)^2}{2a\,D^2}>0 .
+\]
+For \eqref{app:eq:readrule}: by Lemma~\ref{app:lem:tent} the peak voter's gross value is
+$h(p,Q)=2x(2Q-1)$, and by \eqref{app:eq:Qeff}, $2Q-1=(1-\pi)(2q-1)$, so
+$h(p,Q)=(1-\pi)h(p,q)=(1-\pi)I_H$.
+\end{proof}
+
+Equation \eqref{app:eq:readrule} is the reading rule \eqref{eq:readval}--\eqref{eq:pistar} of the text, derived exactly for the marginal (peak) reader, with the informational gain $I_H$ pinned to primitives: $I_H=2p(1-p)(2q-1)$. Three consequences:
+\begin{itemize}[itemsep=1pt]
+\item \emph{The threshold is proposal-specific}: $\bar\pi(p)=1-c_r/[2p(1-p)(2q-1)]$.
+Consensus proposals (low $x$) have low thresholds and stop being read first;
+knife-edge proposals are read the longest. ``The forum dies from the tails
+inward.''
+\item \emph{Non-peak readers} have strictly smaller gross value (the tent), so
+each voter has her own threshold below $\bar\pi(p)$; aggregate readership
+\eqref{app:eq:A} declines in $\pi$ and reaches \emph{exactly zero} at the interior
+contamination level $\bar\pi(p)<1$.
+\item \emph{Readership falls with contamination}: with $c_r=0$,
+$A=x(2q-1)(1-\pi)/(aD)$ --- near-linear in $(1-\pi)$ (exact numerator linearity;
+the denominator's $\pi$-dependence is second order). We examine this prediction directly in Section~\ref{sec:reads}.
+\end{itemize}
+
+\subsection{The posting stage: volume, and why career concerns fail}
+\label{app:sec:post}
+
+\begin{proposition}[Posting volume (Assumptions \ref{app:ass:truth}, \ref{app:ass:attention})]
+\label{app:prop:volume}
+Contributor $i$ posts iff $c_i\le R\,A(p)$, so equilibrium human posting mass is
+\begin{equation}\label{app:eq:n}
+n(p)=F\bigl(R\,A(p)\bigr),
+\end{equation}
+which inherits the shape of $A$: symmetric about $p=\tfrac12$, single-peaked
+there, zero on consensus proposals with $h\le c_r$, and nonincreasing in
+$d=|p-\tfrac12|$ (strictly decreasing wherever $0<RA<\bar c$). If $F$ is
+near-linear at the origin and $c_r$ is small,
+\[
+n(p)\;\propto\;A(p)\;\approx\;\frac{2\,p(1-p)\,(2Q-1)}{a}\cdot\frac{1}{4D}
+\;\propto\; p(1-p),
+\]
+up to the mild factor $\tfrac14 D^{-1}\in[1,\,(4Q(1-Q))^{-1}]$.
+\end{proposition}
+
+\begin{proof}
+Immediate from Assumption~\ref{app:ass:attention} and
+Proposition~\ref{app:prop:readership}. The approximation uses $D\to\tfrac14$ as
+$p\to\tfrac12$ or $Q\to\tfrac12$.
+\end{proof}
+
+So ``posting volume $\propto p(1-p)$'' is delivered as a first-order
+approximation to an exact closed form, with the exact form available for
+structural work. Posting peaks on contested proposals \emph{because that is
+where the audience is}, and the audience is there because that is where
+information has value. One force (the tent peaking at $p=\tfrac12$) drives
+reading, posting, and --- Section~\ref{app:sec:welfare} --- welfare.
+
+\begin{remark}[Congestion variant]\label{app:rem:congestion}
+If instead each of the $n$ posts receives only its \emph{share} of attention
+(reward $R\,A/n$, readers spread over posts), the equilibrium condition becomes
+$n=F(RA/n)$; with $F$ linear at the origin, $n\propto\sqrt{A}$. All shape
+results below need only that $n$ is a strictly increasing transform of $A$, so
+Theorem~\ref{app:thm:cov} is unaffected; only the exact locus ($p(1-p)$ vs.\ its
+square root) changes --- a distinction the data cannot make anyway
+(the pre-break sample cannot distinguish the two loci).
+\end{remark}
+
+\subsubsection{The negative result: reputation for ability posts on the wrong proposals}
+
+A natural alternative posting motive is career concerns --- posting to attract
+delegated voting power by signaling ability. We formalize it and prove it
+fails, robustly.
+
+Suppose contributors have ability $\alpha\in\{H,L\}$, $\Pro(H)=\gamma$, with
+signal precisions $q_H>q_L>\tfrac12$; a contributor does not observe her own
+type (the standard career-concerns case, Holmstr\"om 1999). Delegators observe a
+poster's message and, ex post, $\theta$, and update; non-posters retain
+reputation $\gamma$ (no inference from silence; see the remark below). The
+poster's payoff is $\phi(\hat\gamma)-c_i$ where $\hat\gamma$ is her posterior
+reputation and $\phi$ is \emph{any} strictly increasing function.
+
+\begin{theorem}[Career concerns are wrong-signed]\label{app:thm:career}
+Let $\bar q=\gamma q_H+(1-\gamma)q_L$. Then:
+\begin{enumerate}[label=(\alph*),itemsep=1pt]
+\item Posting leads to exactly two possible reputations, independent of $p$:
+\begin{align*}
+r_+&=\frac{\gamma q_H}{\gamma q_H+(1-\gamma)q_L}>\gamma
+&&\text{(vindicated, } s=\theta\text{)},\\
+r_-&=\frac{\gamma(1-q_H)}{\gamma(1-q_H)+(1-\gamma)(1-q_L)}<\gamma
+&&\text{(wrong, } s\ne\theta\text{)}.
+\end{align*}
+\item The expected gain from posting signal $s$ is
+\[
+g(s,p)=\rho(s,p)\,\phi(r_+)+[1-\rho(s,p)]\,\phi(r_-)-\phi(\gamma),
+\]
+strictly increasing in the vindication probability
+$\rho(s,p)=\Pro(\theta=s\mid s)$.
+\item At $p=\tfrac12$, $\rho(s,\tfrac12)=\bar q$ for both signals; as
+$p\to1$, $\rho(g,p)\to1$. Hence for every strictly increasing $\phi$, the
+per-contributor posting gain at a foregone conclusion (majority signal) strictly
+exceeds the gain at a toss-up, and total posting mass satisfies
+\[
+n^{\mathrm{cc}}(\tfrac12)\;<\;\lim_{p\to1}n^{\mathrm{cc}}(p).
+\]
+For linear $\phi$ the gain at $p=\tfrac12$ is exactly zero (so
+$n^{\mathrm{cc}}(\tfrac12)=0$), and numerically $n^{\mathrm{cc}}(p)$ is V-shaped
+in $p$ throughout the parameter range checked.
+\end{enumerate}
+Consequently career-concerns posting concentrates on \emph{consensus}
+proposals, generating a nonnegative posts--margin covariance --- the opposite
+of the data --- and cannot rationalize Proposition~\ref{prop:signal} of the text.
+\end{theorem}
+
+\begin{proof}
+(a) Given $(s,\theta)$ the type-likelihood is $\Pro(s\mid\theta,\alpha)$, which
+by symmetry of the precisions equals $q_\alpha$ if $s=\theta$ and $1-q_\alpha$
+otherwise --- free of $p$. Bayes gives $r_\pm$; $r_+>\gamma>r_-$ follows from
+$q_H>q_L$. (b) Immediate from (a). (c) $\rho(s,p)=\Pro(\theta=s\mid s)$ with the
+mixture precision $\bar q$: at $p=\tfrac12$, $\rho=\bar q$ for both signals; as
+$p\to1$, $\rho(g,p)=p\bar q/[p\bar q+(1-p)(1-\bar q)]\to1$ and the population
+share of $g$-signals $\to1$. Since $\rho(g,\cdot)$ rises from $\bar q$ to $1$
+and $\phi$ is strictly increasing, $g(g,p)\to\phi(r_+)-\phi(\gamma)>g(s,\tfrac12)$
+for both $s$; posting mass is $\sum_s\Pro(s)F(g(s,p)_+)$, giving the strict
+ranking. For linear $\phi$: by iterated expectations
+$\E_\theta[\Pro(H\mid s,\theta)\mid s]=\Pro(H\mid s)$, and at $p=\tfrac12$ the
+signal is uninformative about type ($\Pro(s\mid\alpha)=\tfrac12$ for both
+$\alpha$), so $\Pro(H\mid s)=\gamma$ and $g=0$.
+\end{proof}
+
+The economics: on a toss-up your signal is (nearly) a coin flip \emph{whatever
+your ability}, so being right is barely diagnostic in expectation --- and the
+reputational payoffs $r_\pm$ from vindication are the same everywhere, while the
+\emph{probability} of vindication is maximal when you hold the majority view on
+a foregone conclusion. Career concerns therefore push posting toward safe
+consensus, not contested debate. It follows that the delegate
+posting$\,\leftrightarrow\,$voting-power correlation documented in
+Section~\ref{sec:mechanism} should be read as evidence of the attention motive,
+not of career concerns.
+
+\begin{remark}[Robustness and caveats of the negative result]
+The proof covers arbitrary increasing $\phi$ (so convex, tournament-style
+delegation markets do not rescue the mechanism; numerically the V-shape persists
+for $\phi(r)=r^3$ and $\phi=\sqrt{r}$, with the minimum near --- though for
+convex $\phi$ not exactly at --- $p=\tfrac12$). Two modeling choices are
+substantive: non-posters are not updated on (equilibrium inference from silence
+is not modeled), and contributors do not know their own type. Relaxing either
+changes the game but not the core force, which is (a): vindication payoffs are
+$p$-invariant while vindication probability rises with consensus. The endpoint comparison is proved; the global V-shape is verified
+numerically.
+\end{remark}
+
+\subsection{The voting stage: interior margins, derived}
+\label{app:sec:margin}
+
+Now aggregate votes. Conditional on $\theta$, each reader's sampled message is
+i.i.d.\ ($g$ with probability $\rho_G=Q$ if $\theta=G$; $\rho_B=1-Q$ if
+$\theta=B$), so by Assumption~\ref{app:ass:lln} the For-share is deterministic given
+$\theta$:
+\[
+\Phi(\theta)\;=\;\underbrace{\frac{a-u}{2a}}_{\text{non-readers with }b>u}
+\;+\;\underbrace{A\cdot\rho_\theta}_{\text{readers voting For}},
+\qquad\text{(non-readers with }b<\ell\text{ vote Against),}
+\]
+because within the reading band a $g$-message moves every reader to For and a
+$b$-message to Against. The \emph{realized margin} is
+$M(\theta)=|2\Phi(\theta)-1|$ and the expected margin is
+$\E[M\mid p]=p\,M(G)+(1-p)\,M(B)$.
+
+\begin{proposition}[Interior margins, closed form]\label{app:prop:margin}
+Let $m_\theta\equiv2\Phi(\theta)-1$. In the active region ($h>c_r$),
+\begin{align}
+a\,D\;m_G&=Q(1-Q)(2p-1)\;+\;(2Q-1)^2x\;-\;c_r(1-p)(2Q-1),\label{app:eq:mG}\\
+a\,D\;m_B&=Q(1-Q)(2p-1)\;-\;(2Q-1)^2x\;+\;c_r\,p\,(2Q-1),\label{app:eq:mB}
+\end{align}
+and when $h\le c_r$ (no readers) $m_G=m_B=(2p-1)/a$. For $p\ge\tfrac12$,
+$m_G\ge0$ always; margins are interior (in $(0,1)$) for all interior $\mu$ by
+Assumption~\ref{app:ass:interior}. Under $p\mapsto1-p$ the model is symmetric:
+$m_B(1-p)=-m_G(p)$.
+\end{proposition}
+
+\begin{proof}
+With band $[\ell,u]$, $\ell=t_G+c_r/D_1$, $u=t_B-c_r/D_2$: every reader votes
+For on message $g$ and Against on message $b$ (the band lies inside
+$[t_G,t_B]$), so $m_\theta=-u/a+2A\rho_\theta$. Substitute
+$u=1-2\mu_B-c_r/D_2$ and \eqref{app:eq:A}, write
+$2\mu_B-1=(\mu_G+\mu_B-1)-(\mu_G-\mu_B)$, and use (I2) together with three
+one-line identities: $\mu_G+\mu_B-1=\mu_G-(1-\mu_B)=Q[pD_2-(1-p)D_1]/D$ with
+$pD_2-(1-p)D_1=(1-Q)[p^2-(1-p)^2]=(1-Q)(2p-1)$, so
+$\mu_G+\mu_B-1=Q(1-Q)(2p-1)/D$; and $D_1-Q=-(1-p)(2Q-1)$,
+$D_1-(1-Q)=p(2Q-1)$ for the $c_r$ terms.
+Sign of $m_G$ for $p\ge\tfrac12$: the negative term obeys
+$c_r(1-p)(2Q-1)<2x(2Q-1)^2(1-p)\le(2Q-1)^2x$ using $c_r<h$ and $2(1-p)\le1$.
+Symmetry: substitute $p\to1-p$ in \eqref{app:eq:mB} ($x$, $D$ invariant).
+All formulas verified against direct numerical integration of the taste
+distribution (300 random parameter draws, max abs.\ error $<4\times10^{-7}$).
+\end{proof}
+
+\begin{theorem}[Expected margin rises with consensus]\label{app:thm:margin}
+$\E[M\mid p]$ is continuous, symmetric about $p=\tfrac12$, and \emph{strictly
+increasing} in $d=|p-\tfrac12|$ on $(0,\tfrac12)$, for all
+$Q\in(\tfrac12,1]$, $a\ge1$, $c_r\ge0$. Moreover
+\begin{equation}\label{app:eq:floor}
+\E[M\mid p]\;\ge\;\frac{|2p-1|}{a},
+\end{equation}
+with equality outside an interior contested window (in particular everywhere
+once readership is zero), and $\E[M\mid\tfrac12]=(2Q-1)^2\bigl(1-\tfrac{2c_r}{2Q-1}\bigr)/a\ \ge 0$
+at the center (with $c_r=0$: $(2Q-1)^2/a$).
+\end{theorem}
+
+\begin{proof}
+Take $p\ge\tfrac12$ (symmetry). Write $\alpha=Q(1-Q)(2p-1)$,
+$\beta=(2Q-1)^2x$, $\gamma_G=c_r(1-p)(2Q-1)$, $\gamma_B=c_rp(2Q-1)$, so
+$aDm_G=\alpha+\beta-\gamma_G$, $aDm_B=\alpha-\beta+\gamma_B$. Three regimes as
+$d$ rises from $0$:
+
+\emph{(iii) Contested window} ($m_B<0$): here
+$aD\,\E[M\mid p]=p(\alpha+\beta-\gamma_G)+(1-p)(\beta-\alpha-\gamma_B)
+=\alpha(2p-1)+\beta-[p\gamma_G+(1-p)\gamma_B]$, and
+$p\gamma_G+(1-p)\gamma_B=2c_r(2Q-1)x$, so with
+$\kappa\equiv(2Q-1)^2/[Q(1-Q)]$ and
+$\kappa_c\equiv(2Q-1)[(2Q-1)-2c_r]/[Q(1-Q)]\in(0,\kappa]$ (positive because
+$2c_r<4x(2Q-1)\le 2Q-1$ in the active region),
+\[
+a\,\E[M\mid p]=\frac{4d^2+\kappa_c\,x}{1+\kappa\,x},\qquad x=\tfrac14-d^2 .
+\]
+Differentiating in $d^2$: the numerator of the derivative is
+$(4-\kappa_c)(1+\kappa x)+\kappa(4d^2+\kappa_c x)=4+\kappa-\kappa_c>0$
+(the $d^2$-terms cancel identically). Strictly increasing.
+
+\emph{(ii) Consensus, active} ($m_B\ge0$, $h>c_r$): both margins positive, and
+$aD[p\,m_G+(1-p)m_B]=\alpha+\beta(2p-1)+c_r(2Q-1)[-(1-p)p+(1-p)p]=(2p-1)D$, so
+$\E[M\mid p]=(2p-1)/a$ \emph{exactly} --- strictly increasing.
+
+\emph{(i) No readers} ($h\le c_r$): $\E[M\mid p]=(2p-1)/a$, strictly increasing.
+
+Continuity: at the (iii)/(ii) boundary $m_B=0$ both expressions coincide; at
+the (ii)/(i) boundary $\ell=u=t_0$ and $m_\theta\to(2p-1)/a$ smoothly. A
+continuous function that is strictly increasing on each piece of a partition of
+$[0,\tfrac12)$ into intervals is strictly increasing. The floor
+\eqref{app:eq:floor}: in regimes (i)--(ii) it binds; in (iii),
+$aD\,\E[M\mid p]-(2p-1)D=(1-2d)(\beta-\alpha)-2c_r(2Q-1)x
+>(1-2d)\gamma_B-2c_r(2Q-1)x=c_r(2Q-1)[2p(1-p)-2x]=0$,
+using $m_B<0\iff\beta-\alpha>\gamma_B$. Monotonicity was additionally verified
+numerically on a $7\times3\times5$ parameter grid with $2\times10^4$ points of
+$p$ each: zero violations.
+\end{proof}
+
+Objection (O1) is answered: margins are interior and continuously distributed
+because voters disagree on \emph{values} ($a>0$); they are informative about
+$p$ because the expected margin strictly increases in consensus $d$; and the text's shorthand ``margin $\propto|2p-1|$'' holds \emph{exactly} outside the
+contested window (and as the leading term for weak signals, since
+$\E[M\mid\tfrac12]=O((2Q-1)^2)$).
+
+\subsection{The posts--margin covariance}
+\label{app:sec:prop1}
+
+\begin{theorem}[Posts--margin covariance]\label{app:thm:cov}
+Let proposals draw priors $p_i$ i.i.d.\ from any distribution such that
+$d_i=|p_i-\tfrac12|$ is nondegenerate and readership $A(p_i)$ is nonconstant on
+its support; let $\theta_i$ be drawn given $p_i$, and let
+$(\text{Posts}_i,\text{Margin}_i)=(n(p_i),M_i)$ be the realized volume and
+margin. Then
+\[
+\Cov(\text{Posts}_i,\ \text{Margin}_i)\;<\;0 .
+\]
+\end{theorem}
+
+\begin{proof}
+$n(p_i)$ is $\sigma(p_i)$-measurable, so by the law of total covariance
+$\Cov(n,M)=\Cov\bigl(n(p),\E[M\mid p]\bigr)$ ($M$'s within-$p$ variation over
+$\theta$ contributes nothing). By Propositions \ref{app:prop:readership} and
+\ref{app:prop:volume}, $n$ is a nonincreasing function $\nu(d)$; by
+Theorem~\ref{app:thm:margin}, $\E[M\mid p]$ is a strictly increasing function
+$\rho(d)$. For i.i.d.\ copies $d,d'$,
+$\Cov(\nu(d),\rho(d))=-\tfrac12\E[(\nu(d)-\nu(d'))(\rho(d)-\rho(d'))]$, where
+every term in the expectation is $\le0$ (opposite monotonicities) and is
+strictly negative with positive probability because $\nu$ is nonconstant and
+$\rho$ is strictly increasing on a nondegenerate $d$.
+\end{proof}
+
+The negative covariance between posting volume and margin of victory --- the central empirical object of the text --- is thus a consequence of the equilibrium, with the posting
+equilibrium sustained without any pivotality (Assumption~\ref{app:ass:attention})
+and the margin process derived (Theorem~\ref{app:thm:margin}). Both conditional
+moments are monotone transforms of the single latent $d_i$, which is what licenses the practice of reading margins as inverse measures of contestedness throughout the text.
+
+\begin{remark}[The honest ceiling on empirical content]
+Theorem~\ref{app:thm:cov} pins a \emph{sign}, not a locus. On the pre-break sample
+($n=29$) the structural locus and a linear reduced form are statistically
+indistinguishable ($R^2$: $0.114$ vs.\ $0.111$). The model's
+discriminating content is cross-equation (the same $q$ appears in
+\eqref{app:eq:A}, \eqref{app:eq:mG}--\eqref{app:eq:mB}, and the welfare window below), and
+those over-identifying tests are underpowered on this sample. Deriving the model buys internal rigor, not additional empirical verification.
+\end{remark}
+
+\subsection{Welfare: the exact value of the forum}
+\label{app:sec:welfare}
+
+The DAO's decision payoff is the probability the outcome matches $\theta$
+(pass iff $G$). Without a forum, the vote aggregates only tastes and the prior:
+the outcome follows the prior action, correct with probability $\max(p,1-p)$.
+
+\begin{proposition}[Exact decision value of the forum]\label{app:prop:welfare}
+Define the \emph{flip window}
+\[
+\Omega(Q,c_r)\;=\;\Bigl\{p:\ (2Q-1)^2p(1-p)\;-\;c_r(2Q-1)\max(p,1-p)\;>\;Q(1-Q)\,|2p-1|\Bigr\},
+\]
+a symmetric interval around $p=\tfrac12$, nonempty iff $c_r<\tfrac{2Q-1}{2}$,
+expanding to $(0,1)$ as $Q\to1,c_r\to0$ and shrinking to $\varnothing$ as
+$Q\to\tfrac12$. In equilibrium:
+\begin{enumerate}[label=(\alph*),itemsep=1pt]
+\item For $p\in\Omega$: $m_G>0>m_B$ --- the vote passes good proposals and
+rejects bad ones \emph{with probability one} (full information aggregation, the
+Feddersen--Pesendorfer property delivered by the LLN across readers).
+\item For $p\notin\Omega$: the outcome coincides with the prior action.
+\item Hence the forum's gross decision value is
+\begin{equation}\label{app:eq:V}
+V(p;Q,c_r)\;=\;\min(p,\,1-p)\cdot\ind{p\in\Omega(Q,c_r)},
+\end{equation}
+and net welfare subtracts participation costs
+$W=\Pro(\mathrm{correct})-c_r A(p)-\int_0^{RA(p)}c\,dF(c)$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+For $p\ge\tfrac12$ in the active region, $m_G>0$ always
+(Proposition~\ref{app:prop:margin}), so correctness turns on $m_B<0$, i.e.
+$\beta-\gamma_B>\alpha$, which is the displayed window condition with
+$\max(p,1-p)=p$; the $p\le\tfrac12$ branch is the mirror condition $m_G>0$.
+Window $\subset$ active region: $m_B<0$ requires $\beta>\gamma_B$, i.e.
+$x(2Q-1)>c_rp$, which for $p\ge\tfrac12$ implies $h=2x(2Q-1)>2c_rp\ge c_r$.
+Nonemptiness iff the condition holds at $p=\tfrac12$:
+$(2Q-1)^2/4-c_r(2Q-1)/2>0\iff c_r<(2Q-1)/2=h(\tfrac12,Q)$, which is also
+exactly the condition that \emph{any} proposal has readers. (b): outside
+$\Omega$ but active, $m_G$ and $m_B$ share the prior's sign, so the outcome is
+the prior action; inactive is immediate. (c): conditional correctness is
+$p\cdot1+(1-p)\cdot1=1$ inside and $\max(p,1-p)$ outside; subtract the prior
+baseline.
+\end{proof}
+
+\paragraph{Relation to smooth kernels.} The kernel
+$4p(1-p)(q-\tfrac12)^2$ used in earlier drafts is not the value of the forum in
+any version of the model. In the derived model the exact object is
+\eqref{app:eq:V}: a tent $\min(p,1-p)$ truncated to an interior window ---
+closeness enters as the level, informativeness as the width --- and contamination
+destroys value by narrowing the window until it vanishes. For a \emph{single}
+common signal of precision $q$ (closest to a representative-reader framing), the
+exact value is the Blackwell tent $(q-\max(p,1-p))_+$, and the belief-accuracy
+value is $16[p(1-p)]^2(q-\tfrac12)^2$ to leading order --- note the
+\emph{square} on $p(1-p)$. The old monomial matches neither; it is a smooth
+mnemonic with the right single-peakedness and precision scaling but no
+decision-theoretic pedigree, and the words-based calibration of the text never
+used it, so replacing itcosts nothing quantitative.
+
+\begin{remark}[Why full aggregation inside the window is the right idealization]
+Statement (a) is the continuum idealization of a Condorcet effect: finitely many
+readers make the probability of a correct outcome $1-O(e^{-cN})$ inside the
+window. The knife-edge flavor of ``probability one'' is Assumption~\ref{app:ass:lln},
+not deep structure; what is robust is that decision quality is high inside the
+window and prior-driven outside.
+\end{remark}
+
+\subsection{The AI shock: dilution, margin compression, and the reading collapse}
+\label{app:sec:shock}
+
+AI enters through two channels, both now derived: the sampled-post precision
+falls (equation \eqref{app:eq:Qeff}), and the reading calculus \eqref{app:eq:readrule}
+deteriorates.
+
+\begin{proposition}[Comparative statics in contamination]\label{app:prop:shock}
+As $\pi$ rises (equivalently $Q\downarrow\tfrac12$):
+\begin{enumerate}[label=(\alph*),itemsep=1pt]
+\item \emph{Readership} $A(p;\pi)$ falls, with exactly linear numerator
+$\bigl(2x(2q-1)(1-\pi)-c_r\bigr)_+$, reaching zero at
+$\bar\pi(p)=1-c_r/I_H(p)<1$: an \emph{interior} contamination level at which
+the forum's audience is exactly zero. Consensus proposals hit their thresholds
+first.
+\item \emph{Posting} $n(p;\pi)=F(RA)$ falls with readership --- the audience
+channel: AI does not need to out-argue humans, it only needs to thin the
+readership that pays for human effort.
+\item \emph{Margins} compress toward the no-forum benchmark: $\E[M\mid p]$ is
+nondecreasing in $Q$ pointwise, falling to the floor $|2p-1|/a$; the contested
+window $\Omega$ narrows to $\varnothing$.
+\item \emph{Welfare}: $V(p;Q_{\mathrm{eff}},c_r)$ collapses window-first; at
+$\pi\ge\bar\pi(\tfrac12)$ the forum's entire decision value is gone even though
+$1-\pi$ of posts are genuine.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(a) is Proposition~\ref{app:prop:readership} with \eqref{app:eq:Qeff}; (b) immediate.
+(c) The floor is attained: $\E[M\mid p]\ge|2p-1|/a$ always
+(Theorem~\ref{app:thm:margin}), with equality everywhere once $h\le c_r$, which
+occurs for every $p$ when $Q$ is close enough to $\tfrac12$; so as
+$\pi\to\bar\pi(\tfrac12)$ the entire margin process converges to the no-forum
+benchmark. Pointwise monotonicity in $Q$: for $c_r=0$,
+$a\E[M|p]=(4d^2+\kappa x)/(1+\kappa x)$ in the window and
+$\partial(a\E)/\partial\kappa=x(1-4d^2)/(1+\kappa x)^2\ge0$ with
+$\kappa=(2Q-1)^2/[Q(1-Q)]$ increasing in $Q$ --- proved; for $c_r>0$ the two
+channels ($\kappa_c\uparrow$, $\kappa\uparrow$) push in opposite directions and
+we verify $\partial\E[M|p]/\partial Q\ge0$ numerically (grid over
+$a\in\{1,1.5,3\}$, $c_r\le0.2$, $p\in[0.5,0.99]$, $2{,}000$ values of $Q$:
+zero violations). (d) The window condition is monotone in $Q$ and $c_r$.
+\end{proof}
+
+Part (a) is the precise form Proposition~\ref{prop:threshold} of the text takes in the derived model; in detail:
+\begin{itemize}[itemsep=1pt]
+\item \emph{At the individual level} the reading decision is discrete:
+each reader's problem is binary, and the marginal reader's rule is
+\eqref{app:eq:readrule} with a hard threshold.
+\item \emph{At the aggregate level}, readership declines continuously and hits
+\emph{exactly zero at an interior} $\bar\pi<1$ --- a collapse at finite
+contamination, but a kinked continuous decline rather than a jump. A genuinely \emph{discontinuous} aggregate collapse emerges once contamination is endogenous:
+Theorem~\ref{app:thm:tipping}.
+\item The text's distinction between expected contamination $\pi$ (the object in the reading rule) and realized share $\lambda$ carries over: the decision-relevant $\pi$ is the reader's forward-looking expectation about the post she is about to read, which jumps at a capability release ahead of $\lambda$, and remains the mechanism for collapse at $\lambda\approx8\%$.
+\end{itemize}
+
+\subsection{Endogenous contamination: a tipping theorem}
+\label{app:sec:tipping}
+
+Close the loop: contamination depends on how much humans post, which depends on
+the audience, which depends on contamination. Fix a proposal type (contestedness
+$x$; think of the representative contested proposal, $x=\tfrac14$) and let AI
+post mass be $z\ge0$. An equilibrium is a triple $(A,n,\pi)$ with
+\[
+n=F(RA),\qquad \pi=\frac{z}{z+n},\qquad
+A=\mathcal{A}(\pi)\equiv\frac{\bigl(2x(2q-1)(1-\pi)-c_r\bigr)_+}{2a\,D(\pi)},
+\]
+$D(\pi)=Q(1-Q)+x(2Q-1)^2$ at $Q=\tfrac12+(1-\pi)(q-\tfrac12)$. Equivalently, a
+fixed point of the audience map
+$T_z(A)\equiv\mathcal{A}\bigl(z/(z+F(RA))\bigr)$.
+
+\begin{theorem}[Discontinuous, hysteretic collapse (representative proposal; exogenous $z$; Assumptions \ref{app:ass:lln}--\ref{app:ass:viable})]
+\label{app:thm:tipping}
+Let $c_r\in(0,I_H)$ and $\bar\pi=1-c_r/I_H$. Then:
+\begin{enumerate}[label=(\alph*),itemsep=1pt]
+\item \emph{Collapse always coexists.} $(A,n,\pi)=(0,0,1)$ is an equilibrium for
+every $z>0$.
+\item \emph{Dead zone.} $T_z(A)=0$ for all $A\le A_z\equiv F^{-1}\bigl(\min\{z\tfrac{1-\bar\pi}{\bar\pi},\,1\}\bigr)/R$,
+and $A_z>0$ for every $z>0$: audiences below $A_z$ cannot sustain enough human
+posting to keep expected reading value positive.
+\item \emph{Tipping point.} $T_z$ is nondecreasing in $A$ and strictly
+decreasing in $z$, so
+$z^*\equiv\sup\{z:\text{a healthy equilibrium }A>0\text{ exists}\}$
+is well defined, with $0<z^*\le\frac{\bar\pi}{1-\bar\pi}\,n_{\max}$
+($n_{\max}=F(\bar c)$): once AI post mass exceeds $\frac{\bar\pi}{1-\bar\pi}$
+times maximal human volume, only collapse survives. For every $z\in(0,z^*)$ the
+healthy and collapsed equilibria \emph{coexist} (bistability); for $z>z^*$
+collapse is unique.
+\item \emph{Discontinuity.} Every healthy equilibrium satisfies $A>A_z$; hence
+as $z$ crosses $z^*$ the audience jumps from at least $A_{z^*}>0$ to $0$ ---
+never a continuous fade-out.
+\item \emph{Hysteresis.} Under best-response dynamics $A_{t+1}=T_z(A_t)$, the
+collapsed state is locally absorbing for every $z>0$ (by (b)); after a collapse,
+reducing $z$ --- even nearly to zero --- does not restore the forum. Recovery
+requires coordinated re-entry of audience mass exceeding $A_z$, not merely
+undoing the shock.
+\item \emph{Collapse below the reading threshold.} At any healthy equilibrium,
+realized contamination satisfies $\pi=z/(z+n)<\bar\pi$ strictly. The forum
+therefore always tips at a realized AI share strictly below the level
+$\bar\pi$ at which reading value would mechanically reach zero.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+(a) $A=0\Rightarrow n=F(0)=0\Rightarrow\pi=1\Rightarrow Q=\tfrac12\Rightarrow
+\mathcal{A}=0$. (b) $\mathcal{A}(\pi)>0$ iff $\pi<\bar\pi$ iff
+$F(RA)>z(1-\bar\pi)/\bar\pi$. (c) Monotonicity of $T_z$ in $A$: the numerator of
+$\mathcal{A}$ is increasing in $1-\pi$ and $\pi$ is decreasing in $A$; the
+denominator $D$ is \emph{decreasing} in $Q$ since
+$\partial D/\partial Q=2(2Q-1)(4x-1)\cdot\tfrac12\le0$ for $x\le\tfrac14$;
+strict decrease in $z$ is immediate. Finiteness of $z^*$: a healthy equilibrium
+needs $F(RA)>z(1-\bar\pi)/\bar\pi$ with $F\le n_{\max}$. Positivity: at $z=0$
+the healthy audience is $A_0=\mathcal{A}(0)>0$ (Assumption~\ref{app:ass:viable});
+for any $A'<A_0$, $T_z(A')\to\mathcal{A}(0)>A'$ as $z\to0$, and a nondecreasing
+self-map of $[A',A_{\max}]$ has a fixed point (Tarski); the set of $z$ with a
+healthy equilibrium is a down-set by pointwise monotonicity in $z$.
+Bistability on $(0,z^*)$: (a) plus the down-set property. (d) By (b), any
+nonzero fixed point exceeds $A_z$, and $A_z$ is nondecreasing in $z$.
+(e) $T_z\equiv0$ on $[0,A_z]$, $A_z>0$. (f) $A=T_z(A)>0$ requires
+$\pi(A)<\bar\pi$ by (b).
+\end{proof}
+
+\begin{remark}[What this strengthens, and what it does not deliver]
+Theorem~\ref{app:thm:tipping} requires no S-shaped adoption curve: a positive
+reading cost alone creates the dead zone that makes collapse discontinuous,
+locally absorbing, and coexisting with health for every $z\in(0,z^*)$ --- for
+\emph{any} continuous strictly increasing $F$. The reading cost that generates
+the unverifiability threshold is the same primitive that makes the collapse
+irreversible; that unification is the content of Proposition~\ref{prop:tipping} in the text. Numerical benchmark ($x=\tfrac14$,
+$q=0.75$, $a=1.2$, uniform $F$ on $[0,0.25]$, $R=1$): $c_r=0.02$ gives
+$\bar\pi=0.92$ but collapse at $z^*\approx0.86$ with realized contamination
+$\pi\approx0.69$ and an audience jump $\approx0.10\to0$; raising $c_r$ to
+$0.08$ moves collapse to realized $\pi\approx0.41$. Thin reading margins mean
+collapse strikes far below saturation. What the theorem does \emph{not} deliver:
+the observed $\lambda\approx8\%$ is still lower than these equilibrium
+contamination levels under the benchmark parameters --- matching the \emph{date}
+of the collapse at 8\% realized share still requires the expectations channel
+($\pi$ jumping ahead of $\lambda$ at the capability release), as the text argues. The theorem's contribution is that collapse at
+low-and-partial contamination is an equilibrium property, not a fragility of
+one calibration. Caveats: representative-proposal reduction (aggregation across
+a distribution of $p$ is not done); $z$ exogenous; stability/hysteresis defined
+for best-response dynamics.
+\end{remark}
+
+
+
 \setcounter{figure}{0}
 \setcounter{table}{0}
 \renewcommand{\thefigure}{A\arabic{figure}}
 \renewcommand{\thetable}{A\arabic{table}}
+
+\begin{remark}[Multi-post reading]
+\label{app:rem:kpost}
+A full sequential-reading extension --- read posts one at a time at cost $c_r$
+each, stopping optimally --- would endogenize how many of the $\bar n$ posts
+each voter reads and let the data separate non-redundancy
+(Assumption~\ref{ass:nr}) from redundancy via the observed within-thread decay
+of reads per post. It is the natural next modeling increment if the calibration
+is to be upgraded from illustrative to identified; it is not undertaken here.
+\end{remark}
 
 \section{Data Appendix}
 \label{app:data}

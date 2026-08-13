@@ -1,0 +1,656 @@
+%% Arbitrum DAO — FSIL Meeting slides (July 21, 2026)
+%% Built against the June 23, 2026 draft ("The Effect of AI Writing on Governance")
+%% Style: Shapiro "How to Give an Applied Micro Talk" + paulgp/beamer-tips
+%% Compile: tectonic lab_talk.tex
+%% Figures: figs_v4/ (copied from Victor's repo, commit b3ced28, June 23 2026)
+
+\documentclass[11pt,aspectratio=169]{beamer}
+
+%% ── Theme ─────────────────────────────────────────────────────────────────────
+\usetheme{default}
+\usecolortheme{seagull}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+
+%% Colorblind-safe accents (Okabe–Ito, per paulgp/beamer-tips) + GT navy/gold
+\definecolor{gtnavy}{RGB}{0,48,87}       % structure
+\definecolor{gtgold}{RGB}{179,163,105}   % bullets
+\definecolor{alertorange}{RGB}{213,94,0} % emphasis (colorblind-safe vermillion)
+\definecolor{cbblue}{RGB}{0,114,178}     % links/buttons
+\definecolor{dimgray}{RGB}{150,150,150}
+\definecolor{sand}{RGB}{247,243,232}     % transition-slide background
+
+\setbeamercolor{frametitle}{fg=gtnavy}
+\setbeamercolor{title}{fg=gtnavy}
+\setbeamercolor{structure}{fg=gtnavy}
+\setbeamercolor{alerted text}{fg=alertorange}
+\setbeamercolor{button}{bg=white,fg=cbblue}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\textcolor{gtgold}{\small$\blacktriangleright$}}
+\setbeamertemplate{itemize subitem}{\textcolor{gtgold}{\scriptsize$\triangleright$}}
+\setbeamerfont{frametitle}{series=\bfseries,size=\large}
+
+%% Current-section tracker shown in the footline on every slide
+\newcommand{\fsilsec}{}
+\setbeamertemplate{footline}{%
+  \hspace{2ex}\scriptsize\textcolor{dimgray}{\fsilsec}%
+  \hfill\scriptsize\textcolor{dimgray}{\insertframenumber\,/\,\inserttotalframenumber}\hspace{2ex}\vspace{1ex}}
+
+\newcommand{\fig}[1]{figs_v4/#1}
+
+%% Wide-spaced itemize (paulgp): fewer words, more air
+\newenvironment{wideitemize}{\begin{itemize}\setlength{\itemsep}{0.7em}}{\end{itemize}}
+
+%% Roadmap check-in: transition-style frame (tinted background) with current
+%% section highlighted. \roadmapframe{<n>}
+\newcommand{\rmentry}[3]{\ifnum#1=#2 {\color{gtnavy}\textbf{#3}}\else{\color{dimgray}#3}\fi}
+\newcommand{\roadmapframe}[1]{%
+{\setbeamercolor{background canvas}{bg=sand}%
+\begin{frame}{Roadmap}
+  \Large
+  \begin{enumerate}
+    \item[\rmentry{#1}{1}{1.}] \rmentry{#1}{1}{The setting and the data}
+    \item[\rmentry{#1}{2}{2.}] \rmentry{#1}{2}{A model of forum deliberation --- and why we need one}
+    \item[\rmentry{#1}{3}{3.}] \rmentry{#1}{3}{Main result: the signal collapse}
+    \item[\rmentry{#1}{4}{4.}] \rmentry{#1}{4}{Mechanism: expected contamination, not realized volume}
+    \item[\rmentry{#1}{5}{5.}] \rmentry{#1}{5}{Welfare: the forum in words of human effort}
+  \end{enumerate}
+\end{frame}}}
+
+%% ── Title ─────────────────────────────────────────────────────────────────────
+\title{\textbf{The Effect of AI Writing on Governance:\\
+Evidence from a \$3.5 Billion DAO}}
+\author{Victor Huang \quad Joseph Hall\\[2pt] \small Georgia Institute of Technology}
+\institute{FSIL Meeting}
+\date{July 21, 2026}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+%% ══ Opening ═══════════════════════════════════════════════════════════════════
+\begin{frame}{Motivation}
+  \begin{wideitemize}
+    \item Text-based deliberation underpins financial governance:\\
+      SEC comment letters, proxy fights, analyst reports, Reddit
+    \item It rests on one implicit assumption:
+    \item[] \begin{center}\emph{Credible, contextually appropriate prose is costly to produce ---\\
+      costly enough to screen out noise.}\end{center}
+    \item \alert{Generative AI eliminates that cost}
+  \end{wideitemize}
+  \vspace{0.6em}
+  \textbf{Research question:} Does online deliberation aggregate information before
+  collective votes --- and what happens to that information when producing
+  credible text becomes costless?
+\end{frame}
+
+\begin{frame}{This paper}
+  \textbf{Laboratory:} the Arbitrum DAO --- \$3.5B treasury, binding token votes, no
+  boards or intermediaries. Proposals are debated on a public forum before each binding
+  vote; every post and vote is recorded.
+  \vspace{0.5em}
+  \begin{enumerate}
+    \setlength{\itemsep}{0.5em}
+    \item \textbf{Pre-AI, the forum aggregated information:} human post count predicts
+      vote contestation ($r = -0.33$)
+    \item \textbf{The signal collapsed at the AI capability threshold:} post-shock
+      $r = -0.10$; Chow $F = 15.05$ (GPT-4 Turbo), $8.38$ (Claude~3)
+    \item \textbf{The mechanism is expected contamination, not realized volume:} AI was $\sim$5\% of posts at the structural break; the volume surge arrived 9--12 months \emph{later}
+    \item \textbf{Bottom line:} the forum was worth \alert{at least 555 words of
+      research effort per delegate per proposal} --- all destroyed, discretely, at
+      the tipping point
+  \end{enumerate}
+\end{frame}
+
+%% ══ 1. Setting & Data (this roadmap doubles as the talk's roadmap) ════════════
+\renewcommand{\fsilsec}{1. Setting \& data}
+\roadmapframe{1}
+
+\begin{frame}{The Arbitrum DAO}
+  \begin{columns}[T]
+    \column{0.5\textwidth}
+      \textbf{Stakes}
+      \begin{itemize}
+        \setlength{\itemsep}{0.25em}
+        \item $\approx$\$13B worth of ARB tokens issued at launch (Mar 2023)
+        \item $\approx$\$3.5B worth (27.7\% of supply) in the DAO treasury ---
+          spent only by token-weighted vote
+        \item Economic model: grant treasury ARB to developers $\to$ apps that use
+          ARB $\to$ demand raises ARB's value for everyone
+      \end{itemize}
+      \vspace{0.3em}
+      \textbf{Proposal lifecycle}
+      \begin{itemize}
+        \setlength{\itemsep}{0.25em}
+        \item \alert{Forum thread} --- public discussion
+        \item Snapshot temperature check
+        \item Binding on-chain vote
+      \end{itemize}
+    \column{0.46\textwidth}
+      \textbf{Delegates (liquid democracy)}
+      \begin{itemize}
+        \setlength{\itemsep}{0.4em}
+        \item Revocable delegation of voting power
+        \item Top 10 delegates $\approx$ 30\% of votes; a majority requires only
+          \alert{4 delegates}
+      \end{itemize}
+      \vspace{0.4em}
+      \textbf{Also in the ecosystem}
+      \begin{itemize}
+        \item LobbyFi vote-rental market
+          \hyperlink{applobbyfi}{\beamergotobutton{backup}}
+      \end{itemize}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Data}
+  \begin{wideitemize}
+    \item \textbf{Forum} (Discourse scrape): 17{,}553 posts, 1{,}101 topics,
+      2{,}452 users, Jan 2023--Mar 2026
+    \item \textbf{AI detection} (Pangram API): \textit{fraction\_ai} per post;
+      AI-written if $> 0.70$.\\ Scores are strongly bimodal --- not sensitive to threshold
+      \hyperlink{appbimodal}{\beamergotobutton{distribution}}
+    \item \textbf{Votes} (Snapshot): margin of victory
+      $= \left|\,s_F/(s_F+s_A) - \tfrac12\,\right| \times 2$
+    \item \textbf{Matched sample:} \alert{102 proposal--thread pairs}
+      ($n_{\text{pre}}=29$, $n_{\text{post}}=73$)
+    \item \textbf{Delegates:} wallet--username links for 62 of 218 posting delegates
+      (hand-collected)
+  \end{wideitemize}
+  \vspace{0.3em}
+  \centering
+  \begin{tabular}{lccc}
+    \toprule
+     & Pre--Claude~3 & Post--Claude~3 & Change \\
+    \midrule
+    Monthly posts     & 387 & 512 & $+32\%$ \\
+    Monthly AI posts  & 8   & 143 & \alert{$+1{,}688\%$} \\
+    \bottomrule
+  \end{tabular}
+\end{frame}
+
+%% ══ 2. Model ══════════════════════════════════════════════════════════════════
+\renewcommand{\fsilsec}{2. Model}
+\roadmapframe{2}
+
+\begin{frame}{Why a model? Two purposes}
+  \textbf{Purpose 1: justify the empirical test.}
+  \begin{itemize}
+    \setlength{\itemsep}{0.4em}
+    \item Why is the posts--margin correlation \emph{the} measure of forum value?
+    \item The model makes it an equilibrium object: \alert{the forum aggregates
+      information if and only if posting volume is negatively correlated with the
+      margin of victory} (Prop.\ 1)
+  \end{itemize}
+  \vspace{0.6em}
+  \textbf{Purpose 2: enable welfare statements.}
+  \begin{itemize}
+    \setlength{\itemsep}{0.4em}
+    \item A vanished correlation is not, by itself, a welfare statement
+    \item The model prices the forum's information against participation costs, in
+      calibratable units: \alert{words of human writing effort}
+  \end{itemize}
+  \vspace{0.6em}
+  \textbf{A third implication:} the model predicts the signal can collapse
+  \emph{discretely, at low AI volume} --- exactly what the data show.
+\end{frame}
+
+\begin{frame}{Model setup}
+  \hfill {\small (Lohmann 94; Austen-Smith 90; Feddersen--Pesendorfer 96; Dewatripont--Tirole 99)}
+  \vspace{0.2em}
+
+  \textbf{Environment.} A DAO evaluates proposal $i$ of unknown quality
+  $\theta_i \in \{H, L\}$, with prior $\Pr(\theta_i = H) = p_i$.
+  \vspace{0.4em}
+
+  \textbf{Contributors} (a continuum, indexed $j$):
+  \begin{itemize}
+    \setlength{\itemsep}{0.3em}
+    \item Each holds a private signal $s_j \in \{h, l\}$ with precision
+      $\Pr(s_j = \theta_i) = q > \tfrac12$
+    \item Posting the signal to the forum costs $c_p > 0$ per post
+  \end{itemize}
+  \vspace{0.4em}
+
+  \textbf{The delegate} (the decision-maker):
+  \begin{itemize}
+    \setlength{\itemsep}{0.3em}
+    \item Votes For or Against; payoff $+1$ if the vote matches $\theta_i$, $-1$ otherwise
+      \hyperlink{appext}{\beamergotobutton{relaxing alignment}}
+    \item Observes \emph{only} the forum; reading and interpreting one post costs $c_r > 0$
+    \item Reading a genuine human post yields expected informational value $I_H > 0$\\
+      {\small (in units of the voting payoff)}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Equilibrium without AI}
+  Contributors post only when the expected influence on the vote justifies the cost
+  $c_p$. Both sides post in proportion to their support, so:
+  \[
+    \mathbb{E}[\text{posts}_i] \propto p_i(1-p_i) \qquad
+    \mathbb{E}[\text{margin}_i] \propto |2p_i - 1|
+  \]
+  \begin{itemize}
+    \setlength{\itemsep}{0.4em}
+    \item Posting volume peaks at $p_i = \tfrac12$ (contested proposals draw both sides in)
+    \item The margin of victory is \emph{smallest} at $p_i = \tfrac12$
+    \item The two are opposite monotone functions of contestedness $|p_i - \tfrac12|$
+  \end{itemize}
+  \vspace{0.5em}
+  \begin{block}{Proposition 1 (Signal Content)}
+    In the no-AI equilibrium, $\operatorname{Cov}(\text{Posts}_i, \text{Margin}_i) < 0$.
+    \textbf{An informative forum \emph{must} show this negative correlation --- this is
+    our empirical test.}
+  \end{block}
+\end{frame}
+
+\begin{frame}{The AI shock}
+  At a point in time $T$, it becomes possible to emulate a genuine human post ---
+  carrying zero information about $\theta_i$ --- at essentially zero cost
+  ($c_p^{\text{AI}} \approx 0$).
+  \vspace{0.6em}
+
+  Two objects now describe the forum:
+  \begin{wideitemize}
+    \item $\lambda \in [0,1]$: the fraction of posts that \emph{are} AI-generated\\
+      $\Rightarrow$ uninformative posts \alert{in fact}\\
+      {\small (a slow-moving realized share)}
+    \item $\pi \in [0,1]$: the delegate's expectation that the next post read is
+      AI-generated\\
+      $\Rightarrow$ uninformative posts \alert{in expectation}\\
+      {\small (the forward-looking expectation of $\lambda$)}
+  \end{wideitemize}
+  \vspace{0.6em}
+  Each object damages the forum through a different channel.
+\end{frame}
+
+\begin{frame}{Two channels of damage}
+  \begin{columns}[T]
+    \column{0.48\textwidth}
+      \textbf{High $\lambda$: noise in fact}
+      \begin{itemize}
+        \setlength{\itemsep}{0.35em}
+        \item Delegates read posts that carry no signal $\Rightarrow$ more
+          incorrect votes
+        \item Posting volume no longer tracks division $\Rightarrow$ the
+          Prop.-1 correlation is diluted
+        \item Damage is \emph{gradual}: proportional to $\lambda$
+      \end{itemize}
+    \column{0.48\textwidth}
+      \textbf{High $\pi$: noise in expectation}
+      \begin{itemize}
+        \setlength{\itemsep}{0.35em}
+        \item Value of reading a post: $(1-\pi)\,I_H - c_r$
+        \item For $\pi > \pi^* \equiv 1 - c_r/I_H$, reading stops paying: delegates
+          abandon the forum \emph{entirely}
+        \item With no reader, writing genuine posts stops paying too:
+          a \alert{self-fulfilling collapse} (Akerlof 1970)
+      \end{itemize}
+  \end{columns}
+  \vspace{0.4em}
+  \begin{block}{Proposition 2 (Unverifiability Threshold)}
+    For $\pi > \pi^*$ the delegate reads nothing and the forum's \emph{entire}
+    informational value vanishes at once --- even while most posts are still genuine
+    ($\lambda$ small).
+  \end{block}
+  \vspace{0.2em}
+  \centering Gradual dilution vs.\ discrete abandonment: an empirical question.
+\end{frame}
+
+%% ══ 3. Main result ════════════════════════════════════════════════════════════
+\renewcommand{\fsilsec}{3. Main result}
+\roadmapframe{3}
+
+\begin{frame}{The posts--margin relationship breaks exactly once}
+  Estimating equation (human $=$ Pangram $\leq 0.70$):
+  \[
+    \text{Margin}_i = \alpha + \beta\,\text{HumanPosts}_i + \varepsilon_i
+  \]
+  \vspace{0.5em}
+  \centering
+  \begin{tabular}{lccc}
+    \toprule
+     & (1) Full & (2) Pre--Claude~3 & (3) Post--Claude~3 \\
+    \midrule
+    Human posts ($\hat\beta$) & $-0.0015$ & $\mathbf{-0.0026^{**}}$ & $-0.0006$ \\
+                & $(0.0012)$ & $(0.0011)$ & $(0.0007)$ \\
+    \midrule
+    $N$         & 102 & 29 & 73 \\
+    Pearson $r$ & $-0.21$ & $\mathbf{-0.33}$ & $-0.10$ \\
+    \bottomrule
+  \end{tabular}
+  \vspace{0.5em}
+
+  Chow test of equal slopes: $F = 8.38$, $p = 0.0004$
+  \vspace{0.5em}
+  \begin{itemize}
+    \setlength{\itemsep}{0.4em}
+    \item Pre-shock: an active thread is a sufficient statistic for community division
+      --- the forum \emph{passes} the Prop.-1 test
+    \item Post-shock: it \emph{fails} --- so by Prop.\ 1 this is a test of forum
+      \emph{value}, not just a correlation shift
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{AI Posting Volume, AI Model Release Dates and Rolling Correlations}
+  \centering
+  \includegraphics[height=0.85\textheight,keepaspectratio]{\fig{fig08_main_causal.png}}
+\end{frame}
+
+\begin{frame}{Breaks track model capability --- and precede the rise in AI volume}
+  \centering
+  {\footnotesize
+  \setlength{\tabcolsep}{5pt}
+  \begin{tabular}{lrcrccc}
+    \toprule
+     & \multicolumn{2}{c}{Pre-break} & \multicolumn{2}{c}{Post-break} & \multicolumn{2}{c}{Chow} \\
+    Shock & $n$ & $r$ & $n$ & $r$ & $F$ & $p$ \\
+    \midrule
+    Claude~2 (Jul 23)    & 7   & $-0.17$ & 95 & $-0.22$ & 1.00 & 0.371 \\
+    \textbf{GPT-4 Turbo (Nov 23)} & \textbf{18} & $\mathbf{-0.34}$ & \textbf{84} & $\mathbf{-0.17}$ & \textbf{15.05} & $\mathbf{<0.001}$ \\
+    \textbf{Claude~3 (Mar 24)} & \textbf{29} & $\mathbf{-0.33}$ & \textbf{73} & $\mathbf{-0.10}$ & \textbf{8.38} & \textbf{0.0004} \\
+    GPT-4o (May 24)      & 36  & $-0.30$ & 66 & $-0.06$ & 5.97 & 0.004 \\
+    o1 (Sep 24)          & 65  & $-0.20$ & 37 & $-0.18$ & 1.63 & 0.200 \\
+    DeepSeek R1 (Jan 25) & 78  & $-0.17$ & 24 & $-0.38$ & 0.67 & 0.513 \\
+    \midrule
+    QLR Sup-$F$ & \multicolumn{6}{l}{17.19 at Nov.\ 25, 2023 --- \alert{19 days after GPT-4 Turbo}} \\
+    \bottomrule
+  \end{tabular}}
+  \vspace{0.5em}
+  \begin{itemize}
+    \setlength{\itemsep}{0.4em}
+    \item Breaks cluster at the first models able to emulate human governance prose ---
+      not at later, better models
+      \hyperlink{appturing}{\beamergotobutton{Turing-test evidence}}
+    \item \textbf{Timing puzzle:} AI $\approx$ 5\% of posts at \emph{both} breaks;
+      the 15--20\% surge came 9--12 months later
+    \item The volume mechanism requires contamination \emph{before} collapse ---
+      \alert{rejected}. Consistent with the Proposition-2 tipping point
+      \hyperlink{appdistraction}{\beamergotobutton{distraction checks}}
+  \end{itemize}
+\end{frame}
+
+%% ══ 4. Mechanism ══════════════════════════════════════════════════════════════
+\renewcommand{\fsilsec}{4. Mechanism}
+\roadmapframe{4}
+
+\begin{frame}{Delegates stopped reading: direct behavioral evidence}
+  \centering
+  \includegraphics[height=0.55\textheight,keepaspectratio]{\fig{fig15_reads_decline.png}}
+  \begin{itemize}
+    \setlength{\itemsep}{0.35em}
+    \item The forum platform records how many users open each post: the median
+      falls $88 \to 56$ ($-36\%$),
+      \alert{starting November 2023} --- before any AI volume surge
+    \item Not mechanical dilution: posts $+122\%$ would predict $-55\%$ under a fixed reading
+      budget; aggregate reading \emph{grew} $\sim$40\%
+    \item Exit precedes evidence --- delegates responded to the \emph{prior},
+      as Prop.\ 2 predicts
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Who adopts AI? Low-power delegates}
+  \begin{columns}[c]
+    \column{0.58\textwidth}
+      \centering
+      \includegraphics[height=0.8\textheight,keepaspectratio]{\fig{fig11_delegates.png}}
+    \column{0.40\textwidth}
+      \begin{itemize}
+        \setlength{\itemsep}{0.5em}
+        \item Cross-section ($n=51$): $r = -0.44$ ($p = 0.001$)
+        \item High-AI delegates hold $\approx$\$70K worth of ARB; low-AI
+          $\approx$\$1.9M $\Rightarrow$ \alert{27$\times$ gap}
+          \hyperlink{appdip}{\beamergotobutton{delegate incentives}}
+        \item AI posts carry no directional signal ($r = -0.009$ on pass/fail)
+          \hyperlink{appcontent}{\beamergotobutton{content analysis}}
+        \item $\Rightarrow$ unverifiability degraded the signal --- not strategic manipulation by insiders
+          \hyperlink{apppanel}{\beamergotobutton{panel evidence}}
+      \end{itemize}
+  \end{columns}
+\end{frame}
+
+%% ══ 5. Welfare ════════════════════════════════════════════════════════════════
+\renewcommand{\fsilsec}{5. Welfare}
+\roadmapframe{5}
+
+\begin{frame}{Welfare in the model: what the collapse destroys}
+  Social welfare $=$ expected vote correctness $-$ participation costs:
+  \[
+    W = p\,\Pr(\text{pass} \mid H) + (1-p)\Pr(\text{reject} \mid L) - c_p\,\mathbb{E}[n]
+  \]
+  Past the tipping point ($\pi > \pi^*$) the delegate votes at the prior, and
+  \[
+    W^{*} - W^{\text{AI}} \;=\;
+    \underbrace{4p(1-p)}_{\text{contestedness}} \;\cdot\;
+    \underbrace{\left(q - \tfrac12\right)^2}_{\text{signal quality}} \;>\; 0
+  \]
+  \begin{wideitemize}
+    \item Loss is maximized at $p = \tfrac12$: \alert{AI destroys the most welfare on
+      the most contested decisions} --- where governance matters most
+    \item Higher reading costs lower the tipping point
+      ($\partial\pi^*/\partial c_r < 0$); more informative posts raise it
+      ($\partial\pi^*/\partial I_H > 0$)
+    \item The onset of indistinguishability is \emph{first-order and discrete};
+      additional AI volume has no further marginal effect
+  \end{wideitemize}
+\end{frame}
+
+\begin{frame}{Calibration: the forum, denominated in words of human effort}
+  \centering
+  {\footnotesize
+  \setlength{\tabcolsep}{5pt}
+  \begin{tabular}{llr}
+    \toprule
+    Object & Source & Value \\
+    \midrule
+    $c_p$ (write one post) & avg.\ pre-period human post length & 237 words \\
+    $\bar{n}$ (human posts/proposal) & 1{,}283 posts / 29 proposals & 44.2 \\
+    Writing cost per proposal & $\bar{n} \cdot c_p$ & 10{,}480 words \\
+    $\pi^*$ (tipping threshold) & $\lambda$ at QLR break, a lower bound ($\pi \geq \lambda$) & $\geq 0.053$ \\
+    $c_r$ (read one post) & $(1-\pi^*)\,I_H$, normalizing $I_H = c_p$ & $\leq$ 224 words \\
+    Net reading surplus & $I_H - c_r$ & $\geq$ 12.56 words/post \\
+    \bottomrule
+  \end{tabular}}
+  \vspace{0.4em}
+  \begin{itemize}
+    \setlength{\itemsep}{0.35em}
+    \item \small Per delegate per proposal: $\bar{n} \times 12.56 \approx$
+      \alert{\textbf{at least 555 words}} of research effort saved
+    \item \small DAO-wide: at least $555K - 10{,}480$ words --- positive for $K \geq 19$; at
+      $K = 62$ delegates: \alert{$\geq$24{,}000 words per proposal}
+      ($2.3\times$ the writing effort)
+    \item \small Identification: $\pi^* = (I_H - c_r)/I_H$ --- \alert{the tipping
+      point \emph{equals} the per-post surplus share}. We observe only $\lambda$,
+      and $\pi \geq \lambda$ while $\lambda$ rises, so the collapse point bounds
+      the margin from below: $\geq 5.3\%$ of gross value. All figures are
+      conservative
+  \end{itemize}
+\end{frame}
+
+%% ══ Conclusion ════════════════════════════════════════════════════════════════
+\renewcommand{\fsilsec}{Conclusion}
+\begin{frame}{Conclusion}
+  \textbf{Indistinguishable AI prose destroyed the forum --- discretely, at 5\% AI volume.}
+  \vspace{0.5em}
+  \begin{itemize}
+    \setlength{\itemsep}{0.5em}
+    \item The forum \emph{did} aggregate information (Prop.-1 test passes pre-AI),
+      generating at least 24{,}000 words of research-effort surplus per proposal
+    \item The mechanism is \alert{expected contamination, not realized volume}:
+      expectations crossed the reading threshold before AI post volume did
+    \item \textbf{Policy:} governance is underprovided (positive externalities), and
+      the natural remedy is to subsidize participation --- as Arbitrum does, paying
+      delegates per posted rationale. \alert{In the AI era this does worse than buy
+      noise}: each subsidized zero-content post pushes expected contamination toward
+      $\pi^*$ --- the subsidy can finance the collapse of the very forum it was
+      meant to support
+      \hyperlink{appdip}{\beamergotobutton{DIP}}
+    \item The same mechanism applies to shareholder meetings, peer review, and
+      regulatory comment periods
+  \end{itemize}
+\end{frame}
+
+%% ══ Appendix ══════════════════════════════════════════════════════════════════
+\appendix
+%% Backup slides: no page numbers (audience should not misread talk progress)
+\setbeamertemplate{footline}{%
+  \hspace{2ex}\scriptsize\textcolor{dimgray}{\fsilsec}\hfill\vspace{1ex}}
+
+\renewcommand{\fsilsec}{Appendix}
+
+\begin{frame}[noframenumbering,label=appturing]{Backup: AI crossed the human-indistinguishability line in the break window}
+  \centering
+  \includegraphics[width=0.86\textwidth,height=0.74\textheight,keepaspectratio]{\fig{fig_turing_timeline.png}}
+  \vspace{0.2em}
+  \begin{itemize}
+    \item \small Controlled interactive Turing tests (Jones \& Bergen, UCSD; three
+      waves, best model per wave). The 50\% crossing falls inside the
+      Nov 2023--Mar 2024 structural-break window
+    \item \small Caveats: prompts improved across waves; conversational text, not
+      governance prose
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[noframenumbering,label=appbimodal]{Backup: Pangram score distribution (bimodality)}
+  \centering
+  \includegraphics[width=0.9\textwidth,height=0.8\textheight,keepaspectratio]{\fig{fig05_ai_score_bimodality.png}}
+\end{frame}
+
+\begin{frame}[noframenumbering,label=appcontent]{Backup: content analysis --- AI vs.\ human vocabulary}
+  \centering
+  \includegraphics[width=0.9\textwidth,height=0.8\textheight,keepaspectratio]{\fig{fig_ai_post_content.png}}
+\end{frame}
+
+\begin{frame}[noframenumbering]{Backup: voting power concentration}
+  \centering
+  \includegraphics[width=0.9\textwidth,height=0.8\textheight,keepaspectratio]{\fig{fig03_power_concentration.png}}
+\end{frame}
+
+\begin{frame}[noframenumbering]{Backup: forum activity and token market}
+  \centering
+  \includegraphics[width=0.9\textwidth,height=0.8\textheight,keepaspectratio]{\fig{fig01_forum_activity.png}}
+\end{frame}
+
+\begin{frame}[noframenumbering,label=appdistraction]{Backup: the distraction battery (every point estimate wrong-signed)}
+  \centering
+  \begin{tabular}{lccl}
+    \toprule
+    Candidate instrument & $\hat{\beta}$ & $t$ & Sign \\
+    \midrule
+    ZKsync + LayerZero airdrops (May 24) & $+0.696$ & $1.69^{*}$ & wrong \\
+    Starknet airdrop (Feb 24)            & $+0.714$ & $0.94$ & wrong \\
+    BoJ rate shock (Aug 24)              & $+0.983$ & $1.83^{*}$ & wrong \\
+    Nov 23 hack cluster                  & $+0.289$ & $0.46$ & wrong \\
+    Concurrent proposal load             & $+0.168$ & $1.38$ & wrong \\
+    ETH realized vol (monthly)           & $+35.5$  & $4.18^{***}$ & wrong \\
+    Bitcoin halving (Apr 24)             & $+0.149$ & $0.76$ & wrong \\
+    \bottomrule
+  \end{tabular}
+  \vspace{0.5em}
+  \begin{itemize}
+    \setlength{\itemsep}{0.35em}
+    \item Dependent variable: log forum post count; proposal-clustered SEs
+    \item DAO participants are core stakeholders: market chaos is a \emph{complement}
+      to governance engagement (contra Hirshleifer et al.\ 2009)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[noframenumbering]{Backup: distraction first stages}
+  \centering
+  \includegraphics[width=0.9\textwidth,height=0.8\textheight,keepaspectratio]{\fig{fig14_distraction.png}}
+\end{frame}
+
+\begin{frame}[noframenumbering,label=applobbyfi]{Backup: LobbyFi vote rental market}
+  \centering
+  \includegraphics[width=0.9\textwidth,height=0.8\textheight,keepaspectratio]{\fig{fig06_lobbyfi.png}}
+\end{frame}
+
+\begin{frame}[noframenumbering,label=appdip]{Backup: the Delegate Incentive Program (DIP)}
+  \textbf{What it is} (SEEDGov-administered; first program month March 2024):
+  \begin{itemize}
+    \setlength{\itemsep}{0.3em}
+    \item \small Monthly ARB payments to delegates scored on voting participation
+      \emph{and} publicly posting voting rationales (up to $\sim$5{,}000 ARB/month
+      in later versions)
+    \item \small Eligibility: $>$50K ARB voting power ($\sim$175 delegates),
+      $>$25\% historical participation, KYC; 38 of 40 qualified in month one
+  \end{itemize}
+  \vspace{0.3em}
+  \textbf{Economics:} governance participation has positive externalities, so a
+  subsidy is sensible --- but DIP subsidizes the \emph{observable proxy} (posted
+  text). With AI text at zero cost, the subsidy invites zero-content compliance
+  prose --- a concrete pecuniary motive for AI adoption by exactly the low-power
+  delegates we identify. And it is worse than waste: each subsidized post raises
+  expected contamination toward $\pi^*$, so \alert{the subsidy can finance the
+  discrete collapse of the forum it exists to support}.
+  \vspace{0.3em}
+  \begin{itemize}
+    \setlength{\itemsep}{0.3em}
+    \item \small \textbf{Not a confounder for the break:} the QLR break
+      (Nov 25, 2023) and the readership decline (Nov 2023) both \emph{predate}
+      the program --- ruled out by timing, like the vesting cliff
+    \item \small Plausibly amplifies the post-2024 volume surge and the
+      posts-per-user increase
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[noframenumbering,label=appext]{Backup: sketch --- imperfectly aligned owners, endogenous delegation (WIP)}
+  \small
+  \textbf{Ingredients.} Holders with stakes $w_i$ delegate to maximize token
+  value; they observe delegates' \emph{activity}, not their information.
+  Delegate $j$'s payoff: pro-rata value of correct decisions ($\propto$
+  pivotality, rising in delegated power $D_j$) $+$ delegation rents $R(D_j)$
+  (DIP, fees, reputation) $-$ reading costs.
+  \vspace{0.25em}
+
+  \textbf{Key change:} reading thresholds become delegate-specific,
+  $\pi^*_j = 1 - c_r/I_j$ with $I_j$ rising in stakes $\times$ pivotality;
+  delegation flows respond to \emph{observable activity} --- which AI makes free.
+  \vspace{0.3em}
+
+  \textbf{If we solved this out, we would probably see:}
+  \begin{itemize}
+    \setlength{\itemsep}{0.25em}
+    \item \small \emph{Sorted, partial exit}: reading survives only at the top
+      of the power distribution --- aggregate readership falls but not to zero
+      (consistent with the observed $-36\%$)
+    \item \small Post-shock, delegation flows \emph{decouple from posting
+      activity} (activity pools at zero cost) and concentrate toward incumbents
+      $\Rightarrow$ voting power concentration rises
+    \item \small AI adoption by low-power, rent-seeking delegates as an
+      \emph{equilibrium outcome} --- the 27$\times$ gap derived, not assumed
+  \end{itemize}
+  \vspace{0.3em}
+  \textbf{Our data could tell us:} whether the activity$\to$delegation elasticity
+  falls post-break (delegate panel); whether concentration rises (Nakamoto
+  series); whether small delegates herd on whales' votes (vote timestamps).
+\end{frame}
+
+\begin{frame}[noframenumbering,label=apppanel]{Backup: within-delegate panel (content, not volume)}
+  \centering
+  \begin{tabular}{lcc}
+    \toprule
+     & (1) & (2) \\
+    \midrule
+    AI fraction (30-day)        & $0.055^{***}$ & $0.054^{***}$ \\
+    Log posts (30-day)          &               & $0.001$ \\
+    Log voting power (lagged)   & $-0.047^{***}$ & $-0.047^{***}$ \\
+    \midrule
+    Delegate FE                 & Yes & Yes \\
+    $N$ (delegate-periods)      & 1{,}832 & 1{,}832 \\
+    \bottomrule
+  \end{tabular}
+  \vspace{0.5em}
+  \begin{itemize}
+    \setlength{\itemsep}{0.35em}
+    \item Within delegate: full AI adoption $\Rightarrow +5.5\%$ voting power, swamped
+      by mean reversion ($-4.7\%$/period)
+    \item Post \emph{count} has no effect once content is controlled
+  \end{itemize}
+\end{frame}
+
+\end{document}
