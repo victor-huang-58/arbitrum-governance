@@ -27,13 +27,19 @@ Joseph took the **derivation** path (the two-tier model from the theory notes) a
 ### 2. Welfare / calibration — ✅ RESOLVED: illustrative under stated assumptions (PR #3)
 Done as recommended. The non-derivable kernel `4p(1−p)(q−½)²` is **replaced** by the exact forum-value object `V(p) = min(p,1−p)` on a contested "flip window" (a footnote flags the swap; nothing quantitative changes — the words calibration never used it). The ≥858-words figure is retained but now explicitly carries a stated **non-redundancy assumption**; the load-bearing derived numbers (`π* ≥ 0.082`, 19.4 words/post) survive unconditionally.
 
-### ★ Ratify Joseph's 5 judgment calls (from PR #3)
-The model is done; these are placement/voice choices he flagged for us to confirm:
-1. **Career-concerns theorem** kept in the appendix (as the justification for the attention motive) vs. cutting it to a remark. *He kept it* — referees will ask "why not career concerns," and the theorem answers.
-2. **Tipping theorem — main-text Prop 4 (compact) + full theorem in the appendix, vs. spinning it into a second paper.** *(The big one — the "capstone vs. sequel" call we discussed. Now that it's a verified theorem, both are defensible; his lean is compact inclusion because it upgrades the abstract's headline mechanism.)*
-3. **Delegate-alignment paragraph** retained ~verbatim in §5.6 (reads better under the attention motive).
-4. **Prior-work paragraph** rewritten to add Feddersen–Pesendorfer + sincere-voting cites; Lohmann / Austen-Smith / Dewatripont kept.
-5. **Abstract** edit is the lightest touch consistent with the theorem — check the voice.
+### ★ Joseph's 5 judgment calls (from PR #3) — ✅ RATIFIED (Aug 13)
+Positions agreed; branch `ratify-pr3-calls` (PR open) carries the only code change.
+1. **Career-concerns theorem** kept in the appendix. ✅ **Keep** — pre-empts the obvious "why not career concerns" referee objection. No change.
+2. **Tipping theorem** — compact in main text + full in appendix. ✅ **Keep compact, framed as a *mechanism*, not the explanation of the 8%.** §5.5 is already honest ("matching the observed collapse at 8% still requires the expectations channel"); no edit needed there. Not spun off — the full development can still seed a follow-up later.
+3. **Delegate-alignment paragraph** retained in §5.6. ✅ **Keep** — but this is where the **M2** reading-incentive gap lives (see below); strengthen it there.
+4. **Prior-work paragraph** (Feddersen–Pesendorfer + sincere-voting cites). ✅ **Approve.**
+5. **Abstract** voice. ✅ **Approve with one edit** — credited the **expectations (π vs λ) channel** so "derived from primitives" isn't misread as deriving the 8% collapse. In `ratify-pr3-calls` (+ a typo fix).
+
+**Still for the meeting (not ratifications — substantive):**
+- **M1** — the expectations jump driving the empirical 8% is asserted, not modeled (tipping benchmark collapses at ~40–70%). Now flagged honestly in the abstract; whether to model it is open.
+- **M2** — reading-incentive tension: non-pivotal, activity-rewarded delegates aren't microfounded to *read*. Natural fix: reading as an input to attention-rewarded posting. Belongs in the §5.6 paragraph (call 3).
+- **M3** — `π` notation: appendix `π = z/(z+n)` is realized (= text `λ`); §5.3 `π` is the expectation. Relabel the expectation `π^e`.
+- **Checked & cleared:** the earlier date worry (M4) — the paper deliberately uses the QLR break (Nov 2023, ~8%) and Claude 3 (Mar 2024, ~6%); consistent throughout.
 
 ### 3. USD conversion — pick the price/date *(also settles the title)*
 Decided (Joseph, July 30): **dollar units throughout, not ARB.** Remaining call: **which conversion price**. This is entangled with the title:
