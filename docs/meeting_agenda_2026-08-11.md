@@ -8,21 +8,32 @@ We ran the current draft through **Refine** (automated referee tool), which retu
 
 **Headline:** the empirical core is sound and reproducible (the main regression, Chow battery, delegate tables, and readership figure all compute from *frozen* caches). The problems are concentrated in (a) overclaiming — in the model, welfare, and prose — and (b) descriptive numbers/figures that drift because several scripts fetch live data. Both are fixable; several need a decision first.
 
+> **Update (Aug 12 — PR #3 "derived-model-integration", merged).** Joseph derived the
+> model in full and integrated it end-to-end, which **resolves Decisions 1 and 2**. §5
+> rewritten, ~14pp Model Appendix added, the non-derivable welfare kernel replaced with
+> the exact object, calibration reframed as illustrative-under-stated-assumptions.
+> Numerically verified (`docs/check_model.py` — all 7 checks pass). What remains for the
+> meeting: **ratify Joseph's 5 judgment calls** (§below) and **Decisions 3–5** (USD
+> price/title, freeze/USD pass, convention picks), which the PR deliberately left
+> untouched. The freeze pass is now **partly done** (Decision 4).
+
 ---
 
 ## Decisions needed (priority order)
 
-### 1. Model — derive properly, or reframe as illustrative? *(the core call)*
-Refine (#1–3) says the model as written does **not derive** Proposition 1, the interior vote margins, or the welfare formula from its primitives (a single representative delegate can't produce interior margins; with a nonatomic continuum no contributor is pivotal, so costly posting isn't an equilibrium).
+### 1. Model — ✅ RESOLVED: derived & integrated (PR #3)
+Joseph took the **derivation** path (the two-tier model from the theory notes) and folded it into the paper. Proposition 1, the interior margins, the reading rule (`π* = 1 − c_r/I_H`, with `I_H = 2p(1−p)(2q−1)` pinned to primitives), and the welfare object are now **derived from primitives**; the career-concerns alternative is included as a *negative* theorem (provably wrong-signed). This answers Refine #1–3 directly, and it came with two genuine upgrades over the roadmap: a **stronger tipping theorem** (discontinuous, hysteretic collapse from a positive reading cost *alone* — no S-shaped adoption needed) and the **exact welfare form**. **No decision left here — only the ratifications below.** (Sign error #77 already fixed.)
 
-- **Recommendation:** *reframe as a stylized/illustrative framework* — state the key relationships as assumptions, downgrade "Proposition 1" to a stated prediction, and keep the model as scaffolding for the two mechanisms and the calibration. Deriving it properly is effectively a separate theory paper, and adding formal machinery is where new errors come from. **The sign error (#77) is already fixed** regardless.
-- **Alternative:** derive it fully (higher reward, much more work/risk).
-- **What deriving it fully would take** (researched Aug 2026): the three gaps share one root — a single representative delegate can't produce a *population* margin or *aggregate* posting volume. The fix is a three-part rebuild: (i) **two-tier structure** — informed contributors/delegates post; a continuum of uninformed voters read the forum aggregate and vote, so the For-share Φ and the margin become *derived* (Feddersen–Pesendorfer aggregation, already cited); (ii) **reputation / career-concern posting** — delegates post to attract and retain delegated voting power, which resolves the pivotality problem, matches our own delegate cross-section, and ties to DIP; from this Prop 1 follows (posts ∝ p(1−p), margin ∝ |2p−1| ⟹ negative covariance); (iii) the welfare loss as the **decision-theoretic value of information** (closeness × informativeness), though the exact 4p(1−p)(q−½)² form may need adjusting. Realistically ~2–4 weeks of careful theory work, with the risk the welfare form shifts — which is why the recommendation is to reframe as illustrative.
+### 2. Welfare / calibration — ✅ RESOLVED: illustrative under stated assumptions (PR #3)
+Done as recommended. The non-derivable kernel `4p(1−p)(q−½)²` is **replaced** by the exact forum-value object `V(p) = min(p,1−p)` on a contested "flip window" (a footnote flags the swap; nothing quantitative changes — the words calibration never used it). The ≥858-words figure is retained but now explicitly carries a stated **non-redundancy assumption**; the load-bearing derived numbers (`π* ≥ 0.082`, 19.4 words/post) survive unconditionally.
 
-### 2. Welfare / calibration — "empirical lower bound" or "sensitivity calculation"?
-The ≥858-words-per-delegate / ~43,000-words-per-proposal figures rest on assumptions (π ≥ λ, and the normalization I_H = c_p), not identification (#12, #18, #74).
-
-- **Recommendation:** present as an **illustrative calibration under stated assumptions**, not an identified bound. Keeps the compelling magnitude, drops the overclaim. (Follows from Decision 1.)
+### ★ Ratify Joseph's 5 judgment calls (from PR #3)
+The model is done; these are placement/voice choices he flagged for us to confirm:
+1. **Career-concerns theorem** kept in the appendix (as the justification for the attention motive) vs. cutting it to a remark. *He kept it* — referees will ask "why not career concerns," and the theorem answers.
+2. **Tipping theorem — main-text Prop 4 (compact) + full theorem in the appendix, vs. spinning it into a second paper.** *(The big one — the "capstone vs. sequel" call we discussed. Now that it's a verified theorem, both are defensible; his lean is compact inclusion because it upgrades the abstract's headline mechanism.)*
+3. **Delegate-alignment paragraph** retained ~verbatim in §5.6 (reads better under the attention motive).
+4. **Prior-work paragraph** rewritten to add Feddersen–Pesendorfer + sincere-voting cites; Lohmann / Austen-Smith / Dewatripont kept.
+5. **Abstract** edit is the lightest touch consistent with the theorem — check the voice.
 
 ### 3. USD conversion — pick the price/date *(also settles the title)*
 Decided (Joseph, July 30): **dollar units throughout, not ARB.** Remaining call: **which conversion price**. This is entangled with the title:
@@ -32,9 +43,12 @@ Decided (Joseph, July 30): **dollar units throughout, not ARB.** Remaining call:
 - **Only the 27× voting-power ratio is price-invariant.**
 - **Recommendation:** pick one stated convention and apply it everywhere; decide consciously whether the title survives it. Conversion touches: delegate holdings (71K/1.9M/40K/680K ARB), DIP (5,000 ARB/mo), treasury (2.75–2.77B ARB), and figures **fig07 (fiscal), fig11 (delegate VP), fig06 (LobbyFi)** need USD axes.
 
-### 4. Reproducibility pass — run now, or note as a limitation?
-Several descriptive scripts (`fig01/02/03/04/06/07/09`) fetch Snapshot/price **live and don't cache**, so their numbers drift (this is why "19 contested," "0.65 margin," and the §2 taxonomy/LobbyFi/fiscal numbers don't reproduce). The core-result scripts are frozen and fine.
-- **Recommendation:** **do the freeze-and-recompute now** — add caching, run once, hard-code the results. "Our descriptive stats may not reproduce" isn't viable for a journal, and it's especially bad for a paper about verification. Best done **as one combined pass with the USD conversion** (same scripts), once Decision 3 sets the price. Will change §2 numbers — Joseph reviews the new values.
+### 4. Reproducibility pass — freeze **partly done**; two blockers surfaced
+The Group-A drift scripts (`fig02/03/04/06/07/09`) are now converted to a frozen cache (`scripts/freeze.py` + `data/frozen/`) and **verified reproducible** (2nd run reads cache, no re-fetch). Group-B scripts already cache-if-missing. Runbook: `docs/freeze_usd_pass.md`. **Still open — two blockers + the USD swap:**
+- **`fig01` is blocked** — its ARB price source is dead (CryptoCompare 401s; CoinGecko's public tier refuses full history). Needs a price key/source, or redraw on a single date — the *same* question as Decision 3.
+- **The repo is not self-reproducing for the CORE figures** — `figure8_forum_cache` (24M, feeds the headline `fig08`) and `figure5_votes_cache` (31M) are `.gitignore`d, and `figure10_voter_cache` is missing. **Decision:** commit them (+~55M), move to **Git LFS**, or ship a **release/Zenodo artifact** + regeneration script. For a paper about verifiability this can't stay a gap.
+- **USD unit-swap** (`fig06/07/11`) is staged behind one constant in `freeze.py`, pending Decision 3.
+- **Recommendation:** finish as **one combined pass with the USD price** — set the constant, run the batch, recompute/hard-code §2, finalize captions. Joseph reviews the new §2 numbers.
 
 ### 5. Convention picks (quick, once chosen)
 - **λ measure** — the §5.5 recompute uses the monthly 8.2% at the QLR break; confirm vs. matched-thread or cumulative.
@@ -53,11 +67,13 @@ Several descriptive scripts (`fig01/02/03/04/06/07/09`) fetch Snapshot/price **l
 | Sign error #77 (reading condition) | ✅ fixed |
 | Overclaims (A3) — high-value ones | ✅ softened |
 | λ correction + calibration recompute (8.2%) | ✅ done |
-| Model derive-vs-illustrative (Decision 1) | ⏳ Joseph |
-| Welfare framing (Decision 2) | ⏳ Joseph |
+| Model — derived & integrated (Decision 1) | ✅ **PR #3**; ratify placement only |
+| Welfare — exact form + illustrative calibration (Decision 2) | ✅ **PR #3** |
+| Model integration — verify | ✅ `check_model.py` all 7 checks pass |
 | USD conversion + title (Decision 3) | ⏳ price pending |
-| Reproducibility freeze + recompute (Decision 4) | ⏳ blocked on Decision 3 |
+| Reproducibility freeze (Decision 4) | 🟡 Group-A frozen; **`fig01` price + cache-hosting policy** open |
 | Convention picks (Decision 5) | ⏳ quick, need calls |
+| Joseph's 5 judgment calls (PR #3) | ⏳ ratify — esp. tipping placement |
 | Figure captions | 🔴 **systematic mismatch confirmed** — captions describe older figures than the PNGs show (7 figures, main body + appendix); needs a rewrite (see below). *Correction: this is NOT a PDF-parse artifact, as first assumed.* |
 
 ---
@@ -82,14 +98,15 @@ Draft corrected captions exist (matched to the current PNGs). **Do the caption r
 
 ## What unblocks once we decide
 
-- **Decisions 1–2 (model/welfare):** I reframe §5 and the calibration language in one pass.
-- **Decision 3 (USD price):** unblocks the combined **USD + reproducibility** pass (Decision 4) — regenerate fig06/07/11 in USD, freeze the drift scripts, recompute and hard-code §2.
+- **Decisions 1–2 (model/welfare):** ✅ done in PR #3 — only ratification remains.
+- **Decision 3 (USD price):** unblocks the combined **USD + freeze** pass (Decision 4) — set one constant in `scripts/freeze.py`, run the batch, recompute/hard-code §2, finalize captions.
+- **Decision 4 blockers:** `fig01` needs a price source; the core caches need a hosting call (commit / LFS / artifact).
 - **Decision 5:** each is a one-line/one-number apply.
 
-Everything that did **not** need a decision is already committed and pushed (`victor-huang-58/arbitrum-governance`, `main`). The paper compiles clean with zero undefined references.
+Everything that did **not** need a decision is committed and pushed (`victor-huang-58/arbitrum-governance`, `main`, now including PR #3). The paper compiles clean (113 pp, zero undefined references).
 
 ## Suggested order for the meeting
-1. Model (1) and welfare (2) — the intellectual calls that shape everything else.
-2. USD price (3) + title.
-3. How far to walk back the abstract's thesis (the one A3 item left to Joseph's tone).
-4. Convention picks (5) as a quick round.
+1. **Ratify the model integration (PR #3)** — the 5 judgment calls, especially **tipping placement** (main-text capstone vs. second paper).
+2. **USD price (3) + title** — unblocks the combined USD + freeze pass.
+3. **Decision 4 blockers:** the `fig01` price source, and the cache-hosting policy (commit / LFS / artifact).
+4. **Convention picks (5)** as a quick round.
