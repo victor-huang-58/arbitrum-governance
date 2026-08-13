@@ -92,7 +92,7 @@ We study the extent to which online deliberation aggregates information before c
 Our setting is Arbitrum DAO, a decentralized organization controlling a \$3.5 billion treasury, where token holders debate proposals on a public forum before each binding vote.
 Forum activity predicted vote closeness before March 2024 but became uninformative after, coinciding with language models capable of producing indistinguishable governance prose.
 Interestingly, we observe that the degradation of the forum's signal (the elimination of the correlation between posting volume and margin-of-victory) takes place at a time when relatively few posts are A.I.\ generated, relative to the end of the sample period where A.I.\ posting volume grows rapidly.
-A model of endogenous posting, reading, and voting---derived from primitives---shows this is a general phenomenon: the signal value of a forum collapses at a discrete tipping point at a realized A.I.\ share strictly below the level that would mechanically destroy reading value, and the collapse is hysteretic: reducing A.I.\ volume afterward does not restore the forum.
+A model of endogenous posting, reading, and voting---derived from primitives---shows how this can happen: because readers respond to the \emph{expected} contamination of the forum, its signal value can collapse at a discrete, hysteretic tipping point while the \emph{realized} A.I.\ share is still low---strictly below the level that would mechanically destroy reading value---and reducing A.I.\ volume afterward does not restore the forum.
 Calibrating to the data, the forum generated net social benefits equivalent to saving at least 858 words of research effort per delegate per proposal (under a stated non-redundancy assumption)---all destroyed at the tipping point.
 Delegates who rely on AI hold far less voting power than those who do not, which is inconsistent with power capture by insiders.
 Our results suggest that the mere availability of indistinguishable AI writing can degrade the governance capabilities of economically important organizations, even when such AI is rarely used in equilibrium.
@@ -2873,7 +2873,7 @@ value is $16[p(1-p)]^2(q-\tfrac12)^2$ to leading order --- note the
 \emph{square} on $p(1-p)$. The old monomial matches neither; it is a smooth
 mnemonic with the right single-peakedness and precision scaling but no
 decision-theoretic pedigree, and the words-based calibration of the text never
-used it, so replacing itcosts nothing quantitative.
+used it, so replacing it costs nothing quantitative.
 
 \begin{remark}[Why full aggregation inside the window is the right idealization]
 Statement (a) is the continuum idealization of a Condorcet effect: finitely many
