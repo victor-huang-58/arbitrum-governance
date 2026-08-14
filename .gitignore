@@ -16,3 +16,9 @@ __pycache__/
 presentation.pptx
 .env
 .env.*
+
+# local LaTeX package workaround + build/editor cruft
+texmf-local/
+.Rhistory
+*.fdb_latexmk
+*.fls

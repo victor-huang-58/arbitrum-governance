@@ -294,9 +294,10 @@ spend_df = (
 )
 
 # Governance-implied treasury balance
-# DAO treasury received 3,500M ARB at genesis (Mar 2023)
+# DAO treasury ~= 2,750M ARB at genesis (Mar 2023), matching the "2.75 billion ARB
+# treasury" stated in the text; ~$3.5B at the fixed $1.30 reference rate.
 # Plus 69M ARB from unclaimed airdrop (Sep 2023 = 2023Q3)
-GENESIS_M  = 3_500.0
+GENESIS_M  = 2_750.0
 AIRDROP_M  =    69.0
 
 quarterly_net = -spend_df.sum(axis=1).copy()
@@ -314,6 +315,12 @@ print(f"\nImplied treasury balance (M ARB):")
 for q, b in balance.items():
     print(f"  {q}: {b:.0f}M ARB")
 print(f"\nTotal approved disbursements: {spend_df.sum().sum():.0f}M ARB")
+
+# ── Convert ARB → USD at the fixed reference rate ($1.30) for display ──────────
+P           = freeze.ARB_USD_PRICE
+spend_df    = spend_df * P
+balance     = balance * P
+GENESIS_USD = GENESIS_M * P
 
 
 # ── Step 5: Plot ──────────────────────────────────────────────────────────────
@@ -338,7 +345,7 @@ for cat in CATEGORIES:
     # Label significant bars (>10M ARB for a category slice)
     for xi, (v, b) in enumerate(zip(vals, bottoms)):
         if v >= 10:
-            ax_spend.text(xi, b + v/2, f"{v:.0f}M",
+            ax_spend.text(xi, b + v/2, f"${v:.0f}M",
                           ha="center", va="center",
                           fontsize=7, fontweight="bold", color="white")
     bottoms += vals
@@ -346,15 +353,15 @@ for cat in CATEGORIES:
 # Stack total on top
 for xi, tot in enumerate(bottoms):
     if tot >= 5:
-        ax_spend.text(xi, tot + 1.5, f"{tot:.0f}M",
+        ax_spend.text(xi, tot + 1.5, f"${tot:.0f}M",
                       ha="center", va="bottom", fontsize=7.5, fontweight="bold")
 
-ax_spend.set_ylabel("ARB Approved for Disbursement (M ARB)", fontsize=11)
+ax_spend.set_ylabel("Approved for Disbursement (USD millions)", fontsize=11)
 ax_spend.set_ylim(0, bottoms.max() * 1.40)
-ax_spend.yaxis.set_major_formatter(mticker.FuncFormatter(lambda v, _: f"{v:.0f}M"))
+ax_spend.yaxis.set_major_formatter(mticker.FuncFormatter(lambda v, _: f"${v:.0f}M"))
 ax_spend.legend(loc="upper left", fontsize=9, framealpha=0.92, ncol=2)
 ax_spend.grid(axis="y", linestyle="--", linewidth=0.5, alpha=0.35)
-ax_spend.set_title("(a) Quarterly ARB Approved by Category (governance date)",
+ax_spend.set_title("(a) Quarterly Disbursements Approved by Category (governance date, USD)",
                    fontsize=11, style="italic", pad=5)
 
 # Annotate the two dominant programs
@@ -379,16 +386,16 @@ ax_bal.fill_between(x, bal_vals, color="#2C3E50", alpha=0.08, zorder=3)
 # Shade the post-Foundation-Strategic-Partnerships drop
 drop_start = all_q.index("2024Q3") if "2024Q3" in all_q else None
 if drop_start:
-    ax_bal.annotate("Foundation Strategic\nPartnership transfer\n(250M ARB)",
+    ax_bal.annotate("Foundation Strategic\nPartnership transfer\n(250M ARB, ~\\$325M)",
         xy=(drop_start, balance["2024Q3"]),
         xytext=(drop_start + 1.2, balance["2024Q3"] + 150),
         fontsize=8, color="#6c3483",
         arrowprops=dict(arrowstyle="->", color="#6c3483", lw=1.1),
         bbox=dict(fc="white", ec="#8e44ad", pad=2.5, alpha=0.9))
 
-ax_bal.set_ylabel("ARB Treasury Balance\n(governance-implied, M ARB)", fontsize=11)
-ax_bal.set_ylim(0, GENESIS_M * 1.15)
-ax_bal.yaxis.set_major_formatter(mticker.FuncFormatter(lambda v, _: f"{v/1000:.1f}B"))
+ax_bal.set_ylabel("Treasury Balance\n(governance-implied, USD)", fontsize=11)
+ax_bal.set_ylim(0, GENESIS_USD * 1.15)
+ax_bal.yaxis.set_major_formatter(mticker.FuncFormatter(lambda v, _: f"${v/1000:.1f}B"))
 ax_bal.grid(axis="y", linestyle="--", linewidth=0.5, alpha=0.35)
 ax_bal.legend(loc="upper right", fontsize=9, framealpha=0.92)
 ax_bal.set_title("(b) Governance-Implied Treasury Balance (end of quarter)",
