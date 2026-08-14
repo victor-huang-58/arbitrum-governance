@@ -125,6 +125,15 @@ pdflatex main_flat.tex
 
 ---
 
+## License
+
+- **Code and data** in this repository: [MIT License](LICENSE).
+- **The paper** (`main_flat.tex` / `main_flat.pdf`): [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) (as posted on SSRN).
+
+You're free to use, adapt, and build on this work — attribution (a citation) is all we ask.
+
+---
+
 ## Contact
 
 Victor Huang — vhuang5858@gmail.com  
