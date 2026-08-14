@@ -41,13 +41,9 @@ Positions agreed; branch `ratify-pr3-calls` (PR open) carries the only code chan
 - **M3** — `π` notation: appendix `π = z/(z+n)` is realized (= text `λ`); §5.3 `π` is the expectation. Relabel the expectation `π^e`.
 - **Checked & cleared:** the earlier date worry (M4) — the paper deliberately uses the QLR break (Nov 2023, ~8%) and Claude 3 (Mar 2024, ~6%); consistent throughout.
 
-### 3. USD conversion — pick the price/date *(also settles the title)*
-Decided (Joseph, July 30): **dollar units throughout, not ARB.** Remaining call: **which conversion price**. This is entangled with the title:
-- At ≈$1/ARB (the deck's convention): treasury 2.77B ARB ≈ **$2.8B** → the "$3.5 Billion DAO" title would change.
-- At ~$1.30/ARB (launch, Mar 2023): ≈ **$3.6B** → title holds, but delegate holdings/DIP (contemporaneous) get ×1.3.
-- At mid-2024 (~$0.85): ≈ **$2.3B**, and Uniswap (~$2.8–3.2B) was likely larger → the "largest treasury" claim fails.
-- **Only the 27× voting-power ratio is price-invariant.**
-- **Recommendation:** pick one stated convention and apply it everywhere; decide consciously whether the title survives it. Conversion touches: delegate holdings (71K/1.9M/40K/680K ARB), DIP (5,000 ARB/mo), treasury (2.75–2.77B ARB), and figures **fig07 (fiscal), fig11 (delegate VP), fig06 (LobbyFi)** need USD axes.
+### 3. USD conversion — ✅ RESOLVED: single TGE rate, $3.5B holds
+Decided (Aug 2026): **one fixed conversion date for everything — the March 2023 TGE at $1.30/ARB** — chosen so the treasury reads **$3.5B**, consistent with the paper's existing "traded at $1.30 at launch, $13B market cap" statement. Title survives. A **caveat footnote** (added at the token-distribution paragraph) states the price varied several-fold over the sample, that dollar values differ at other dates/today, and that the convention is **descriptive only** — every ratio (the 27× voting-power gap) and every regression is ARB/USD-invariant. `ARB_USD_PRICE = 1.30` is set in `scripts/freeze.py`, so the combined pass converts at one rate. *Treated as a red herring — settled, not re-litigated per figure.*
+- **Remaining (mechanical, part of the freeze pass):** wire `freeze.to_value`/`money_label` into **fig06/07/11** so their axes render USD at the fixed rate (the price is set; the plot-point wiring is the last step).
 
 ### 4. Reproducibility pass — freeze **partly done**; two blockers surfaced
 The Group-A drift scripts (`fig02/03/04/06/07/09`) are now converted to a frozen cache (`scripts/freeze.py` + `data/frozen/`) and **verified reproducible** (2nd run reads cache, no re-fetch). Group-B scripts already cache-if-missing. Runbook: `docs/freeze_usd_pass.md`. **Still open — two blockers + the USD swap:**
@@ -76,7 +72,7 @@ The Group-A drift scripts (`fig02/03/04/06/07/09`) are now converted to a frozen
 | Model — derived & integrated (Decision 1) | ✅ **PR #3**; ratify placement only |
 | Welfare — exact form + illustrative calibration (Decision 2) | ✅ **PR #3** |
 | Model integration — verify | ✅ `check_model.py` all 7 checks pass |
-| USD conversion + title (Decision 3) | ⏳ price pending |
+| USD conversion + title (Decision 3) | ✅ TGE $1.30/ARB fixed + caveat footnote; fig06/07/11 USD-wiring pending |
 | Reproducibility freeze (Decision 4) | 🟡 Group-A frozen; **`fig01` price + cache-hosting policy** open |
 | Convention picks (Decision 5) | ⏳ quick, need calls |
 | Joseph's 5 judgment calls (PR #3) | ⏳ ratify — esp. tipping placement |
