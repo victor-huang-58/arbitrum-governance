@@ -50,14 +50,15 @@ def frozen_json(name, fetch_fn):
     return data
 
 
-# ── USD conversion — SET THESE THREE ONCE JOSEPH DECIDES ──────────────────────
-# Until ARB_USD_PRICE is not None, figures/text stay in native ARB units.
-#   launch (Mar 2023) ≈ 1.30  → "$3.5B" title holds
-#   deck convention   ≈ 1.00  → treasury ≈ $2.8B, title changes
-#   mid-2024          ≈ 0.85  → treasury ≈ $2.3B, "largest" claim fails
-ARB_USD_PRICE = None
-PRICE_DATE    = None          # e.g. "2023-03-23"
-PRICE_NOTE    = "pending Joseph's decision"
+# ── USD conversion — DECIDED (Aug 2026): single TGE reference rate ────────────
+# One fixed date for all ARB→USD conversions, for comparability. Chosen so the
+# treasury reads $3.5B, consistent with the paper's stated "$13B market cap at
+# launch" (10B ARB × $1.30). The price varied several-fold over the sample; the
+# convention is descriptive only and no result depends on it (see the footnote at
+# the token-distribution paragraph in main_flat.tex). Do NOT re-pick per figure.
+ARB_USD_PRICE = 1.30
+PRICE_DATE    = "2023-03-16"   # Token Generation Event
+PRICE_NOTE    = "TGE reference rate; single fixed date for comparability"
 
 USD_READY = ARB_USD_PRICE is not None
 
