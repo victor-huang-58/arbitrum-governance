@@ -28,6 +28,7 @@ from scipy import stats as spstats
 import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from aer_style import apply_aer_style, despine, COLORS, C_HUMAN, C_AI, savefig as aer_savefig
+import freeze
 apply_aer_style()
 
 HERE             = os.path.dirname(os.path.abspath(__file__))
@@ -136,7 +137,7 @@ for prop_id, voter_list in votes_raw.items():
     for v in voter_list:
         uname = wallet_to_username.get(v["voter"].lower())
         if uname:
-            delegate_vp.setdefault(uname, {})[prop_id] = v["vp"]
+            delegate_vp.setdefault(uname, {})[prop_id] = freeze.to_value(v["vp"])
 
 rows = []
 for uname, vpdata in delegate_vp.items():
@@ -272,7 +273,7 @@ ax_scatter.text(0.03, 0.96,
     bbox=dict(fc="white", ec="#BDC3C7", pad=4, alpha=0.93))
 
 ax_scatter.set_xlabel("Avg Pangram fraction_ai  (0 = fully human, 1 = fully AI)", fontsize=10)
-ax_scatter.set_ylabel(r"$\log_{10}$(avg voting power)", fontsize=10)
+ax_scatter.set_ylabel(r"$\log_{10}$(avg voting power, USD)", fontsize=10)
 ax_scatter.set_title(
     "Panel A: AI Posting Intensity vs. Delegated Voting Power\n"
     "Bubble size = forum post count  |  Individual vs. protocol delegates separated",
@@ -290,7 +291,7 @@ for uname, color, ls in HIGHLIGHT:
     ax_ts.semilogy(sub["date"], sub["vp"], color=color, linewidth=1.8,
                    linestyle=ls, alpha=0.9, label=f"{uname}{label_ai}")
 
-ax_ts.set_ylabel("Voting power (log scale)", fontsize=10)
+ax_ts.set_ylabel("Voting power, USD (log scale)", fontsize=10)
 ax_ts.set_xlabel("Proposal date", fontsize=10)
 ax_ts.set_title(
     "Panel B: Voting power trajectory — selected delegates",

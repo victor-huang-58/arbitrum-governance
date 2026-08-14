@@ -72,9 +72,9 @@ EVENTS = [
 # ── Phase shading ─────────────────────────────────────────────────────────────
 PHASES = [
     {"start": "2024-07-01", "end": "2025-01-31",
-     "color": "#EBF5FB", "label": "Phase 1 — Pilot\n(~1M ARB, ~0.6% share)"},
+     "color": "#EBF5FB", "label": "Phase 1 — Pilot\n(~$1.3M, ~0.6% share)"},
     {"start": "2025-02-01", "end": "2025-10-31",
-     "color": "#FEF9E7", "label": "Phase 2 — Scale-up\n(13–21M ARB, 8–14% share)"},
+     "color": "#FEF9E7", "label": "Phase 2 — Scale-up\n($17–27M, 8–14% share)"},
     {"start": "2025-11-01", "end": "2026-05-01",
      "color": "#FDEDEC", "label": "Phase 3 — Dormant\n(0 votes cast)"},
 ]
@@ -114,14 +114,14 @@ for v in raw_votes:
         "voted_at":    created,
         "prop_date":   pd.to_datetime(p["created"], unit="s"),
         "title":       p["title"],
-        "lobbyfi_vp":  v["vp"] / 1e6,          # millions ARB
+        "lobbyfi_vp":  freeze.to_value(v["vp"]) / 1e6,   # millions USD (at fixed TGE rate)
         "total_vp":    total_vp / 1e6,
         "share":       share,
     })
 
 df = pd.DataFrame(records).sort_values("voted_at").reset_index(drop=True)
 print(f"\nData range: {df['voted_at'].min().date()} → {df['voted_at'].max().date()}")
-print(f"VP range:   {df['lobbyfi_vp'].min():.2f}M → {df['lobbyfi_vp'].max():.2f}M ARB")
+print(f"VP range:   {df['lobbyfi_vp'].min():.2f}M → {df['lobbyfi_vp'].max():.2f}M USD")
 print(f"Share range:{df['share'].min():.1f}% → {df['share'].max():.1f}%")
 print(f"\nPhase breakdown:")
 print(f"  Phase 1 (Jul 2024 – Jan 2025): {len(df[df['voted_at'] < '2025-02-01'])} proposals")
@@ -163,9 +163,9 @@ ax_vp.annotate("No votes cast\n(Nov 2025 – Apr 2026)",
                fontsize=9, color="#922B21", ha="center",
                bbox=dict(fc="white", ec="#C0392B", pad=3, alpha=0.85))
 
-ax_vp.set_ylabel("LobbyFi Voting Power\n(millions ARB)", fontsize=11)
+ax_vp.set_ylabel("LobbyFi Voting Power\n(USD millions)", fontsize=11)
 ax_vp.set_ylim(0, df["lobbyfi_vp"].max() * 1.35)
-ax_vp.yaxis.set_major_formatter(mticker.FuncFormatter(lambda v, _: f"{v:.0f}M"))
+ax_vp.yaxis.set_major_formatter(mticker.FuncFormatter(lambda v, _: f"${v:.0f}M"))
 ax_vp.grid(axis="y", linestyle="--", linewidth=0.5, alpha=0.4)
 
 # ── Bottom panel: VP share per proposal ──────────────────────────────────────
@@ -195,7 +195,7 @@ ax_share.grid(axis="y", linestyle="--", linewidth=0.5, alpha=0.4)
 # Annotate the hitmonlee incident specifically
 hitmonlee_row = df[df["title"].str.contains("Oversight and Transparency", na=False)].iloc[0]
 ax_share.annotate(
-    f"OAT election: 19.3M ARB\nbought for 5 ETH (~$10k)\n→ {hitmonlee_row['share']:.1f}% of all votes cast",
+    f"OAT election: $25M of voting power\nbought for 5 ETH (~$10k)\n→ {hitmonlee_row['share']:.1f}% of all votes cast",
     xy=(hitmonlee_row["voted_at"], hitmonlee_row["share"]),
     xytext=(hitmonlee_row["voted_at"] - pd.Timedelta(days=100),
             hitmonlee_row["share"] + 1.5),
