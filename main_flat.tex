@@ -751,14 +751,16 @@ at every threshold.
 %% ── 3.3 Snapshot Vote Data ────────────────────────────────────────────────────
 \subsection{Snapshot Vote Data}
 
+\begin{sloppypar}
 We collect all closed proposals from the Arbitrum Foundation's Snapshot space
-(\texttt{arbitrumfoundation.eth}) using the Snapshot GraphQL API
+(\texttt{arbitrum\allowbreak foundation.eth}) using the Snapshot GraphQL API
 (\url{https://hub.snapshot.org/graphql}). For each proposal
 we record the title, creation timestamp, total votes cast, and vote scores by
 choice (``For,'' ``Against,'' ``Abstain,'' and choice-specific options for
 non-binary votes). The raw pull yields 406 closed proposals. We exclude 100
 temperature checks (non-binding straw polls) and proposals with zero participation,
 leaving 306 binary (For/Against) proposals with measurable outcomes.
+\end{sloppypar}
 
 Our primary outcome variable is the \emph{margin of victory}: the absolute difference
 in vote share between the winning and losing choices, restricted to the For and
