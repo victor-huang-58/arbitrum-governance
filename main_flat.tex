@@ -65,6 +65,7 @@
 }
 
 \doublespacing
+\setlength{\emergencystretch}{3em} % layout only: paragraphs that would run into the right margin get an extra line-breaking pass
 
 \newcommand{\sym}[1]{\ifmmode^{#1}\else\(^{#1}\)\fi}
 \newcommand{\specialcell}[2][c]{\begin{tabular}[#1]{@{}l@{}}#2\end{tabular}}
@@ -86,21 +87,21 @@
 
 \begin{singlespace}
 \begin{abstract}
+\hyphenpenalty=10000\exhyphenpenalty=10000% layout only: no abstract line ends in a hyphen
 \noindent
-We study the extent to which online deliberation aggregates information before collective votes.
-Our setting is Arbitrum DAO, a decentralized organization controlling a \$3.5 billion treasury, where token holders debate proposals on a public forum before each binding vote.
-Forum activity predicted vote closeness before March 2024 but became uninformative after, coinciding with language models capable of producing indistinguishable governance prose.
-Interestingly, we observe that the degradation of the forum's signal (the elimination of the correlation between posting volume and margin-of-victory) takes place at a time when relatively few posts are A.I.\ generated, relative to the end of the sample period where A.I.\ posting volume grows rapidly.
-A model of endogenous posting, reading, and voting---derived from primitives---shows this is a general phenomenon: the signal value of a forum collapses at a discrete tipping point at a realized A.I.\ share strictly below the level that would mechanically destroy reading value, and the collapse is hysteretic: reducing A.I.\ volume afterward does not restore the forum.
-Calibrating to the data, the forum generated net social benefits equivalent to saving at least 858 words of research effort per delegate per proposal (under a stated non-redundancy assumption)---all destroyed at the tipping point.
-Delegates who rely on AI hold far less voting power than those who do not, which is inconsistent with power capture by insiders.
-Our results suggest that the mere availability of indistinguishable AI writing can degrade the governance capabilities of economically important organizations, even when such AI is rarely used in equilibrium.
+We study the Decentralized Autonomous Organization (``DAO'') of Arbitrum, a blockchain network whose cryptocurrency is designed to facilitate collective investment decisions.
+The Arbitrum DAO aggregates information on a public forum, and makes investment decisions using a majority vote of token-holders.
+We show that in the presence of anonymity, AI-generated writing degrades the ability for this forum to coordinate.
+We show in a simple model of endogenous posting, reading, and voting that the forum generates surplus exactly when the volume of posting and the closeness of a vote are correlated: more debate predicts a more contentious decision.
+We show empirically that this correlation was strong in the early days of the forum but degraded to zero exactly when the large language models GPT-4 Turbo and Claude~3 became widely available.
+The model implies that the forum created surplus equal to at least the effort of writing 858 words per human reader per proposal, all of which was destroyed by the introduction of AI writing, which had the net effect of reducing reading per forum post by 36\%.
 \end{abstract}
 
 \vspace{0.3em}
-\noindent\textit{JEL}: D72, D82, D83, G34, O33\quad
-\noindent\textit{Keywords}: decentralized autonomous organizations, DAO governance,
-artificial intelligence, information aggregation, structural break, blockchain governance
+{\raggedright
+\noindent\textit{JEL}: D72, D82, D83, G34, O33\\
+\textit{Keywords}: decentralized autonomous organizations, DAO governance, artificial intelligence,\\
+information aggregation, structural break, blockchain governance\par}
 \end{singlespace}
 
 \clearpage
@@ -408,7 +409,7 @@ simple majority. Both types follow the same lifecycle.
 \paragraph{The proposal lifecycle.}
 Governance decisions follow a three-stage process. In the first stage, a proposer
 posts a proposal to the Arbitrum governance forum
-(\href{https://forum.arbitrum.foundation}{forum.arbitrum.foundation}), a public
+(\href{https://forum.arbitrum.foundation}{\mbox{forum.arbitrum.foundation}}), a public
 Discourse platform. The forum post initiates a public discussion period during which
 community members, delegates, and external observers may comment, ask questions, and
 express support or opposition. This discussion period is informal---it produces no
@@ -632,8 +633,9 @@ contamination represents a significant institutional failure mode.
 %% ── 3.1 Forum Data ────────────────────────────────────────────────────────────
 \subsection{Forum Data}
 
+\begin{sloppypar}
 We collect the complete post history of the Arbitrum governance forum
-(\href{https://forum.arbitrum.foundation}{forum.arbitrum.foundation}) using the
+(\href{https://forum.arbitrum.foundation}{\mbox{forum.arbitrum.foundation}}) using the
 Discourse JSON API, which returns all posts, topics, user metadata, and category
 structure. Our scraper (available as \texttt{scripts/00\_scrape.py} in the replication
 package hosted at \url{https://github.com/victor-huang-58/arbitrum-governance}) retrieves topics from four governance-relevant
@@ -643,6 +645,7 @@ off-topic categories---General Discussion, Technical Discussion, Announcements,
 and Early Idea Discussion---that are not directly connected to governance proposals.
 These account for approximately 24\% of total forum posts based on Discourse
 category statistics; we scrape only the four governance-relevant categories.
+\end{sloppypar}
 
 Our final forum dataset covers January 2023 through March 2026 and contains
 17,553 posts across 1,101 topics authored by 2,452 unique users. Posts are stored
@@ -2445,10 +2448,10 @@ Q \;\equiv\; \Pro(\text{message}=g\mid G)\;=\;(1-\pi)\,q+\pi\cdot\tfrac12,
 \end{equation}
 This is the signal-dilution relation used throughout the text, here \emph{derived}
 from the sampling protocol rather than posited. Write
-\[
-D_1=\Pro(g)=pQ+(1-p)(1-Q),\quad D_2=\Pro(b)=p(1-Q)+(1-p)Q,\quad
-\mu_G=\tfrac{pQ}{D_1},\quad \mu_B=\tfrac{p(1-Q)}{D_2},
-\]
+\begin{gather*}
+D_1=\Pro(g)=pQ+(1-p)(1-Q),\qquad D_2=\Pro(b)=p(1-Q)+(1-p)Q,\\
+\mu_G=\tfrac{pQ}{D_1},\qquad \mu_B=\tfrac{p(1-Q)}{D_2},
+\end{gather*}
 for the message probabilities and posteriors ($\mu_m=\Pro(G\mid m)$), and
 $D\equiv D_1D_2$.
 
