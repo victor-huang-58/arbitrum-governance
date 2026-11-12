@@ -52,7 +52,7 @@ def frozen_json(name, fetch_fn):
 
 # ── USD conversion — DECIDED (Aug 2026): single TGE reference rate ────────────
 # One fixed date for all ARB→USD conversions, for comparability. Chosen so the
-# treasury reads $3.5B, consistent with the paper's stated "$13B market cap at
+# treasury (3.528B ARB after AIPs 1.1/1.2) reads $4.6B, consistent with the paper's stated "$13B market cap at
 # launch" (10B ARB × $1.30). The price varied several-fold over the sample; the
 # convention is descriptive only and no result depends on it (see the footnote at
 # the token-distribution paragraph in main_flat.tex). Do NOT re-pick per figure.

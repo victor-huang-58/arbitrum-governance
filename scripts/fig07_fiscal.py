@@ -329,7 +329,7 @@ print("\nStep 5: Building figure...")
 
 fig, (ax_spend, ax_bal) = plt.subplots(
     2, 1, figsize=(15, 9), sharex=True,
-    gridspec_kw={"height_ratios": [1.3, 1], "hspace": 0.06}
+    gridspec_kw={"height_ratios": [1.3, 1], "hspace": 0.22}
 )
 
 x      = np.arange(len(all_q))
@@ -408,7 +408,7 @@ ax_bal.set_xlim(-0.6, len(all_q) - 0.4)
 
 fig.suptitle(
     "Figure A4: Fiscal Evolution & Treasury Dynamics\n"
-    "Arbitrum DAO — Quarterly ARB Approved by Governance, 2023 Q1 – 2026 Q1\n"
+    "Arbitrum DAO: quarterly disbursements approved by governance, USD at $1.30 per ARB, 2023 Q1 to 2026 Q1\n"
     "(Layer 1: curated major programs; Layer 2: parsed Treasury Spend proposals; "
     "balance inferred from approved disbursements)",
     fontsize=11, fontweight="bold", y=1.02

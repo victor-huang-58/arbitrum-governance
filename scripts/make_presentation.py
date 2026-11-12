@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Build presentation.pptx — 25-slide conference deck
-"The Effect of AI Writing on Governance: Evidence from a $3.5 Billion DAO"
+"The Effect of AI Writing on Governance: Evidence from a $4.6 Billion DAO"
 """
 
 from pptx import Presentation
@@ -94,7 +94,7 @@ def footer(slide, n, total=25):
     tf2 = tb2.text_frame
     p2 = tf2.paragraphs[0]
     r2 = p2.add_run()
-    r2.text = "The Effect of AI Writing on Governance: Evidence from a $3.5 Billion DAO"
+    r2.text = "The Effect of AI Writing on Governance: Evidence from a $4.6 Billion DAO"
     r2.font.size = Pt(9)
     r2.font.italic = True
     r2.font.color.rgb = RGBColor(0xaa, 0xcc, 0xff)
@@ -174,7 +174,7 @@ def stat_box(slide, label, value, l, t, w=2.8, h=0.95, fill=LGRAY, vcolor=NAVY):
 sl = add_slide(); bg(sl, NAVY); footer(sl, 1)
 rect(sl, 0, 0, 13.333, 7.5, fill=NAVY)
 rect(sl, 0, 2.8, 13.333, 0.07, fill=BLUE)
-textbox(sl, "The Effect of AI Writing on Governance: Evidence from a $3.5 Billion DAO",
+textbox(sl, "The Effect of AI Writing on Governance: Evidence from a $4.6 Billion DAO",
         0.6, 1.0, 12.1, 1.5, size=34, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
 textbox(sl, "How Large Language Models Undermined DAO Deliberation",
         0.6, 2.5, 12.1, 0.6, size=17, color=RGBColor(0xcc,0xdd,0xff),
@@ -196,7 +196,7 @@ textbox(sl,
 rect(sl, 1.0, 2.55, 11.3, 0.04, fill=BLUE)
 
 cols = [
-    ("Setting", "Arbitrum DAO: largest DAO by treasury ($3.5B ARB), 17,553 forum posts, 306 Snapshot proposals (102 matched)"),
+    ("Setting", "Arbitrum DAO: largest DAO by treasury ($4.6B at $1.30/ARB), 17,553 forum posts, 306 Snapshot proposals (102 matched)"),
     ("Shock",   "GPT-4 Turbo (Nov 2023) / Claude 3 (Mar 2024): first LLMs capable of governance-quality prose"),
     ("Method",  "Structural break analysis: does the forum-signal relationship change around AI model releases?"),
     ("Answer",  "Yes — completely. Pre-shock r = −0.33 (n=29). Post-shock r = −0.10 (n=73). Chow F = 8.38 (p=0.0004)."),
@@ -214,7 +214,7 @@ sl = add_slide(); bg(sl); header_bar(sl, "Why This Matters"); footer(sl, 3)
 bullets(sl,
     ["The ten largest DAOs govern ~$9B in on-chain treasury assets",
      "Text-based deliberation is the only public governance input mechanism",
-     "Arbitrum alone: $3.5B treasury, 306 on-chain proposals (102 matched), 62 identified delegates",
+     "Arbitrum alone: $4.6B treasury, 306 on-chain proposals (102 matched), 62 identified delegates",
      "If AI undermines deliberation, governance quality degrades silently"],
     0.5, 1.25, 6.0, 3.0, title="The stakes in DAOs", size=13)
 bullets(sl,
@@ -734,7 +734,7 @@ sl = add_slide(); bg(sl, NAVY); footer(sl, 25)
 rect(sl, 0, 0, 13.333, 7.5, fill=NAVY)
 rect(sl, 0, 1.8, 13.333, 0.06, fill=BLUE)
 rect(sl, 0, 5.65, 13.333, 0.06, fill=BLUE)
-textbox(sl, "The Effect of AI Writing on Governance: Evidence from a $3.5 Billion DAO",
+textbox(sl, "The Effect of AI Writing on Governance: Evidence from a $4.6 Billion DAO",
         0.6, 0.3, 12.1, 0.65, size=20, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
 textbox(sl,
     "The DAO forum was a genuine public good — a credible aggregator of private information "
