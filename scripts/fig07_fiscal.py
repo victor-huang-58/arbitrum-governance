@@ -294,10 +294,10 @@ spend_df = (
 )
 
 # Governance-implied treasury balance
-# DAO treasury ~= 2,750M ARB at genesis (Mar 2023), matching the "2.75 billion ARB
-# treasury" stated in the text; ~$3.5B at the fixed $1.30 reference rate.
+# DAO treasury = 3,528M ARB (35.28% of the initial supply after AIPs 1.1 and 1.2; source:
+# docs.arbitrum.foundation/airdrop-eligibility-distribution); ~$4.6B at the fixed $1.30 reference rate.
 # Plus 69M ARB from unclaimed airdrop (Sep 2023 = 2023Q3)
-GENESIS_M  = 2_750.0
+GENESIS_M  = 3_528.0
 AIRDROP_M  =    69.0
 
 quarterly_net = -spend_df.sum(axis=1).copy()

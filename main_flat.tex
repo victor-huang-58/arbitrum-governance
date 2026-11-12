@@ -71,7 +71,7 @@
 \newcommand{\specialcell}[2][c]{\begin{tabular}[#1]{@{}l@{}}#2\end{tabular}}
 
 %% ── Title ─────────────────────────────────────────────────────────────────────
-\title{\textbf{The Effect of AI Writing on Governance: Evidence from a \$3.5 Billion DAO}}
+\title{\textbf{The Effect of AI Writing on Governance: Evidence from a \$4.6 Billion DAO}}
 
 \author{
   Victor Huang$^{*}$ \quad Joseph Hall$^{*}$ \\[0.5em]
@@ -130,7 +130,7 @@ generating sophisticated, indistinguishable prose approaches zero, the link betw
 text production and genuine information is severed---and with it, the credibility of
 every text-based deliberation channel in finance. This paper asks how fast the
 collapse happens, what triggers it, and why. Our laboratory is the Arbitrum DAO
-governance forum: a real-money governance setting with \$3.5 billion in treasury
+governance forum: a real-money governance setting with \$4.6 billion in treasury
 assets, with every post and vote recorded immutably on blockchain, and---because crypto
 communities are technically sophisticated and move faster than traditional capital
 markets---the first financial governance context to confront the AI quality threshold
@@ -355,15 +355,16 @@ from DeFiLlama (\href{https://defillama.com}{defillama.com}), accessed June 2025
 
 \paragraph{Token distribution.}
 On March 16, 2023 (the ``Token Generation Event,'' or TGE), the Arbitrum Foundation
-distributed 10 billion ARB governance tokens according to the following schedule:
-(i) 11.62\% to eligible Ethereum users via a public airdrop; (ii) 1.13\% to
-eligible DAOs building on Arbitrum; (iii) 42.02\% to Offchain Labs team members
-and advisors, subject to a four-year vesting schedule with a one-year cliff;
-(iv) 17.53\% to early investors, subject to the same vesting schedule; and
-(v) 27.70\% to the Arbitrum DAO treasury, available for governance allocation.
-At launch, the ARB token traded at \$1.30, implying a fully diluted
-market capitalization of \$13 billion and a DAO treasury of
-\$3.5 billion.\footnote{We convert all ARB-denominated quantities to U.S.\ dollars at this single token-generation reference rate (\$1.30/ARB, March 2023) throughout the paper, and report the treasury as \$3.5 billion accordingly. ARB's market price has since varied by more than an order of magnitude: at the price prevailing in August 2026 ($\approx$\$0.07/ARB) the same 2.77-billion-ARB treasury would be worth roughly \$0.2 billion. The dollar figures therefore depend heavily on the valuation date; we fix one purely for comparability. The convention is descriptive only and affects no result---every ratio (such as the delegate voting-power gaps) and every regression in the paper is invariant to the ARB/USD rate.}
+created 10 billion ARB governance tokens. After AIPs 1.1 and 1.2 (April 2023), the
+allocation is: (i) 11.62\% to eligible users via a public airdrop; (ii) 1.13\% to
+DAOs building on Arbitrum; (iii) 26.94\% to Offchain Labs team members, contributors
+and advisors, subject to a four-year lockup with a one-year cliff; (iv) 17.53\% to
+investors, on the same schedule; (v) 7.5\% to the Arbitrum Foundation; and (vi)
+35.28\% (3.528 billion ARB) to the Arbitrum DAO treasury, available for governance
+allocation.\footnote{Arbitrum Foundation, ``Airdrop eligibility and distribution,'' \href{https://docs.arbitrum.foundation/airdrop-eligibility-distribution}{docs.arbitrum.foundation/airdrop-eligibility-distribution}. Claiming and trading began on March 23, 2023.}
+ARB traded at about \$1.30 to \$1.45 on its first trading day; at \$1.30, the low end,
+the 10 billion tokens imply a fully diluted market capitalization of \$13 billion and
+the DAO treasury is worth \$4.6 billion.\footnote{Launch-day reports put ARB between about \$1.31 and \$1.45 (for example, CoinDesk, March 23, 2023, ``Arbitrum Token Settles at \$1.38''). We convert all ARB-denominated quantities to U.S.\ dollars at this single token-generation reference rate (\$1.30/ARB, March 2023) throughout the paper, and report the treasury as \$4.6 billion accordingly. ARB's market price has since varied by more than an order of magnitude: at the price prevailing in August 2026 ($\approx$\$0.07/ARB) the same 3.53-billion-ARB treasury would be worth roughly \$0.25 billion. The dollar figures therefore depend heavily on the valuation date; we fix one purely for comparability. The convention is descriptive only and affects no result---every ratio (such as the delegate voting-power gaps) and every regression in the paper is invariant to the ARB/USD rate.}
 
 The vesting cliff in March 2024 unlocked 1.1 billion previously locked team and
 investor tokens simultaneously. We control for this event in our empirical specifications.
@@ -604,10 +605,10 @@ the compositional shift in proposal types.
 
 Figure~\ref{fig:dao_treasuries} places Arbitrum in the broader DAO landscape.
 Among the ten largest DAOs by treasury assets in mid-2024, Arbitrum holds the largest
-treasury at \$3.5 billion---nearly 40\% of the combined \$9.0 billion in DAO
-treasury assets. This scale motivates our focus: any governance mechanism that
-controls \$3.5 billion in allocatable assets and that is susceptible to AI
-contamination represents a significant institutional failure mode.
+treasury, \$3.5 billion at mid-2024 prices---nearly 40\% of the combined \$9.0 billion
+in DAO treasury assets. This scale motivates our focus: a governance mechanism that
+controls a treasury of this size and is susceptible to AI contamination represents a
+significant institutional failure mode.
 
 \begin{figure}[H]
   \centering
@@ -2244,7 +2245,7 @@ and the structural break is detected at conventional significance levels.
 We study whether online governance forums aggregate information about collective
 preferences or merely generate noise. Using Arbitrum DAO as a laboratory---a setting
 in which the governance forum is the primary \emph{public} pre-vote deliberation
-mechanism for a \$3.5 billion treasury---we find that in the pre-AI period,
+mechanism for a \$4.6 billion treasury---we find that in the pre-AI period,
 forum posting volume predicts vote contestation (bivariate OLS $\hat{\beta} = -0.0026$,
 $p = 0.030$; Pearson $r = -0.33$, $n = 29$). This relationship vanishes after the
 release of Claude~3 in March 2024, a shock that is exogenous to Arbitrum governance
@@ -3193,8 +3194,8 @@ five scored posts are excluded from the cross-sectional analysis.
   \begin{singlespace}
   \caption{\textbf{Fiscal Evolution and Treasury Dynamics.}
     Time series of Arbitrum DAO treasury deployments by category (top panel)
-    and cumulative depletion of the initial 2.75 billion ARB DAO treasury
-    (bottom panel). All values are denominated in ARB. The vesting cliff in March 2024
+    and the governance-implied balance of the 3.53 billion ARB DAO treasury
+    (bottom panel). Values are in U.S.\ dollars at the \$1.30 reference rate. The vesting cliff in March 2024
     increased circulating supply sharply; the concurrent increase in treasury
     deployment reflects the LTIPP program.}
   \end{singlespace}

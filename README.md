@@ -1,8 +1,8 @@
-# Replication Package: The Effect of AI Writing on Governance: Evidence from a $3.5 Billion DAO
+# Replication Package: The Effect of AI Writing on Governance: Evidence from a $4.6 Billion DAO
 
 **Authors:** Victor Huang, Joseph Hall (Georgia Institute of Technology)
 
-This package contains all code, cached data, and pre-generated output for the paper *The Effect of AI Writing on Governance: Evidence from a $3.5 Billion DAO* (Huang & Hall, 2026).
+This package contains all code, cached data, and pre-generated output for the paper *The Effect of AI Writing on Governance: Evidence from a $4.6 Billion DAO* (Huang & Hall, 2026).
 
 ---
 
